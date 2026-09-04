@@ -1,0 +1,99 @@
+name: Deploy
+
+# Un merge sur main part en prod. Rien d'autre ne declenche ce workflow.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # permet aussi un declenchement manuel depuis l'onglet Actions
+
+# cancel-in-progress: false volontairement -- on n'annule JAMAIS un
+# deploiement en cours, on le laisse finir avant d'en lancer un autre.
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  # L'app n'existe pas encore (phase P0 du plan). Sans ce garde-fou, chaque
+  # merge sur main lancerait un build docker sans Dockerfile et laisserait une
+  # croix rouge sur main. Les deux jobs suivants se sautent tant que le
+  # Dockerfile n'est pas la. A supprimer une fois l'app conteneurisee.
+  check:
+    name: Application deployable ?
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.detect.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: detect
+        run: |
+          if [ -f Dockerfile ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Pas encore de Dockerfile - deploiement ignore."
+          fi
+
+  build:
+    name: Build & push de l'image
+    needs: check
+    if: needs.check.outputs.ready == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image: ${{ steps.img.outputs.name }}
+    steps:
+      - uses: actions/checkout@v5
+
+      # GHCR refuse les majuscules. Le repo s'appelle "Maxilyas/novafrontier",
+      # donc il FAUT passer le nom en minuscules ou le push echoue avec
+      # "repository name must be lowercase".
+      - name: Nom d'image en minuscules
+        id: img
+        run: echo "name=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          # Deux tags : "latest" pour le compose, le SHA pour pouvoir
+          # revenir en arriere precisement en cas de probleme.
+          tags: |
+            ${{ steps.img.outputs.name }}:latest
+            ${{ steps.img.outputs.name }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Deploiement sur le VPS
+    needs: build
+    runs-on: ubuntu-latest
+    # Cree cet environnement dans Settings > Environments pour pouvoir
+    # exiger une validation manuelle avant chaque mise en prod.
+    environment: production
+    steps:
+      - name: SSH + redemarrage des conteneurs
+        # Action tierce : pensez a l'epingler sur un SHA plutot que sur @v1
+        # (Settings > Actions permet aussi d'imposer cette regle).
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT }}
+          script: |
+            set -e
+            cd ${{ secrets.VPS_APP_PATH }}
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+            docker compose pull
+            docker compose up -d --remove-orphans
+            docker image prune -f
