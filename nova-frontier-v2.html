@@ -1,0 +1,2508 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NOVA FRONTIER — Maquette v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   NOVA FRONTIER — MAQUETTE v2
+   Direction : militaire usé / rétro-tech — VERSION ASSAINIE
+   Changement majeur vs v1 : l'ambre n'est plus la couleur du chrome.
+   Chrome = phosphore. Ambre/or = rareté légendaire + alerte critique.
+   ============================================================ */
+:root{
+  --ink:#070a09;
+  --panel:#0f1513;
+  --panel-2:#151d1a;
+  --panel-3:#1b2421;
+  --line:#222d28;
+  --line-hi:#31403a;
+
+  --sig:#63d6bc;           /* accent d'interaction */
+  --sig-hi:#9ff0dd;
+  --sig-dim:#2c6b60;
+  --sig-glow:rgba(99,214,188,.22);
+
+  --warn:#e8543f;
+  --ok:#9fd15a;
+  --gold:#f5a623;          /* réservé légendaire + critique */
+
+  --r-com:#8b968f;
+  --r-rare:#4f9ad6;
+  --r-epic:#9d6ff0;
+  --r-leg:#f5a623;
+  --r-div:#ff5fc0;
+
+  --paper:#e4ded0;
+  --txt:#a9b3ab;
+  --muted:#6d7972;
+
+  --f-head:'Oswald','Arial Narrow',Helvetica,sans-serif;
+  --f-mono:'Share Tech Mono','Courier New',monospace;
+  --notch:7px;
+  --gut:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#050706;overflow:hidden}
+body{
+  font-family:var(--f-head);color:var(--txt);
+  display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% -10%,#10201d 0%,#070c0b 55%,#040606 100%);
+}
+::selection{background:var(--sig);color:#04100d}
+button{font-family:inherit}
+:focus-visible{outline:2px solid var(--sig-hi);outline-offset:2px}
+
+/* ---------- Scène 1600x900 ---------- */
+#stage{
+  width:1600px;height:900px;position:relative;transform-origin:center center;
+  background:var(--ink);
+  box-shadow:0 0 0 1px #1d2723,0 0 90px rgba(0,0,0,.9);
+  overflow:hidden;isolation:isolate;
+}
+/* grain conservé mais divisé par 3 par rapport à la v1 */
+#stage:after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:900;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.3'/></svg>");
+  opacity:.055;mix-blend-mode:overlay;
+}
+
+/* ---------- Primitives ---------- */
+.notched{clip-path:polygon(0 var(--notch),var(--notch) 0,calc(100% - var(--notch)) 0,100% var(--notch),
+  100% calc(100% - var(--notch)),calc(100% - var(--notch)) 100%,var(--notch) 100%,0 calc(100% - var(--notch)))}
+.panel{position:relative;background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line)}
+.panel.lit{border-color:var(--line-hi)}
+.hd{
+  display:flex;align-items:center;gap:9px;padding:8px 13px;
+  border-bottom:1px solid var(--line);
+  font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--sig);
+  background:linear-gradient(90deg,rgba(99,214,188,.07),transparent 60%);
+}
+.hd .dot{width:5px;height:5px;background:var(--sig);flex:0 0 auto}
+.hd>span:not(.dot):not(.rt){white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd{white-space:nowrap}
+.hd .rt{margin-left:auto;flex:0 0 auto;font-family:var(--f-mono);font-size:10px;color:var(--muted);letter-spacing:.1em}
+.bd{padding:13px}
+h1,h2,h3,h4{font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--paper)}
+.mono{font-family:var(--f-mono)}
+.tiny{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.num{font-family:var(--f-mono);color:var(--paper)}
+.gold{color:var(--gold)}.sig{color:var(--sig)}.warn{color:var(--warn)}.ok{color:var(--ok)}
+
+.kv{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.045)}
+.kv:last-child{border-bottom:0}
+.kv .k{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.kv .v{font-family:var(--f-mono);font-size:11.5px;color:var(--paper)}
+
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:9px;letter-spacing:.14em;padding:3px 8px;
+  border:1px solid var(--line-hi);color:var(--txt);text-transform:uppercase}
+.pill.s{border-color:var(--sig-dim);color:var(--sig)}
+.pill.g{border-color:rgba(245,166,35,.45);color:var(--gold)}
+.pill.w{border-color:rgba(232,84,63,.45);color:#ff9c8f}
+.pill.k{border-color:rgba(159,209,90,.4);color:var(--ok)}
+.pillrow{display:flex;gap:6px;flex-wrap:wrap}
+
+.btn{font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:9px 16px;cursor:pointer;
+  border:1px solid var(--sig-dim);color:var(--sig-hi);background:rgba(99,214,188,.07);--notch:5px;transition:.14s}
+.btn:hover{background:rgba(99,214,188,.18);border-color:var(--sig);box-shadow:0 0 16px var(--sig-glow)}
+.btn.solid{background:linear-gradient(180deg,var(--sig),#3d8e7f);color:#04120f;border-color:var(--sig-hi);font-weight:500}
+.btn.solid:hover{box-shadow:0 0 22px var(--sig-glow)}
+.btn.ghost{border-color:var(--line-hi);color:var(--muted);background:transparent}
+.btn.ghost:hover{color:var(--paper);border-color:var(--muted);box-shadow:none;background:rgba(255,255,255,.04)}
+.btn.gold{border-color:rgba(245,166,35,.5);color:var(--gold);background:rgba(245,166,35,.08)}
+.btn.gold:hover{background:rgba(245,166,35,.2);box-shadow:0 0 16px rgba(245,166,35,.2)}
+.btn[disabled]{opacity:.35;pointer-events:none}
+
+/* barres de valeur */
+.bar{height:6px;background:#0a0f0e;border:1px solid rgba(255,255,255,.07);position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--sig-dim),var(--sig))}
+.bar.g i{background:linear-gradient(90deg,#8a5c12,var(--gold))}
+.bar.r i{background:linear-gradient(90deg,#7d2c22,var(--warn))}
+.bar.k i{background:linear-gradient(90deg,#4d7223,var(--ok))}
+.sline{display:flex;align-items:center;gap:9px;margin:6px 0}
+.sline .lb{font-size:9.5px;letter-spacing:.14em;color:var(--muted);width:78px;text-transform:uppercase}
+.sline .bar{flex:1}
+.sline .vv{font-family:var(--f-mono);font-size:11px;color:var(--paper);width:32px;text-align:right}
+
+/* rareté */
+.stars{display:inline-flex;gap:2px}
+.stars i{width:9px;height:9px;display:block;background:currentColor;
+  clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.rc-com{color:var(--r-com)}.rc-rare{color:var(--r-rare)}.rc-epic{color:var(--r-epic)}
+.rc-leg{color:var(--r-leg)}.rc-div{color:var(--r-div)}
+
+/* badge "à trancher" — points ouverts du compte-rendu */
+.open{display:inline-flex;align-items:center;gap:5px;font-size:8px;letter-spacing:.18em;
+  padding:2px 6px;border:1px dashed rgba(232,84,63,.55);color:#ff9c8f;text-transform:uppercase;cursor:help}
+.open:before{content:'';width:4px;height:4px;background:var(--warn);transform:rotate(45deg)}
+.seg{display:inline-flex;border:1px solid var(--line-hi)}
+.seg button{background:transparent;border:0;color:var(--muted);font-size:9.5px;letter-spacing:.16em;
+  text-transform:uppercase;padding:5px 11px;cursor:pointer;transition:.14s}
+.seg button:hover{color:var(--paper)}
+.seg button.on{background:var(--sig);color:#04120f}
+
+/* ============================================================
+   BANDEAU SUPÉRIEUR
+   ============================================================ */
+#topbar{position:absolute;top:0;left:0;right:0;height:84px;z-index:60;display:flex;align-items:stretch;
+  background:linear-gradient(180deg,#141c19,#0a100e);border-bottom:1px solid var(--line-hi)}
+.profile{display:flex;align-items:center;gap:12px;padding:0 20px;border-right:1px solid var(--line);min-width:318px}
+.avatar{width:54px;height:54px;position:relative;flex:0 0 auto;border:1px solid var(--sig-dim);
+  background:linear-gradient(160deg,#1c2b28,#0a100f);--notch:6px;overflow:hidden}
+.avatar svg{width:100%;height:100%;display:block}
+.rank{position:absolute;bottom:0;right:0;background:var(--sig);color:#04120f;font-size:9px;padding:1px 4px;letter-spacing:.08em}
+.pname{font-size:16px;letter-spacing:.14em;color:var(--paper);white-space:nowrap}
+.prank{font-size:9.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin:2px 0 5px}
+.xp{width:196px;height:7px;background:#0a0f0e;border:1px solid var(--line-hi);position:relative;overflow:hidden}
+.xp i{position:absolute;inset:0;width:64%;background:linear-gradient(90deg,var(--sig-dim),var(--sig))}
+.xpl{display:flex;justify-content:space-between;width:196px;margin-top:3px;font-family:var(--f-mono);font-size:8.5px;color:var(--muted)}
+.xpl b{color:var(--gold);font-weight:400}
+
+.mainnav{display:flex;align-items:stretch}
+.mainnav button{width:118px;border:0;border-right:1px solid var(--line);cursor:pointer;background:transparent;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  color:var(--muted);letter-spacing:.18em;font-size:10.5px;text-transform:uppercase;transition:.14s}
+.mainnav svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.3}
+.mainnav button:hover{color:var(--sig-hi);background:rgba(99,214,188,.06)}
+.mainnav button.on{color:var(--sig-hi);background:rgba(99,214,188,.1)}
+.mainnav button.on:after{content:'';position:absolute;bottom:0;height:2px;width:100%;background:var(--sig)}
+.mainnav button{position:relative}
+
+/* ressources — 4 au lieu de 8 (CR point 9) */
+.resbar{margin-left:auto;display:flex;align-items:center;gap:0;padding-right:14px}
+.res{display:flex;align-items:center;gap:8px;padding:0 15px;border-left:1px solid var(--line);height:100%}
+.res svg{width:18px;height:18px;flex:0 0 auto;fill:none;stroke-width:1.3}
+.res .v{font-family:var(--f-mono);font-size:14px;color:var(--paper);line-height:1}
+.res .n{font-size:8px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;margin-top:3px}
+.collect{margin-left:14px;align-self:center;display:flex;align-items:center;gap:10px;padding:7px 12px;
+  border:1px solid rgba(245,166,35,.45);background:rgba(245,166,35,.07);cursor:pointer;--notch:5px;transition:.14s}
+.collect:hover{background:rgba(245,166,35,.18);box-shadow:0 0 18px rgba(245,166,35,.18)}
+.collect .cl{font-size:10px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+.collect .cn{font-family:var(--f-mono);font-size:13px;color:var(--paper);margin-top:2px}
+.collect .cap{width:78px;height:4px;background:#0a0f0e;border:1px solid rgba(245,166,35,.3);position:relative;margin-top:4px}
+.collect .cap i{position:absolute;left:0;top:0;bottom:0;background:var(--gold)}
+
+/* ============================================================
+   ZONE ÉCRAN
+   ============================================================ */
+#screens{position:absolute;top:84px;left:0;right:0;bottom:0;overflow:hidden}
+.screen{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .22s ease}
+.screen.on{opacity:1;visibility:visible}
+.tag{position:absolute;left:20px;top:15px;font-size:9.5px;letter-spacing:.3em;color:var(--muted);
+  z-index:30;text-transform:uppercase;font-family:var(--f-mono)}
+.tag b{color:var(--sig);font-weight:400}
+.foot{position:absolute;left:20px;bottom:13px;font-size:9px;letter-spacing:.18em;color:#4d574f;
+  z-index:30;text-transform:uppercase;font-family:var(--f-mono)}
+
+/* pager — outil de maquette */
+#pager{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;gap:4px;
+  background:rgba(6,10,9,.94);border:1px solid var(--line-hi);padding:6px}
+#pager button{font-family:var(--f-head);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  background:transparent;border:1px solid transparent;color:var(--muted);padding:5px 10px;cursor:pointer}
+#pager button:hover{color:var(--sig-hi);border-color:var(--sig-dim)}
+#pager button.on{background:var(--sig);color:#04120f}
+#pager .sep{width:1px;background:var(--line-hi);margin:0 4px}
+#notesbtn{font-family:var(--f-head);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;
+  background:transparent;border:1px solid rgba(245,166,35,.5);color:var(--gold);padding:5px 10px;cursor:pointer}
+#notesbtn:hover{background:rgba(245,166,35,.16)}
+
+/* ============================================================
+   CARTE D'UNITÉ — cadre coloré par rareté (CR point 5)
+   ============================================================ */
+.card{position:relative;overflow:hidden;cursor:pointer;flex:0 0 auto;
+  background:linear-gradient(180deg,#16201d,#0a100e);
+  border:1px solid var(--rc,#3a4741);transition:transform .16s,box-shadow .16s,border-color .16s}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.6),0 0 0 1px var(--rc)}
+.card .art{position:absolute;inset:0}
+.card .art svg{width:100%;height:100%;display:block}
+.card .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,12,11,0) 38%,rgba(6,10,9,.93) 88%)}
+.card .rr{position:absolute;left:0;top:0;font-size:7.5px;letter-spacing:.2em;padding:2px 6px;
+  text-transform:uppercase;background:var(--rc);color:#080c0b;font-weight:500}
+.card .lv{position:absolute;right:4px;top:4px;font-family:var(--f-mono);font-size:9px;color:var(--paper);
+  background:rgba(6,10,9,.8);border:1px solid var(--line-hi);padding:1px 4px}
+.card .nm{position:absolute;left:7px;right:7px;bottom:18px;font-size:10px;letter-spacing:.08em;
+  color:var(--paper);text-transform:uppercase;line-height:1.1;z-index:2}
+.card .st{position:absolute;left:7px;bottom:5px;z-index:2}
+.card .qty{position:absolute;right:5px;bottom:5px;z-index:2;font-family:var(--f-mono);font-size:10px;color:var(--sig)}
+.card.lock{filter:grayscale(1) brightness(.42)}
+.card.sel{box-shadow:0 0 0 2px var(--rc),0 0 26px -4px var(--rc)}
+.card.big{width:246px;height:344px}
+.card.big .nm{font-size:15px;bottom:30px}
+.card.big .st i{width:12px;height:12px}
+.card.big .st{bottom:9px}
+.card.mid{width:116px;height:158px}
+.card.mini{width:74px;height:102px}
+.card.mini .nm{font-size:7.5px;bottom:14px}
+.card.mini .st i{width:6px;height:6px}
+
+/* emplacement vide */
+.slot{border:1px dashed var(--line-hi);background:rgba(255,255,255,.015);display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:6px;cursor:pointer;flex:0 0 auto;transition:.14s;position:relative}
+.slot:hover{border-color:var(--sig-dim);background:rgba(99,214,188,.05)}
+.slot .plus{font-size:20px;color:var(--line-hi);line-height:1}
+.slot .sl{font-size:8px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;text-align:center;padding:0 6px}
+.slot.mid{width:116px;height:158px}
+.slot.leg{border-color:rgba(245,166,35,.5);background:rgba(245,166,35,.04)}
+.slot.leg .plus,.slot.leg .sl{color:var(--gold)}
+
+/* ============================================================
+   01 — ESCOUADES
+   ============================================================ */
+#sc-esc{background:radial-gradient(ellipse at 50% 120%,rgba(99,214,188,.06),transparent 58%),linear-gradient(180deg,#080d0c,#050807)}
+.squadtabs{position:absolute;left:20px;top:44px;width:186px;display:flex;flex-direction:column;gap:5px}
+.stab{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);cursor:pointer;
+  background:linear-gradient(90deg,rgba(255,255,255,.02),transparent);transition:.14s}
+.stab:hover{border-color:var(--line-hi)}
+.stab.on{border-color:var(--sig);background:linear-gradient(90deg,rgba(99,214,188,.16),transparent)}
+.stab .sn{font-size:11.5px;letter-spacing:.16em;color:var(--paper);text-transform:uppercase}
+.stab .sp{font-family:var(--f-mono);font-size:9px;color:var(--muted);margin-top:2px}
+.stab.on .sp{color:var(--sig)}
+.stab .idx{width:22px;height:22px;border:1px solid var(--line-hi);display:flex;align-items:center;justify-content:center;
+  font-family:var(--f-mono);font-size:10px;color:var(--muted);flex:0 0 auto}
+.stab.on .idx{border-color:var(--sig);color:var(--sig)}
+.stab.lock{opacity:.4;cursor:not-allowed}
+.stab .ml{margin-left:auto;font-size:8px;letter-spacing:.14em;color:var(--muted)}
+
+.board{position:absolute;left:224px;right:352px;top:44px;bottom:190px;padding:0}
+.brow{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line)}
+.brow:last-child{border-bottom:0}
+.brow .lbl{width:104px;flex:0 0 auto}
+.brow .lbl .t{font-size:11px;letter-spacing:.18em;color:var(--paper);text-transform:uppercase}
+.brow .lbl .d{font-size:8.5px;letter-spacing:.1em;color:var(--muted);margin-top:3px;line-height:1.4}
+.acts{display:flex;gap:4px;margin-top:7px}
+.acts i{width:11px;height:11px;border:1px solid var(--gold);transform:rotate(45deg);display:block}
+.acts i.f{background:var(--gold);box-shadow:0 0 7px rgba(245,166,35,.5)}
+.acts i.locked{border-color:var(--line-hi)}
+
+.roster{position:absolute;left:224px;right:352px;bottom:20px;height:158px;overflow:hidden}
+.rlist{display:flex;gap:8px;padding:11px;overflow-x:auto;scrollbar-width:thin}
+.rlist::-webkit-scrollbar{height:5px}
+.rlist::-webkit-scrollbar-thumb{background:var(--line-hi)}
+.rfilter{display:flex;gap:3px;margin-left:auto}
+.rfilter button{background:transparent;border:1px solid var(--line);color:var(--muted);font-size:9px;
+  letter-spacing:.12em;text-transform:uppercase;padding:3px 9px;cursor:pointer}
+.rfilter button.on{border-color:var(--sig);color:var(--sig)}
+
+.sumry{position:absolute;right:20px;top:44px;bottom:20px;width:318px;overflow:hidden;display:flex;flex-direction:column}
+.trin{display:flex;align-items:center;gap:8px;padding:6px 0}
+.trin .ic{width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:1px solid;
+  font-family:var(--f-mono);font-size:10px;flex:0 0 auto}
+.w-las{color:#63d6ff;border-color:#63d6ff}
+.w-art{color:#c9d94a;border-color:#c9d94a}
+.w-nuc{color:#ff8a3d;border-color:#ff8a3d}
+.w-ion{color:#b479ff;border-color:#b479ff}
+.w-cin{color:#8b998f;border-color:#8b998f}
+.trin .nb{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--paper)}
+.miniform{height:96px;position:relative;border:1px solid var(--line);background:#080d0c;overflow:hidden}
+
+/* ============================================================
+   02 — ATLAS / FICHE
+   ============================================================ */
+#sc-atlas{background:linear-gradient(180deg,#080d0c,#050807)}
+.atl-left{position:absolute;left:20px;top:44px;bottom:20px;width:300px;display:flex;flex-direction:column;gap:12px}
+.atl-mid{position:absolute;left:332px;right:352px;top:44px;bottom:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.atl-right{position:absolute;right:20px;top:44px;bottom:20px;width:318px;display:flex;flex-direction:column;gap:12px}
+.tiers{display:flex;gap:8px}
+.tier{width:88px;padding:8px 6px;border:1px solid var(--line);background:#0b110f;cursor:pointer;text-align:center;transition:.14s}
+.tier:hover{border-color:var(--line-hi)}
+.tier.on{border-color:var(--sig);background:rgba(99,214,188,.1)}
+.tier .tn{font-size:9px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.tier.on .tn{color:var(--sig)}
+.tier .tv{font-family:var(--f-mono);font-size:13px;color:var(--paper);margin-top:3px}
+.skinrow{display:flex;gap:9px}
+.skin{flex:1;border:1px solid var(--line);background:#0b110f;padding:9px;cursor:pointer;transition:.14s;position:relative}
+.skin:hover{border-color:var(--line-hi)}
+.skin.on{border-color:var(--sig)}
+.skin .sv{height:52px;display:flex;align-items:center;justify-content:center}
+.skin .sn{font-size:9px;letter-spacing:.12em;text-align:center;text-transform:uppercase;margin-top:5px}
+.skin .sx{font-family:var(--f-mono);font-size:8.5px;color:var(--muted);text-align:center;margin-top:2px}
+.matrix{width:100%;border-collapse:collapse;font-family:var(--f-mono);font-size:10px}
+.matrix th,.matrix td{border:1px solid var(--line);padding:5px 4px;text-align:center;color:var(--txt)}
+.matrix th{color:var(--muted);font-weight:400;font-size:9px;letter-spacing:.08em}
+.matrix td.up{color:var(--ok);background:rgba(159,209,90,.07)}
+.matrix td.dn{color:#ff9c8f;background:rgba(232,84,63,.07)}
+.matrix td.eq{color:var(--muted)}
+.cachechip{display:inline-flex;align-items:center;gap:7px;padding:5px 10px;border:1px solid var(--line-hi);
+  font-family:var(--f-mono);font-size:9.5px;color:var(--muted)}
+.cachechip .led{width:6px;height:6px;background:var(--ok);box-shadow:0 0 7px var(--ok)}
+
+/* ============================================================
+   03 — BASE
+   ============================================================ */
+#sc-base{background:radial-gradient(ellipse at 62% 14%,rgba(90,140,190,.07),transparent 52%),
+  linear-gradient(180deg,#09100f 0%,#101713 48%,#161810 100%)}
+.terrain{position:absolute;inset:0;background:
+  radial-gradient(ellipse at 24% 78%,rgba(120,98,55,.16),transparent 46%),
+  radial-gradient(ellipse at 80% 68%,rgba(64,86,76,.16),transparent 52%);}
+.iso{position:absolute;inset:0;opacity:.22;background-image:
+  linear-gradient(rgba(99,214,188,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(99,214,188,.08) 1px,transparent 1px);
+  background-size:80px 44px;transform:perspective(700px) rotateX(52deg) scale(1.9);transform-origin:50% 40%}
+.bldg{position:absolute;cursor:pointer;transition:.16s;filter:drop-shadow(0 10px 12px rgba(0,0,0,.65))}
+.bldg:hover{filter:drop-shadow(0 0 14px rgba(99,214,188,.45)) drop-shadow(0 10px 12px rgba(0,0,0,.65))}
+.bldg svg{display:block;overflow:visible}
+.bldg .bt{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% - 26px);white-space:nowrap;z-index:4;
+  font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);
+  background:rgba(5,9,8,.88);border:1px solid var(--line-hi);padding:2px 7px}
+.bldg .bt b{color:var(--sig);font-weight:400}
+.bldg.sel .bt{background:var(--sig);color:#04120f;border-color:var(--sig-hi)}
+.bldg.sel .bt b{color:#04120f}
+.blist{position:absolute;left:20px;top:44px;bottom:20px;width:286px;display:flex;flex-direction:column;overflow:hidden}
+.blrow{display:flex;align-items:center;gap:9px;padding:7px 9px;border:1px solid transparent;cursor:pointer}
+.blrow:hover{background:rgba(99,214,188,.05);border-color:var(--line)}
+.blrow.on{background:rgba(99,214,188,.12);border-color:var(--sig-dim)}
+.bico{width:28px;height:28px;flex:0 0 auto;border:1px solid var(--line-hi);background:#0a100f;
+  display:flex;align-items:center;justify-content:center}
+.bico svg{width:17px;height:17px;stroke:var(--sig);fill:none;stroke-width:1.3}
+.bnm{font-size:11px;letter-spacing:.06em;color:var(--paper);line-height:1.2}
+.blv{font-size:8.5px;font-family:var(--f-mono);color:var(--muted);margin-top:2px}
+.bst{margin-left:auto;font-size:9px;font-family:var(--f-mono);color:var(--sig)}
+.bdet{position:absolute;right:20px;top:44px;width:340px}
+.income{position:absolute;right:20px;bottom:20px;width:340px}
+.irow{display:flex;align-items:center;gap:9px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.045)}
+.irow .ip{font-size:10.5px;color:var(--paper);letter-spacing:.06em}
+.irow .id{font-size:8.5px;color:var(--muted);font-family:var(--f-mono);margin-top:1px}
+.irow .iv{margin-left:auto;font-family:var(--f-mono);font-size:11.5px;color:var(--gold)}
+
+/* ============================================================
+   04 — RECHERCHE
+   ============================================================ */
+#sc-rech{background:linear-gradient(180deg,#080d0c,#050807)}
+.rtabs{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:flex;gap:2px;z-index:5}
+.rtab{padding:8px 24px;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;
+  border:1px solid var(--line);color:var(--muted);background:#0c1211;transition:.14s}
+.rtab:hover{color:var(--paper)}
+.rtab.on{color:#04120f;background:var(--sig);border-color:var(--sig)}
+.tree{position:absolute;left:20px;right:352px;top:52px;bottom:112px;overflow:hidden}
+.tcv{position:absolute;inset:0}
+.tnode{position:absolute;width:146px;border:1px solid var(--line);background:linear-gradient(180deg,#141d1a,#0a100e);
+  padding:8px;cursor:pointer;transition:.14s;z-index:3}
+.tnode:hover{border-color:var(--line-hi)}
+.tnode .th{display:flex;align-items:center;gap:6px}
+.tnode .th svg{width:16px;height:16px;stroke:var(--muted);fill:none;stroke-width:1.4;flex:0 0 auto}
+.tnode .tn{font-size:10px;letter-spacing:.06em;color:var(--txt);line-height:1.15}
+.tnode .tl{font-size:8.5px;font-family:var(--f-mono);color:var(--muted);margin-top:5px}
+.tnode .tb{height:4px;background:#0a0f0e;margin-top:5px;position:relative;border:1px solid rgba(255,255,255,.06)}
+.tnode .tb i{position:absolute;left:0;top:0;bottom:0;background:var(--sig)}
+.tnode.done{border-color:var(--sig-dim);background:linear-gradient(180deg,rgba(99,214,188,.1),#0a100e)}
+.tnode.done .th svg,.tnode.done .tn{color:var(--paper);stroke:var(--sig)}
+.tnode.active{border-color:var(--sig);box-shadow:0 0 18px var(--sig-glow)}
+.tnode.active .th svg{stroke:var(--sig)}
+.tnode.lock{opacity:.42}
+.tnode.leg{border-color:rgba(245,166,35,.55);background:linear-gradient(180deg,rgba(245,166,35,.09),#0f0d08)}
+.tnode.leg .th svg{stroke:var(--gold)}
+.tnode.leg .tn{color:var(--gold)}
+.tnode.picked{border-color:var(--paper);box-shadow:0 0 22px rgba(255,255,255,.18)}
+.tnode .bg{position:absolute;right:-1px;top:-1px;font-size:7.5px;padding:1px 5px;letter-spacing:.12em;
+  background:var(--line-hi);color:#0a0e0d}
+.tnode.done .bg{background:var(--sig);color:#04120f}
+.tnode.active .bg{background:var(--sig-hi);color:#04120f}
+.tnode.leg .bg{background:var(--gold);color:#120c02}
+.rdet{position:absolute;right:20px;top:52px;bottom:20px;width:318px;overflow:hidden}
+.rqueue{position:absolute;left:20px;right:352px;bottom:20px;height:80px;overflow:hidden}
+.qrow{display:flex;gap:9px;padding:9px 11px}
+.qc{flex:1;display:flex;align-items:center;gap:9px;padding:6px 9px;border:1px solid var(--line);background:rgba(0,0,0,.3)}
+.qc.empty{border-style:dashed;justify-content:center}
+.qi{width:26px;height:26px;border:1px solid var(--line-hi);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.qi svg{width:15px;height:15px;stroke:var(--sig);fill:none;stroke-width:1.3}
+.qn{font-size:10px;color:var(--paper)}
+.qt{font-family:var(--f-mono);font-size:10.5px;color:var(--sig);margin-left:auto}
+
+/* ============================================================
+   05 — CARTE GALACTIQUE
+   ============================================================ */
+#sc-carte{background:#020304}
+#starfield{position:absolute;inset:0}
+#routes{position:absolute;inset:0;z-index:2;pointer-events:none}
+#planets{position:absolute;inset:0;z-index:3}
+.planet{position:absolute;cursor:pointer;transform:translate(-50%,-50%)}
+.pbody{border-radius:50%;position:relative;transition:.16s}
+.planet:hover .pbody{box-shadow:0 0 24px rgba(99,214,188,.55)}
+.planet .pl{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 6px);white-space:nowrap;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper)}
+.planet .ps{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 19px);white-space:nowrap;
+  font-size:7.5px;letter-spacing:.14em;font-family:var(--f-mono)}
+.planet.sel:before{content:'';position:absolute;inset:-13px;border:1px solid var(--sig);border-radius:50%;
+  animation:pulse 2.2s infinite;pointer-events:none}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:.95;transform:scale(1.07)}}
+.planet .mis{position:absolute;right:-5px;top:-5px;width:14px;height:14px;background:var(--gold);color:#120c02;
+  font-size:8px;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.planet.out{filter:grayscale(.85) brightness(.55)}
+.navpad{position:absolute;left:20px;bottom:20px;width:130px;height:130px;z-index:12}
+.navpad button{position:absolute;width:42px;height:42px;background:rgba(8,14,12,.9);border:1px solid var(--line-hi);
+  color:var(--sig);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.navpad button:hover{border-color:var(--sig);background:rgba(99,214,188,.16)}
+.navpad .n{left:44px;top:0}.navpad .s{left:44px;bottom:0}.navpad .w{left:0;top:44px}.navpad .e{right:0;top:44px}
+.navpad .c{position:absolute;left:44px;top:44px;width:42px;height:42px;background:rgba(8,14,12,.9);border:1px solid var(--line);
+  display:flex;align-items:center;justify-content:center;font-family:var(--f-mono);font-size:8px;color:var(--muted);letter-spacing:0}
+.zoomer{position:absolute;left:166px;bottom:20px;z-index:12;display:flex;flex-direction:column;gap:4px}
+.zoomer button{padding:7px 12px;background:rgba(8,14,12,.9);border:1px solid var(--line-hi);color:var(--muted);
+  font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;text-align:left}
+.zoomer button.on{border-color:var(--sig);color:var(--sig);background:rgba(99,214,188,.12)}
+.mapinfo{position:absolute;left:20px;top:44px;z-index:12;display:flex;gap:8px}
+.chip{display:flex;align-items:center;gap:7px;padding:6px 11px;background:rgba(8,14,12,.88);
+  border:1px solid var(--line-hi);font-family:var(--f-mono);font-size:10px;color:var(--txt)}
+.chip b{color:var(--sig);font-weight:400}
+.chip.g b{color:var(--gold)}
+.holo{position:absolute;right:20px;top:44px;bottom:20px;width:342px;z-index:14;overflow:hidden;
+  background:linear-gradient(180deg,#091416,#05090a);border:1px solid var(--sig-dim);
+  display:flex;flex-direction:column}
+.hglobe{height:132px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;
+  border-bottom:1px solid var(--line);background:radial-gradient(ellipse at 50% 130%,rgba(99,214,188,.12),transparent 62%)}
+.hglobe:after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(to bottom,rgba(99,214,188,.09) 0 1px,transparent 1px 4px)}
+.misrow{display:flex;align-items:center;gap:9px;padding:8px 12px;border-bottom:1px solid var(--line);cursor:pointer}
+.misrow:hover{background:rgba(99,214,188,.06)}
+.misrow .mt{font-size:10.5px;color:var(--paper);letter-spacing:.05em}
+.misrow .md{font-size:8.5px;color:var(--muted);font-family:var(--f-mono);margin-top:2px}
+.mtype{width:24px;height:24px;border:1px solid var(--sig-dim);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.mtype svg{width:14px;height:14px;stroke:var(--sig);fill:none;stroke-width:1.4}
+.diff{margin-left:auto;display:flex;gap:2px}
+.diff i{width:4px;height:12px;background:var(--warn);opacity:.22}
+.diff i.on{opacity:1}
+
+/* ============================================================
+   06 — BRIEFING / ESPIONNAGE
+   ============================================================ */
+#sc-brief{background:radial-gradient(ellipse at 50% -20%,rgba(99,214,188,.06),transparent 55%),linear-gradient(180deg,#080d0c,#050807)}
+.bcol{position:absolute;top:44px;bottom:20px;display:flex;flex-direction:column;gap:12px}
+.bc1{left:20px;width:400px}
+.bc2{left:432px;right:432px}
+.bc3{right:20px;width:400px}
+.wavelist{overflow:hidden;flex:1}
+.wrow{display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.04)}
+.wrow .wn{width:52px;font-family:var(--f-mono);font-size:10px;color:var(--muted)}
+.wrow .wc{font-size:10px;color:var(--paper);letter-spacing:.04em}
+.wrow .wd{font-size:8.5px;color:var(--muted);font-family:var(--f-mono);margin-top:1px}
+.wrow .wp{margin-left:auto;display:flex;gap:3px;align-items:center}
+.pip{width:7px;height:7px;transform:rotate(45deg)}
+.pip.l{background:#8fd6ff}.pip.m{background:#ffd07a}.pip.h{background:#ff7a5c}.pip.b{background:var(--r-div)}
+.wrow.boss{background:rgba(255,95,192,.06)}
+.gauge{position:relative;height:112px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:4px}
+.gauge .gv{font-family:var(--f-mono);font-size:44px;color:var(--ok);line-height:1;letter-spacing:-.02em}
+.gauge .gl{font-size:9px;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+.gbar{height:10px;background:#0a0f0e;border:1px solid var(--line-hi);position:relative;overflow:hidden;margin:0 13px}
+.gbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#4d7223,var(--ok))}
+.gbar span{position:absolute;top:-1px;bottom:-1px;width:2px;background:var(--warn)}
+.constraint{display:flex;gap:9px;align-items:flex-start;padding:10px 12px;border:1px solid rgba(232,84,63,.4);
+  background:rgba(232,84,63,.06)}
+.constraint .ci{width:18px;height:18px;flex:0 0 auto;color:var(--warn)}
+.constraint .ct{font-size:10.5px;line-height:1.5;color:#ffb9ae}
+.compo{display:flex;gap:7px;flex-wrap:wrap;padding:11px}
+.toggle{display:flex;align-items:center;gap:10px;padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.045)}
+.toggle .tt{font-size:10.5px;color:var(--paper);letter-spacing:.04em}
+.toggle .td{font-size:8.5px;color:var(--muted);margin-top:2px;line-height:1.4}
+.sw{margin-left:auto;width:40px;height:20px;border:1px solid var(--line-hi);background:#0a0f0e;position:relative;cursor:pointer;flex:0 0 auto}
+.sw i{position:absolute;top:1px;left:1px;width:16px;height:16px;background:var(--muted);transition:.16s}
+.sw.on{border-color:var(--sig);background:rgba(99,214,188,.16)}
+.sw.on i{left:21px;background:var(--sig)}
+
+/* ============================================================
+   07 — DÉPLOIEMENT (signature)
+   ============================================================ */
+#sc-depl{background:#040706}
+#deploy{position:absolute;left:296px;right:316px;top:44px;bottom:20px;border:1px solid var(--line);background:#050908}
+#dcv{position:absolute;inset:0;width:100%;height:100%}
+.dleft{position:absolute;left:20px;top:44px;bottom:20px;width:264px;display:flex;flex-direction:column;gap:12px}
+.dright{position:absolute;right:20px;top:44px;bottom:20px;width:284px;display:flex;flex-direction:column;gap:12px}
+.upool{display:flex;flex-direction:column;gap:5px;padding:9px;overflow-y:auto;flex:1}
+.upool::-webkit-scrollbar{width:5px}.upool::-webkit-scrollbar-thumb{background:var(--line-hi)}
+.urow{display:flex;align-items:center;gap:9px;padding:7px 8px;border:1px solid var(--line);cursor:grab;transition:.14s;background:#0b110f}
+.urow:hover{border-color:var(--sig-dim);background:rgba(99,214,188,.06)}
+.urow.placed{opacity:.34;cursor:default}
+.urow.picked{border-color:var(--sig);box-shadow:0 0 14px var(--sig-glow)}
+.uav{width:30px;height:38px;flex:0 0 auto;border:1px solid var(--rc,#3a4741);overflow:hidden;position:relative}
+.uav svg{width:100%;height:100%}
+.un{font-size:10px;color:var(--paper);letter-spacing:.04em}
+.ust{font-family:var(--f-mono);font-size:8.5px;color:var(--muted);margin-top:2px;display:flex;gap:7px}
+.ust b{font-weight:400}
+.ust .hp{color:var(--ok)}.ust .at{color:var(--warn)}.ust .df{color:var(--sig)}
+.utag{margin-left:auto;font-size:8px;letter-spacing:.1em;padding:2px 5px;border:1px solid var(--line-hi);color:var(--muted)}
+.utag.front{border-color:rgba(232,84,63,.45);color:#ff9c8f}
+.utag.back{border-color:var(--sig-dim);color:var(--sig)}
+.legendrow{display:flex;align-items:center;gap:7px;padding:4px 0;font-size:9px;letter-spacing:.1em;color:var(--muted)}
+.legendrow .sq{width:10px;height:10px;flex:0 0 auto}
+
+/* ============================================================
+   08 — COMBAT
+   ============================================================ */
+#sc-combat{background:#03060a}
+#sc-combat .tag{top:auto;bottom:15px}
+#arena{position:absolute;inset:0}
+.ctop{position:absolute;top:14px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:14px;z-index:8}
+.wavebox{padding:6px 15px;border:1px solid var(--line-hi);background:rgba(8,12,11,.86);
+  font-size:11px;letter-spacing:.2em;color:var(--txt);text-transform:uppercase}
+.wavebox b{color:var(--paper);font-weight:400}
+.objbar{width:320px;height:15px;border:1px solid var(--line-hi);background:#0a0f0e;position:relative;overflow:hidden}
+.objbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#2f7d3a,#7fd44a);transition:width .3s}
+.objbar span{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;
+  letter-spacing:.18em;font-family:var(--f-mono);color:#eaf5e2}
+.cforce{position:absolute;left:16px;top:52px;width:238px;z-index:8}
+.frow{display:flex;align-items:center;gap:8px;padding:5px 10px;border-bottom:1px solid rgba(255,255,255,.04)}
+.frow .fn{font-size:9.5px;color:var(--paper);letter-spacing:.04em}
+.frow .fb{flex:1;height:4px;background:#0a0f0e;position:relative;margin-left:auto;max-width:66px}
+.frow .fb i{position:absolute;left:0;top:0;bottom:0;background:var(--ok)}
+.frow .fq{font-family:var(--f-mono);font-size:9px;color:var(--muted);width:22px;text-align:right}
+.clog{position:absolute;right:16px;bottom:100px;width:266px;height:146px;overflow:hidden;z-index:8}
+.ll{font-family:var(--f-mono);font-size:9.5px;padding:2px 10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ll b{color:var(--sig);font-weight:400}
+.ll.crit{color:#ff9c8f}.ll.ok{color:var(--ok)}.ll.gold{color:var(--gold)}
+.ctrin{position:absolute;right:16px;top:52px;width:266px;z-index:8}
+.actbar{position:absolute;left:50%;transform:translateX(-50%);bottom:26px;display:flex;gap:9px;z-index:9;align-items:flex-end}
+.act{width:74px;height:74px;border:1px solid rgba(245,166,35,.4);cursor:pointer;position:relative;
+  background:linear-gradient(180deg,#1a1a12,#0a0c0a);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.act:hover{border-color:var(--gold);box-shadow:0 0 16px rgba(245,166,35,.25)}
+.act svg{width:25px;height:25px;stroke:var(--gold);fill:none;stroke-width:1.4}
+.act .an{font-size:7.5px;letter-spacing:.1em;color:var(--paper);text-transform:uppercase;text-align:center;padding:0 3px}
+.act .ac{position:absolute;right:3px;top:3px;font-family:var(--f-mono);font-size:9px;color:var(--gold)}
+.act.spent{opacity:.3;pointer-events:none;filter:grayscale(1)}
+.act.ult{width:92px;border-color:var(--r-div);background:linear-gradient(180deg,#1d0f1a,#0b060a)}
+.act.ult svg{stroke:var(--r-div)}
+.act.ult.locked{opacity:.4;pointer-events:none}
+.act.ult .ub{position:absolute;left:5px;right:5px;bottom:5px;height:3px;background:#160b13}
+.act.ult .ub i{position:absolute;left:0;top:0;bottom:0;background:var(--r-div)}
+.apts{position:absolute;left:50%;transform:translateX(-50%);bottom:108px;display:flex;align-items:center;gap:8px;z-index:9;
+  padding:5px 12px;background:rgba(8,12,11,.86);border:1px solid var(--line-hi)}
+.apts .pl{font-size:9px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.apts .pts{display:flex;gap:4px}
+.apts .pts i{width:12px;height:12px;border:1px solid var(--gold);transform:rotate(45deg)}
+.apts .pts i.f{background:var(--gold)}
+
+/* ============================================================
+   09 — BUTIN
+   ============================================================ */
+#sc-butin{background:radial-gradient(ellipse at 50% 30%,#14140c 0%,#090b0a 46%,#040606 100%)}
+.crates{position:absolute;left:20px;right:20px;top:44px;height:228px;display:flex;gap:18px;justify-content:center}
+.crate{width:262px;position:relative;cursor:pointer;transition:.2s;border:1px solid var(--line-hi);
+  background:linear-gradient(180deg,#161d18,#0a0e0d);display:flex;flex-direction:column}
+.crate:hover{transform:translateY(-5px)}
+.crate.free{border-color:var(--sig-dim)}
+.crate.week{border-color:rgba(245,166,35,.55)}
+.crate.prem{border-color:rgba(255,95,192,.45)}
+.crate .ch{padding:9px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.crate .ch .ct{font-size:11px;letter-spacing:.18em;color:var(--paper);text-transform:uppercase}
+.crate .cb{flex:1;display:flex;align-items:center;justify-content:center;padding:12px;position:relative}
+.crate .cd{padding:9px 12px;border-top:1px solid var(--line)}
+.odds{display:flex;flex-direction:column;gap:3px}
+.orow{display:flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:9.5px}
+.orow .on{width:74px;letter-spacing:.06em}
+.orow .ob{flex:1;height:5px;background:#0a0f0e;position:relative}
+.orow .ob i{position:absolute;left:0;top:0;bottom:0}
+.orow .ov{width:38px;text-align:right;color:var(--paper)}
+.cta{padding:9px 12px;text-align:center;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase}
+.pool{position:absolute;left:20px;right:20px;top:288px;bottom:20px;overflow:hidden;display:flex;flex-direction:column}
+.poolgrid{display:flex;gap:9px;padding:13px;flex-wrap:wrap;align-content:flex-start;overflow-y:auto}
+.poolgrid::-webkit-scrollbar{width:5px}.poolgrid::-webkit-scrollbar-thumb{background:var(--line-hi)}
+.grp{display:flex;align-items:center;gap:9px;width:100%;margin:2px 0 4px}
+.grp .gl{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase}
+.grp .gr{flex:1;height:1px;background:var(--line)}
+.grp .gc{font-family:var(--f-mono);font-size:9px;color:var(--muted)}
+
+/* ============================================================
+   MODALE + NOTES
+   ============================================================ */
+#modal{position:absolute;inset:0;z-index:200;display:none;align-items:center;justify-content:center;
+  background:rgba(2,4,4,.86);backdrop-filter:blur(2px)}
+#modal.show{display:flex}
+.mbox{width:960px;max-height:760px;overflow:auto;background:linear-gradient(180deg,#121a17,#080c0b);
+  border:1px solid var(--line-hi);box-shadow:0 0 70px rgba(0,0,0,.9)}
+#notes{position:absolute;inset:0;z-index:210;display:none;background:rgba(3,5,5,.94);overflow:auto;padding:40px 60px}
+#notes.show{display:block}
+.ntable{width:100%;border-collapse:collapse;font-size:11.5px;margin-top:18px}
+.ntable th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--sig-dim);color:var(--sig);
+  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:400}
+.ntable td{padding:8px 10px;border-bottom:1px solid var(--line);color:var(--txt);vertical-align:top;line-height:1.55}
+.ntable td:first-child{width:34px;font-family:var(--f-mono);color:var(--muted)}
+.ntable td.w{width:150px;color:var(--paper)}
+.ntable tr.open td{background:rgba(232,84,63,.05)}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ================= SPRITE D'ICÔNES ================= -->
+<svg style="position:absolute;width:0;height:0" aria-hidden="true"><defs>
+ <symbol id="ic-cmd" viewBox="0 0 24 24"><path d="M12 2c4 0 7 3 7 7v3l-2 2v3c0 2-2 4-5 4s-5-2-5-4v-3l-2-2V9c0-4 3-7 7-7z"/><path d="M8 10h8"/><path d="M9.5 14h5"/></symbol>
+ <symbol id="ic-ship" viewBox="0 0 24 24"><path d="M12 2l3 8v6l-3 6-3-6v-6l3-8z"/><path d="M9 10L3 15l1 4 5-3"/><path d="M15 10l6 5-1 4-5-3"/></symbol>
+ <symbol id="ic-mech" viewBox="0 0 24 24"><path d="M8 3h8v5H8z"/><path d="M10 8v4H6l-2 6"/><path d="M14 8v4h4l2 6"/><path d="M9 12h6v5H9z"/><path d="M10 5.5h4"/></symbol>
+ <symbol id="ic-squad" viewBox="0 0 24 24"><circle cx="12" cy="6" r="3"/><circle cx="5" cy="17" r="3"/><circle cx="19" cy="17" r="3"/><path d="M12 9v4M12 13L7 15M12 13l5 2"/></symbol>
+ <symbol id="ic-credits" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/><rect x="9" y="9" width="6" height="6"/></symbol>
+ <symbol id="ic-alloy" viewBox="0 0 24 24"><path d="M4 14l4-7 5 2 3-4 4 6-3 8H6z"/><path d="M8 7l1 8"/><path d="M16 5l-3 10"/></symbol>
+ <symbol id="ic-fuel" viewBox="0 0 24 24"><path d="M10 2h4v6l4 9a4 4 0 01-4 5h-4a4 4 0 01-4-5l4-9z"/><path d="M7.5 15h9"/></symbol>
+ <symbol id="ic-artefact" viewBox="0 0 24 24"><path d="M12 2l5 6-5 14-5-14z"/><path d="M7 8h10"/><circle cx="12" cy="11" r="1.8"/></symbol>
+ <symbol id="ic-hq" viewBox="0 0 24 24"><path d="M3 21V10l9-7 9 7v11z"/><path d="M9 21v-7h6v7"/><path d="M12 3v3"/></symbol>
+ <symbol id="ic-refinery" viewBox="0 0 24 24"><path d="M3 21V9l5 3V9l5 3V6l3 15z"/><path d="M18 6V3h2v3"/></symbol>
+ <symbol id="ic-lab" viewBox="0 0 24 24"><path d="M9 2v7L4 20h16L15 9V2z"/><path d="M8 2h8"/><path d="M7.5 14h9"/></symbol>
+ <symbol id="ic-shipyard" viewBox="0 0 24 24"><path d="M2 20h20"/><path d="M5 20V6l7-4 7 4v14"/><path d="M9 20v-6h6v6"/><path d="M5 10h14"/></symbol>
+ <symbol id="ic-mechbay" viewBox="0 0 24 24"><path d="M3 21V8h18v13z"/><path d="M7 21v-6h4v6"/><path d="M14 12h4"/><path d="M3 8l3-5h12l3 5"/></symbol>
+ <symbol id="ic-reactor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(-60 12 12)"/></symbol>
+ <symbol id="ic-radar" viewBox="0 0 24 24"><path d="M12 21V13"/><path d="M6 21h12"/><circle cx="12" cy="8" r="6"/><path d="M12 8l4-4"/></symbol>
+ <symbol id="ic-market" viewBox="0 0 24 24"><path d="M3 9l2-5h14l2 5"/><path d="M4 9v12h16V9"/><path d="M3 9a3 3 0 006 0 3 3 0 006 0 3 3 0 006 0"/></symbol>
+ <symbol id="ic-turret" viewBox="0 0 24 24"><path d="M4 21h16"/><path d="M7 21v-5h10v5"/><circle cx="12" cy="12" r="4"/><path d="M12 8V3"/><path d="M16 9l4-3"/></symbol>
+ <symbol id="ic-silo" viewBox="0 0 24 24"><path d="M5 21V8a7 7 0 0114 0v13z"/><path d="M5 12h14M5 16h14"/></symbol>
+ <symbol id="ic-tech" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="10"/><path d="M12 3v4M12 17v4M3 12h4M17 12h4M5 5l2.5 2.5M19 5l-2.5 2.5M5 19l2.5-2.5M19 19l-2.5-2.5"/></symbol>
+ <symbol id="ic-map" viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/></symbol>
+ <symbol id="ic-crate" viewBox="0 0 24 24"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></symbol>
+ <symbol id="ic-weapon" viewBox="0 0 24 24"><path d="M3 11h9l3-4h6v6h-6l-3-4"/><path d="M3 11v4h6"/><circle cx="19" cy="10" r="1"/></symbol>
+ <symbol id="ic-engine" viewBox="0 0 24 24"><path d="M9 3h6l2 10-5 8-5-8z"/><path d="M9 13h6"/><path d="M12 13v8"/></symbol>
+ <symbol id="ic-cargo" viewBox="0 0 24 24"><path d="M2 8h13v9H2z"/><path d="M15 11h4l3 3v3h-7z"/><circle cx="6" cy="19" r="2"/><circle cx="18" cy="19" r="2"/></symbol>
+ <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v7c0 5-4 9-8 10-4-1-8-5-8-10V5z"/><path d="M9 12l2 2 4-4"/></symbol>
+ <symbol id="ic-strike" viewBox="0 0 24 24"><path d="M12 2v6"/><path d="M8 8h8l-2 13h-4z"/><path d="M4 5l3 3M20 5l-3 3"/></symbol>
+ <symbol id="ic-emp" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><path d="M6 6l2 2M18 6l-2 2M6 18l2-2M18 18l-2-2"/></symbol>
+ <symbol id="ic-heal" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="9"/></symbol>
+ <symbol id="ic-overload" viewBox="0 0 24 24"><path d="M5 12h4l2-6 3 12 2-6h3"/><circle cx="12" cy="12" r="10"/></symbol>
+ <symbol id="ic-spy" viewBox="0 0 24 24"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+ <symbol id="ic-relic" viewBox="0 0 24 24"><path d="M12 2l7 5v10l-7 5-7-5V7z"/><path d="M12 7l3.5 2.5v5L12 17l-3.5-2.5v-5z"/></symbol>
+ <symbol id="ic-ult" viewBox="0 0 24 24"><path d="M12 2l2.6 6.4L21 11l-6.4 2.6L12 20l-2.6-6.4L3 11l6.4-2.6z"/></symbol>
+ <symbol id="ic-def" viewBox="0 0 24 24"><path d="M12 2l8 3v7c0 5-4 9-8 10-4-1-8-5-8-10V5z"/></symbol>
+ <symbol id="ic-atk" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/><path d="M8 8l8 8M16 8l-8 8"/></symbol>
+ <symbol id="ic-mine" viewBox="0 0 24 24"><path d="M3 20l9-9"/><path d="M9 5a7 7 0 019 9z"/><path d="M14 3l7 7"/></symbol>
+ <symbol id="ic-nego" viewBox="0 0 24 24"><path d="M8 12l-4 4 4 4"/><path d="M16 4l4 4-4 4"/><path d="M4 16h13"/><path d="M20 8H7"/></symbol>
+ <symbol id="ic-academy" viewBox="0 0 24 24"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 11v6c0 2 3 3 6 3s6-1 6-3v-6"/></symbol>
+</defs></svg>
+
+<!-- ================= BANDEAU SUPÉRIEUR ================= -->
+<div id="topbar">
+  <div class="profile">
+    <div class="avatar notched">
+      <svg viewBox="0 0 100 100">
+        <defs><linearGradient id="avg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2c443f"/><stop offset="1" stop-color="#0d1615"/></linearGradient></defs>
+        <rect width="100" height="100" fill="url(#avg)"/>
+        <path d="M50 20c15 0 25 10 25 25v13c0 6-5 9-8 11l-2 11H35l-2-11c-3-2-8-5-8-11V45c0-15 10-25 25-25z" fill="#182421" stroke="#63d6bc" stroke-width="2"/>
+        <path d="M31 45h38v13c0 4-4 7-8 7H39c-4 0-8-3-8-7z" fill="#63d6bc" opacity=".8"/>
+        <path d="M43 72h14l-2 9H45z" fill="#243330" stroke="#63d6bc" stroke-width="1"/>
+      </svg>
+      <div class="rank">G4</div>
+    </div>
+    <div>
+      <div class="pname">CDR. A. GOMÈS</div>
+      <div class="prank">Commodore · Escadre de Caprica</div>
+      <div class="xp"><i style="width:64%"></i></div>
+      <div class="xpl"><span>NIVEAU 47</span><span>ULTIME SUIVANT · <b>NIV 50</b></span></div>
+    </div>
+  </div>
+
+  <div class="mainnav" id="mainnav"></div>
+
+  <div class="resbar">
+    <div class="res"><svg viewBox="0 0 24 24" stroke="#f5a623"><use href="#ic-credits"/></svg>
+      <div><div class="v" id="r-cred">128 400</div><div class="n">Crédits</div></div></div>
+    <div class="res"><svg viewBox="0 0 24 24" stroke="#c9a06a"><use href="#ic-alloy"/></svg>
+      <div><div class="v">184 720</div><div class="n">Alliage</div></div></div>
+    <div class="res"><svg viewBox="0 0 24 24" stroke="#63d6bc"><use href="#ic-fuel"/></svg>
+      <div><div class="v" id="r-fuel">9 420</div><div class="n">Carburant</div></div></div>
+    <div class="res"><svg viewBox="0 0 24 24" stroke="#ff5fc0"><use href="#ic-artefact"/></svg>
+      <div><div class="v">6</div><div class="n">Artefacts</div></div></div>
+    <div class="collect notched" id="collect">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#f5a623" stroke-width="1.3"><use href="#ic-hq"/></svg>
+      <div>
+        <div class="cl">Collecter</div>
+        <div class="cn" id="c-amount">+14 280</div>
+        <div class="cap"><i id="c-cap" style="width:52%"></i></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="screens">
+
+<!-- ============ 01 · ESCOUADES ============ -->
+<section class="screen on" id="sc-esc">
+  <div class="tag">// 01 · <b>ESCOUADES</b> — COMPOSITION DES ÉQUIPES</div>
+  <div class="squadtabs" id="squadtabs"></div>
+  <div class="board panel notched" id="board"></div>
+  <div class="roster panel notched">
+    <div class="hd"><span class="dot"></span>Effectifs disponibles
+      <div class="rfilter" id="rfilter">
+        <button class="on" data-f="cmd">Commandants</button>
+        <button data-f="ship">Vaisseaux</button>
+        <button data-f="mech">Mécas</button>
+      </div>
+    </div>
+    <div class="rlist" id="rlist"></div>
+  </div>
+  <div class="sumry panel notched" id="sumry"></div>
+  <div class="foot">Une escouade = 1 commandant + 3 vaisseaux + 2 mécas · le commandant détermine les points d'action</div>
+</section>
+
+<!-- ============ 02 · ATLAS ============ -->
+<section class="screen" id="sc-atlas">
+  <div class="tag">// 02 · <b>ATLAS</b> — FICHE D'UNITÉ &amp; IDENTITÉ VISUELLE</div>
+  <div class="atl-left" id="atl-left"></div>
+  <div class="atl-mid">
+    <div id="atl-card"></div>
+    <div class="tiers" id="atl-tiers"></div>
+    <div class="cachechip"><span class="led"></span><span id="cachecount">ATLAS — 0 VISUEL EN CACHE</span></div>
+  </div>
+  <div class="atl-right" id="atl-right"></div>
+  <div class="foot">Les visuels sont générés une fois puis servis depuis le cache — aucun rechargement entre les écrans</div>
+</section>
+
+<!-- ============ 03 · BASE ============ -->
+<section class="screen" id="sc-base">
+  <div class="terrain"></div><div class="iso"></div>
+  <div class="tag">// 03 · <b>BASE</b> — ASTREA IV · SECTEUR CAPRICA</div>
+  <div id="bfield"></div>
+  <div class="blist panel notched">
+    <div class="hd"><span class="dot"></span>Bâtiments<span class="rt" id="bcount">9 / 12</span></div>
+    <div style="overflow:auto;flex:1;padding:6px" id="blist-rows"></div>
+  </div>
+  <div class="bdet panel notched" id="bdet"></div>
+  <div class="income panel notched" id="income"></div>
+  <div class="foot">Revenu quotidien par planète · plafond de cumul sur 7 jours · collecte globale depuis le bandeau</div>
+</section>
+
+<!-- ============ 04 · RECHERCHE ============ -->
+<section class="screen" id="sc-rech">
+  <div class="tag">// 04 · <b>RECHERCHE</b> — LABORATOIRE CENTRAL</div>
+  <div class="rtabs" id="rtabs"></div>
+  <div class="tree panel notched" id="tree">
+    <canvas class="tcv" id="tcv" width="1188" height="612"></canvas>
+    <div id="tnodes"></div>
+  </div>
+  <div class="rdet panel notched" id="rdet"></div>
+  <div class="rqueue panel notched">
+    <div class="hd"><span class="dot"></span>File de recherche<span class="rt">3 EMPLACEMENTS · LABORATOIRE NIV 7</span></div>
+    <div class="qrow" id="qrow"></div>
+  </div>
+</section>
+
+<!-- ============ 05 · CARTE ============ -->
+<section class="screen" id="sc-carte">
+  <canvas id="starfield" width="1600" height="816"></canvas>
+  <svg id="routes" viewBox="0 0 1600 816"></svg>
+  <div id="planets"></div>
+  <div class="tag">// 05 · <b>CARTE</b> — <span id="zonename">BRAS DE CYRANNUS</span></div>
+  <div class="mapinfo" id="mapinfo"></div>
+  <div class="navpad">
+    <button class="n" data-d="n">▲</button><button class="s" data-d="s">▼</button>
+    <button class="w" data-d="w">◀</button><button class="e" data-d="e">▶</button>
+    <div class="c" id="coords">X:04 Y:07</div>
+  </div>
+  <div class="zoomer" id="zoomer">
+    <button data-z="0" class="on">Secteur</button>
+    <button data-z="1">Bras</button>
+    <button data-z="2">Galaxie</button>
+  </div>
+  <div class="holo notched" id="holo"></div>
+</section>
+
+<!-- ============ 06 · BRIEFING ============ -->
+<section class="screen" id="sc-brief">
+  <div class="tag">// 06 · <b>BRIEFING</b> — <span id="briefname">RAID SUR GEMENON</span></div>
+  <div class="bcol bc1" id="bc1"></div>
+  <div class="bcol bc2" id="bc2"></div>
+  <div class="bcol bc3" id="bc3"></div>
+</section>
+
+<!-- ============ 07 · DÉPLOIEMENT ============ -->
+<section class="screen" id="sc-depl">
+  <div class="tag">// 07 · <b>DÉPLOIEMENT</b> — PHASE D'INITIALISATION</div>
+  <div class="dleft" id="dleft"></div>
+  <div id="deploy"><canvas id="dcv" width="988" height="752"></canvas></div>
+  <div class="dright" id="dright"></div>
+</section>
+
+<!-- ============ 08 · COMBAT ============ -->
+<section class="screen" id="sc-combat">
+  <canvas id="arena" width="1600" height="816"></canvas>
+  <div class="tag">// 08 · <b>COMBAT</b> — <span id="combatname">DÉFENSE DE LA RELIQUE · ORBITAL</span></div>
+  <div class="ctop">
+    <div class="wavebox">VAGUE <b id="wv">01</b> / <b id="wvmax">06</b></div>
+    <div class="objbar"><i id="objfill" style="width:100%"></i><span id="objtxt">RELIQUE 100%</span></div>
+    <div class="wavebox">PROCHAINE <b id="wtimer">0:12</b></div>
+  </div>
+  <div class="cforce panel notched" id="cforce"></div>
+  <div class="ctrin panel notched" id="ctrin"></div>
+  <div class="clog panel notched"><div class="hd" style="font-size:10px"><span class="dot"></span>Journal</div><div id="loglines"></div></div>
+  <div class="apts"><span class="pl">Points d'action</span><span class="pts" id="apts"></span>
+    <span class="tiny" id="aptsrc" style="letter-spacing:.1em"></span></div>
+  <div class="actbar" id="actbar"></div>
+</section>
+
+<!-- ============ 09 · BUTIN ============ -->
+<section class="screen" id="sc-butin">
+  <div class="tag">// 09 · <b>BUTIN</b> — COFFRES &amp; COLLECTION</div>
+  <div class="crates" id="crates"></div>
+  <div class="pool panel notched">
+    <div class="hd"><span class="dot"></span>Pool de lancement
+      <span class="rt">PALIERS ÉPIQUE ET LÉGENDAIRE NON OUVERTS — TIRAGES CONVERTIS EN FRAGMENTS</span></div>
+    <div class="poolgrid" id="poolgrid"></div>
+  </div>
+</section>
+
+</div><!-- /#screens -->
+
+<div id="modal"><div class="mbox notched" id="mbox"></div></div>
+<div id="notes"></div>
+</div><!-- /#stage -->
+
+<div id="pager"></div>
+
+<script>
+/* ============================================================
+   MISE À L'ÉCHELLE
+   ============================================================ */
+const stage=document.getElementById('stage');
+function fit(){const s=Math.min(window.innerWidth/1600,(window.innerHeight-98)/900);
+  stage.style.transform='scale('+s+')';
+  stage.style.margin=(-(900*(1-s))/2-30)+'px '+(-(1600*(1-s))/2)+'px';}
+addEventListener('resize',fit);fit();
+
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!==undefined)e.innerHTML=h;return e;};
+const fr=n=>n.toLocaleString('fr-FR');
+const stars=(n,max)=>{let h='';for(let i=0;i<max;i++)h+='<i style="opacity:'+(i<n?1:.16)+'"></i>';return h;};
+
+/* ============================================================
+   RARETÉS — cadres colorés (CR point 5) + points d'action (CR point 3)
+   ============================================================ */
+const RAR={
+ com  :{l:'Commun',    c:'#8b968f', max:2, act:2, cls:'rc-com'},
+ rare :{l:'Rare',      c:'#4f9ad6', max:3, act:3, cls:'rc-rare'},
+ epic :{l:'Épique',    c:'#9d6ff0', max:4, act:4, cls:'rc-epic'},
+ leg  :{l:'Légendaire',c:'#f5a623', max:5, act:5, cls:'rc-leg'},
+ div  :{l:'Divin',     c:'#ff5fc0', max:6, act:5, cls:'rc-div', slot:true}
+};
+
+/* ============================================================
+   ARMEMENT — trinité extensible à 5 (CR point 6)
+   ============================================================ */
+const WEP={
+ las:{l:'Laser',      s:'L', c:'#63d6ff', cls:'w-las', on:'Blindage léger',  prof:'Précis · fort contre les coques légères, faible contre le blindé'},
+ art:{l:'Artillerie', s:'A', c:'#c9d94a', cls:'w-art', on:'Partout',          prof:'Moyenne partout — la valeur sûre, aucun trou de couverture'},
+ nuc:{l:'Nucléaire',  s:'N', c:'#ff8a3d', cls:'w-nuc', on:'Blindage lourd',   prof:'Fort partout mais cadence lente et coût élevé — à calibrer'},
+ ion:{l:'Ionique',    s:'I', c:'#b479ff', cls:'w-ion', on:'Boucliers',        prof:'Prévu — palier 4 de l\'arbre d\'armement', soon:1},
+ cin:{l:'Cinétique',  s:'C', c:'#8b998f', cls:'w-cin', on:'Structures',       prof:'Prévu — palier 5 de l\'arbre d\'armement', soon:1}
+};
+/* matrice pierre-feuille-ciseaux : mod appliqué aux dégâts */
+const MATRIX={las:{las:1,art:1.35,nuc:.75},art:{las:.75,art:1,nuc:1.35},nuc:{las:1.35,art:.75,nuc:1}};
+const modOf=(a,d)=>(MATRIX[a]&&MATRIX[a][d])||1;
+
+/* ============================================================
+   ATLAS VISUEL — génération unique + cache (CR point 5)
+   ============================================================ */
+const ATLAS=new Map();
+function art(key,gen){if(ATLAS.has(key))return ATLAS.get(key);const v=gen();ATLAS.set(key,v);
+  const n=$('#cachecount');if(n)n.textContent='ATLAS — '+ATLAS.size+' VISUELS EN CACHE';return v;}
+
+function cmdArt(i,hex){return art('c'+i+hex,()=>{
+  const crest=['<path d="M62 78c8-16 22-24 38-24s30 8 38 24z"/>',
+   '<path d="M96 34h8v22h-8z"/><path d="M70 82c6-14 18-22 30-22s24 8 30 22z"/>',
+   '<path d="M58 92l14-30h56l14 30z"/>','<path d="M66 76h68v10H66z"/>'][i%4];
+  const visor=['<path d="M56 106h88v28c0 13-11 22-24 22H80c-13 0-24-9-24-22z"/>',
+   '<path d="M58 102h84l-9 36c-2 6-8 10-14 10H81c-6 0-12-4-14-10z"/>',
+   '<path d="M54 112h92v20c0 14-12 24-26 24H80c-14 0-26-10-26-24z"/>'][i%3];
+  return `<svg viewBox="0 0 200 300" preserveAspectRatio="xMidYMid slice">
+  <defs>
+   <linearGradient id="cg${i}" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="${hex}" stop-opacity=".3"/><stop offset=".55" stop-color="#0d1414"/><stop offset="1" stop-color="#06090a"/></linearGradient>
+   <radialGradient id="ch${i}" cx=".5" cy=".36" r=".6">
+     <stop offset="0" stop-color="${hex}" stop-opacity=".42"/><stop offset="1" stop-color="${hex}" stop-opacity="0"/></radialGradient>
+   <linearGradient id="cm${i}" x1="0" y1="0" x2=".7" y2="1">
+     <stop offset="0" stop-color="#76837c"/><stop offset=".45" stop-color="#333d39"/><stop offset="1" stop-color="#141a18"/></linearGradient>
+   <linearGradient id="cv${i}" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="${hex}"/><stop offset="1" stop-color="#0a1010"/></linearGradient></defs>
+  <rect width="200" height="300" fill="url(#cg${i})"/>
+  <circle cx="100" cy="120" r="100" fill="url(#ch${i})"/>
+  <g opacity=".16" stroke="${hex}" stroke-width="1" fill="none">
+    <circle cx="100" cy="124" r="66"/><circle cx="100" cy="124" r="84" stroke-dasharray="6 9"/></g>
+  <g fill="url(#cm${i})" stroke="#9aa093" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M8 300v-24c0-26 16-42 42-51l32-11h36l32 11c26 9 42 25 42 51v24z"/>
+    <path d="M84 196h32v26H84z"/>
+    <path d="M100 38c-32 0-50 22-50 52v34c0 11 3 20 9 27l7 25c2 7 8 12 15 12h38c7 0 13-5 15-12l7-25c6-7 9-16 9-27V90c0-30-18-52-50-52z"/>
+    <path d="M40 110h12v42H40a9 9 0 01-9-9v-24a9 9 0 019-9z"/>
+    <path d="M160 110h-12v42h12a9 9 0 009-9v-24a9 9 0 00-9-9z"/>
+    <path d="M72 166h56l-8 28H80z"/></g>
+  <g fill="#0a1110" opacity=".85">${crest}</g>
+  <g fill="url(#cv${i})" opacity=".95">${visor}</g>
+  <g fill="none" stroke="#9aa093" stroke-width="1.3" opacity=".7">
+    <path d="M52 128h-8M148 128h8"/><path d="M64 172h72"/><path d="M78 222l22 12 22-12"/></g>
+  <g fill="${hex}"><rect x="92" y="246" width="16" height="4"/><rect x="84" y="254" width="32" height="3"/>
+    <circle cx="44" cy="268" r="4"/><circle cx="156" cy="268" r="4"/></g>
+  <rect x="0" y="250" width="200" height="50" fill="#05080788"/></svg>`;});}
+
+/* Identité visuelle conservée d'un palier à l'autre : même silhouette,
+   on ajoute canons (T2), structures (T3), escadron d'escorte (T4). CR point 5 */
+function shipArt(i,hex,tier,wep){tier=tier||1;wep=wep||'las';return art('s'+i+hex+tier+wep,()=>{
+  const W=WEP[wep],wc=W.c;
+  const bodies=[
+   '<path d="M100 26l16 56v68l-16 32-16-32V82z"/><path d="M84 88L36 134l4 28 44-22z"/><path d="M116 88l48 46-4 28-44-22z"/>',
+   '<path d="M100 38c22 0 33 20 33 43v54c0 17-11 38-33 38s-33-21-33-38V81c0-23 11-43 33-43z"/><path d="M67 94L29 119v32l38-13z"/><path d="M133 94l38 25v32l-38-13z"/>',
+   '<path d="M100 20l10 38 12 23v88l-22 25-22-25V81l12-23z"/><path d="M78 98L42 90l-6 42 42 17z"/><path d="M122 98l36-8 6 42-42 17z"/>',
+   '<path d="M100 26l25 44v100l-25 23-25-23V70z"/><path d="M75 78H33l-8 58 50 25z"/><path d="M125 78h42l8 58-50 25z"/><path d="M85 104h30v64H85z"/>',
+   '<path d="M100 18l17 32 13 33v101l-30 29-30-29V83l13-33z"/><path d="M70 90L26 98l-8 50 52 25z"/><path d="M130 90l44 8 8 50-52 25z"/><rect x="87" y="62" width="26" height="114" rx="4"/>',
+   '<path d="M64 70h72v112l-36 22-36-22z"/><path d="M64 90H30l-4 54 38 16z"/><path d="M136 90h34l4 54-38 16z"/><path d="M84 46h32v24H84z"/>'];
+  const b=bodies[i%6];
+  let add='';
+  if(tier>=2)add+=`<g fill="${wc}" opacity=".92"><rect x="52" y="118" width="9" height="34" rx="2"/><rect x="139" y="118" width="9" height="34" rx="2"/></g>
+    <g fill="none" stroke="${wc}" stroke-width="1.5" opacity=".8"><path d="M56.5 118v-14M143.5 118v-14"/></g>`;
+  if(tier>=3)add+=`<g fill="#39443f" stroke="#9aa093" stroke-width="1.3"><path d="M86 60h28v22H86z"/><path d="M76 172h48v20H76z"/></g>
+    <g fill="none" stroke="${hex}" stroke-width="1" opacity=".55"><path d="M70 140h60M70 152h60"/></g>`;
+  if(tier>=4)add+=`<g opacity=".85" fill="#2b3733" stroke="${hex}" stroke-width="1.2">
+      <path d="M34 214l7 14-7 6-7-6z"/><path d="M100 236l7 14-7 6-7-6z"/><path d="M166 214l7 14-7 6-7-6z"/></g>
+    <g fill="${hex}" opacity=".5"><circle cx="34" cy="236" r="2"/><circle cx="100" cy="258" r="2"/><circle cx="166" cy="236" r="2"/></g>`;
+  const muzzle=wep==='nuc'
+    ? `<g fill="${wc}" opacity=".9"><circle cx="100" cy="70" r="9"/><path d="M92 70h16v10H92z"/></g>`
+    : wep==='art'
+    ? `<g fill="${wc}" opacity=".9"><rect x="88" y="42" width="7" height="30"/><rect x="105" y="42" width="7" height="30"/></g>`
+    : `<g fill="${wc}" opacity=".9"><path d="M97 34h6v40h-6z"/><circle cx="100" cy="32" r="4"/></g>`;
+  return `<svg viewBox="0 0 200 300" preserveAspectRatio="xMidYMid slice">
+   <defs><linearGradient id="sg${i}${tier}" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#18211f"/><stop offset=".6" stop-color="#0a100f"/><stop offset="1" stop-color="#060909"/></linearGradient>
+   <linearGradient id="sm${i}${tier}" x1="0" y1="0" x2="1" y2="1">
+     <stop offset="0" stop-color="#5a6863"/><stop offset=".5" stop-color="#2a3632"/><stop offset="1" stop-color="#161e1c"/></linearGradient></defs>
+   <rect width="200" height="300" fill="url(#sg${i}${tier})"/>
+   <g opacity=".14" stroke="${hex}" fill="none"><circle cx="100" cy="124" r="80"/><circle cx="100" cy="124" r="56"/></g>
+   <g transform="translate(0,18)">
+     <g fill="url(#sm${i}${tier})" stroke="${hex}" stroke-width="1.5" stroke-linejoin="round">${b}</g>
+     ${muzzle}${add}
+     <g fill="${wc}" opacity=".85"><ellipse cx="100" cy="196" rx="7" ry="12"/><ellipse cx="84" cy="192" rx="4" ry="8"/><ellipse cx="116" cy="192" rx="4" ry="8"/></g>
+     <g opacity=".32" fill="${wc}"><ellipse cx="100" cy="224" rx="13" ry="28"/></g>
+   </g>
+   <rect x="0" y="248" width="200" height="52" fill="#05080788"/></svg>`;});}
+
+function mechArt(i,hex,tier,wep){tier=tier||1;wep=wep||'art';return art('m'+i+hex+tier+wep,()=>{
+  const V=[{sw:36,tw:24,th:42,arm:12,leg:1.0},{sw:32,tw:21,th:38,arm:10,leg:.92},
+           {sw:44,tw:31,th:48,arm:15,leg:1.08},{sw:52,tw:38,th:52,arm:18,leg:1.2},
+           {sw:58,tw:44,th:56,arm:20,leg:1.3}][i%5];
+  const wc=WEP[wep].c,cx=100,tt=84,tb=tt+V.th,hb=tb+15,kn=hb+42,ft=kn+44,sw=V.sw,tw=V.tw,A=V.arm,P=[];
+  P.push('<path d="M'+(cx-13)+' '+(tt-22)+'h26v20h-26z"/>');
+  P.push('<path d="M'+(cx-tw)+' '+tt+'h'+(2*tw)+'v'+(V.th-12)+'l-8 12h-'+(2*tw-16)+'l-8-12z"/>');
+  P.push('<path d="M'+(cx-tw-1)+' '+(tt+1)+'L'+(cx-sw)+' '+(tt-7)+'l-7 '+(A+16)+' '+(sw-tw-6)+' 6z"/>');
+  P.push('<path d="M'+(cx+tw+1)+' '+(tt+1)+'L'+(cx+sw)+' '+(tt-7)+'l7 '+(A+16)+' -'+(sw-tw-6)+' 6z"/>');
+  P.push('<path d="M'+(cx-sw-6)+' '+(tt+A+14)+'h'+(A+2)+'v34h-'+(A+2)+'z"/>');
+  P.push('<path d="M'+(cx+sw-A+4)+' '+(tt+A+14)+'h'+(A+2)+'v34h-'+(A+2)+'z"/>');
+  P.push('<path d="M'+(cx-tw+5)+' '+tb+'h'+(2*tw-10)+'v15h-'+(2*tw-10)+'z"/>');
+  const L=s=>{const x=v=>cx+s*v;
+    return '<path d="M'+x(4)+' '+hb+'L'+x(22*V.leg)+' '+(hb+4)+'L'+x(27*V.leg)+' '+kn+'L'+x(11)+' '+kn+'z"/>'+
+      '<path d="M'+x(11)+' '+kn+'L'+x(27*V.leg)+' '+kn+'L'+x(24*V.leg)+' '+ft+'L'+x(9)+' '+ft+'z"/>'+
+      '<path d="M'+x(6)+' '+ft+'L'+x(28*V.leg)+' '+ft+'L'+x(32*V.leg)+' '+(ft+13)+'L'+x(4)+' '+(ft+13)+'z"/>';};
+  P.push(L(-1));P.push(L(1));
+  let wpn='<path d="M'+(cx+sw-A+2)+' '+(tt+A+40)+'h'+(A+8)+'v10h-'+(A+8)+'z"/><path d="M'+(cx+sw+2)+' '+(tt+A+43)+'h26v5h-26z"/>';
+  if(tier>=2)wpn+='<path d="M'+(cx-sw-18)+' '+(tt+4)+'l15-7 15 7v40l-15 10-15-10z"/>';
+  if(tier>=3)wpn+='<path d="M'+(cx-sw-14)+' '+(tt-14)+'h18v16h-18z"/>';
+  if(tier>=4)wpn+='<path d="M'+(cx+sw-6)+' '+(tt-16)+'h14v14h-14z"/>';
+  return `<svg viewBox="0 0 200 300" preserveAspectRatio="xMidYMid slice">
+   <defs><linearGradient id="mg${i}${tier}" x1="0" y1="0" x2="0" y2="1">
+     <stop offset="0" stop-color="#1d2622"/><stop offset=".6" stop-color="#0b110f"/><stop offset="1" stop-color="#060908"/></linearGradient>
+   <linearGradient id="mm${i}${tier}" x1="0" y1="0" x2=".8" y2="1">
+     <stop offset="0" stop-color="#69766f"/><stop offset=".45" stop-color="#313b37"/><stop offset="1" stop-color="#131917"/></linearGradient></defs>
+   <rect width="200" height="300" fill="url(#mg${i}${tier})"/>
+   <g opacity=".1" stroke="${hex}"><path d="M0 262h200M0 240h200M0 218h200M0 196h200"/></g>
+   <ellipse cx="100" cy="${ft+16}" rx="70" ry="11" fill="#04070680"/>
+   <g fill="url(#mm${i}${tier})" stroke="${hex}" stroke-width="1.6" stroke-linejoin="round">${P.join('')}</g>
+   <g fill="url(#mm${i}${tier})" stroke="${wc}" stroke-width="1.6" stroke-linejoin="round">${wpn}</g>
+   <g fill="${wc}"><rect x="${cx-9}" y="${tt-16}" width="18" height="5"/>
+     <circle cx="${cx}" cy="${tt+V.th-22}" r="4"/></g>
+   <rect x="0" y="250" width="200" height="50" fill="#05080766"/></svg>`;});}
+
+const artFor=(u,tier)=>u.k==='cmd'?cmdArt(u.i,RAR[u.r].c):
+  (u.k==='ship'?shipArt(u.i,RAR[u.r].c,tier||u.tier,u.w):mechArt(u.i,RAR[u.r].c,tier||u.tier,u.w));
+
+/* ============================================================
+   DONNÉES DE JEU
+   Pool de lancement volontairement réduit : 5 communes, 5 rares,
+   1 divine — les paliers épique et légendaire ouvrent plus tard.
+   (CR point 10)
+   ============================================================ */
+const POOL=[
+ /* ---- COMMANDANTS ---- */
+ {id:'c1',k:'cmd',i:0,r:'div',n:'AMIRAL KORAX VELL',lv:52,s:4,role:'Combattant',code:'CMD-D01',
+  st:{pv:0,atk:0,def:0},bonus:['+18% PV d\'escadre','+12% dégâts laser'],
+  sk:[{n:'Frappe orbitale',ic:'ic-strike',d:'Dégâts de zone sur un point choisi'},
+      {n:'Bouclier de flotte',ic:'ic-shield',d:'+40% DÉF pendant une vague'},
+      {n:'Réparation',ic:'ic-heal',d:'Rend 25% des PV à une unité'},
+      {n:'Impulsion EM',ic:'ic-emp',d:'Immobilise les unités légères 4 s'},
+      {n:'Surcharge',ic:'ic-overload',d:'+50% ATQ sur une unité, 1 vague'}],
+  leg:{n:'Frappe orbitale de siège',d:'Portée illimitée sur toute la carte — slot légendaire débloqué par la recherche'}},
+ {id:'c2',k:'cmd',i:2,r:'rare',n:'CDT. RHEA TALLOW',lv:31,s:3,role:'Pirate',code:'CMD-R02',
+  bonus:['+15% butin','+8% initiative'],
+  sk:[{n:'Abordage éclair',ic:'ic-atk',d:'Dégâts directs sur l\'unité la plus proche'},
+      {n:'Fumigène',ic:'ic-emp',d:'-30% précision ennemie pendant 6 s'},
+      {n:'Pillage',ic:'ic-crate',d:'Butin supplémentaire si la vague est nettoyée'}]},
+ {id:'c3',k:'cmd',i:3,r:'rare',n:'MAJOR ODIN BRAAK',lv:28,s:3,role:'Blindé',code:'CMD-R03',
+  bonus:['+22% PV des mécas','+10% DÉF'],
+  sk:[{n:'Mur d\'acier',ic:'ic-shield',d:'Les unités de première ligne encaissent 50% en moins'},
+      {n:'Charge lourde',ic:'ic-atk',d:'Une unité avance et frappe en zone'},
+      {n:'Ralliement',ic:'ic-heal',d:'Soigne toutes les unités de 10%'}]},
+ {id:'c4',k:'cmd',i:1,r:'com',n:'RECRUE T. HALVEN',lv:12,s:2,role:'Soutien',code:'CMD-C04',
+  bonus:['+5% PV d\'escadre'],
+  sk:[{n:'Tir de soutien',ic:'ic-strike',d:'Salve légère sur une cible'},
+      {n:'Garde serrée',ic:'ic-shield',d:'+15% DÉF pendant 8 s'}]},
+ {id:'c5',k:'cmd',i:4,r:'com',n:'MAT. P. ANDAR',lv:9,s:1,role:'Ingénieur',code:'CMD-C05',
+  bonus:['+6% vitesse de réparation'],
+  sk:[{n:'Réparation de zone',ic:'ic-heal',d:'Rend 12% PV aux unités proches'},
+      {n:'Repli tactique',ic:'ic-emp',d:'Replace une unité sur un emplacement libre'}]},
+ /* ---- VAISSEAUX ---- */
+ {id:'s1',k:'ship',i:0,r:'rare',n:'VIPER MK-VII',lv:34,s:3,role:'Chasseur',code:'SHP-R01',
+  form:'escadrille',qty:6,qmax:9,w:'las',arm:'Léger',eng:'Standard',tier:2,
+  st:{pv:420,atk:96,def:34,rng:180,spd:96}},
+ {id:'s2',k:'ship',i:2,r:'rare',n:'LANCIER-9',lv:29,s:3,role:'Corvette d\'assaut',code:'SHP-R02',
+  form:'escadrille',qty:3,qmax:5,w:'nuc',arm:'Moyen',eng:'Standard',tier:2,
+  st:{pv:780,atk:132,def:62,rng:150,spd:60}},
+ {id:'s3',k:'ship',i:1,r:'com',n:'VIPER MK-I',lv:14,s:2,role:'Chasseur d\'entraînement',code:'SHP-C03',
+  form:'escadrille',qty:8,qmax:12,w:'las',arm:'Léger',eng:'Léger',tier:1,
+  st:{pv:260,atk:58,def:22,rng:160,spd:88}},
+ {id:'s4',k:'ship',i:5,r:'com',n:'HÉLIOS C-2',lv:11,s:2,role:'Porte-nefs / cargo',code:'SHP-C04',
+  form:'unité',qty:1,qmax:1,w:'art',arm:'Lourd',eng:'Subspatial',tier:1,carrier:1,
+  st:{pv:1500,atk:40,def:90,rng:90,spd:26}},
+ /* ---- MÉCAS ---- */
+ {id:'m1',k:'mech',i:2,r:'rare',n:'GOLIATH R-2',lv:26,s:3,role:'Assaut',code:'MEC-R01',
+  form:'escadrille',qty:3,qmax:5,w:'art',arm:'Moyen',eng:'—',tier:2,
+  st:{pv:700,atk:118,def:74,rng:120,spd:54}},
+ {id:'m2',k:'mech',i:0,r:'com',n:'ATLAS T-1',lv:15,s:2,role:'Marcheur léger',code:'MEC-C02',
+  form:'escadrille',qty:5,qmax:8,w:'las',arm:'Léger',eng:'—',tier:1,
+  st:{pv:380,atk:64,def:30,rng:140,spd:88}}
+];
+const byId=id=>POOL.find(u=>u.id===id);
+const familyOf=k=>POOL.filter(u=>u.k===k);
+
+/* --- Escouades (CR point 1) : 1 commandant + 3 vaisseaux + 2 mécas --- */
+const SQUADS=[
+ {n:'Escouade Alpha',cmd:'c1',ships:['s1','s2','s4'],mechs:['m1','m2'],form:'ring'},
+ {n:'Escouade Bravo',cmd:'c2',ships:['s3',null,null],mechs:['m2',null],form:'arc'},
+ {n:'Escouade Charlie',cmd:'c4',ships:[null,null,null],mechs:[null,null],form:'ring'},
+ {n:'Escouade Delta',cmd:null,ships:[null,null,null],mechs:[null,null],form:'ring',lock:'Grade 5'},
+ {n:'Escouade Echo',cmd:null,ships:[null,null,null],mechs:[null,null],form:'ring',lock:'Grade 6'}
+];
+let curSquad=0, actionMode='fixe';   /* fixe | achat — débat non tranché (CR point 3) */
+
+const power=s=>{let p=0;
+  [...s.ships,...s.mechs].forEach(id=>{const u=byId(id);if(u)p+=(u.st.pv*.6+u.st.atk*6+u.st.def*4)*(u.qty||1)/10;});
+  const c=byId(s.cmd);if(c)p*=1+RAR[c.r].act*.06;return Math.round(p);};
+const squadWeapons=s=>{const m={};[...s.ships,...s.mechs].forEach(id=>{const u=byId(id);
+  if(u)m[u.w]=(m[u.w]||0)+(u.qty||1);});return m;};
+const dominantWeapon=s=>{const m=squadWeapons(s);let b='las',v=-1;
+  for(const k in m)if(m[k]>v){v=m[k];b=k;}return b;};
+
+/* ============================================================
+   COMPOSANT CARTE
+   ============================================================ */
+function cardHTML(u,size,opt){opt=opt||{};const R=RAR[u.r];
+  return `<div class="card ${size} notched ${opt.cls||''}" style="--notch:6px;--rc:${R.c}" data-id="${u.id}">
+    <div class="art">${artFor(u)}</div><div class="shade"></div>
+    <div class="rr">${R.l}</div><div class="lv">NIV ${u.lv}</div>
+    <div class="nm">${u.n}</div>
+    <div class="st ${R.cls}">${stars(u.s,R.max)}</div>
+    ${u.form?`<div class="qty">${u.form==='unité'?'×1':'×'+u.qty}</div>`:''}
+  </div>`;}
+
+/* ============================================================
+   ÉCRAN 01 — ESCOUADES
+   ============================================================ */
+function renderSquadTabs(){
+  $('#squadtabs').innerHTML=SQUADS.map((s,i)=>{
+    const filled=[s.cmd,...s.ships,...s.mechs].filter(Boolean).length;
+    return `<div class="stab ${i===curSquad?'on':''} ${s.lock?'lock':''}" data-i="${i}">
+      <div class="idx">${i+1}</div>
+      <div><div class="sn">${s.n.replace('Escouade ','')}</div>
+        <div class="sp">${s.lock?'Verrouillé':filled+'/6 · '+fr(power(s))+' PUISS.'}</div></div>
+      ${s.lock?`<div class="ml">${s.lock}</div>`:''}</div>`;}).join('');
+  $$('#squadtabs .stab').forEach(t=>t.onclick=()=>{
+    if(t.classList.contains('lock'))return;curSquad=+t.dataset.i;renderEsc();});
+}
+function slotHTML(kind,label,idx){
+  return `<div class="slot mid notched" style="--notch:6px" data-slot="${kind}" data-idx="${idx}">
+    <div class="plus">+</div><div class="sl">${label}</div></div>`;}
+
+function renderBoard(){
+  const s=SQUADS[curSquad],c=byId(s.cmd),R=c?RAR[c.r]:null;
+  const acts=c?RAR[c.r].act:0;
+  let actDots='';for(let i=0;i<6;i++)actDots+=`<i class="${i<acts?'f':(i<5?'':'locked')}"></i>`;
+  $('#board').innerHTML=`
+   <div class="hd"><span class="dot"></span>${s.n}
+     <span class="rt">PUISSANCE ${fr(power(s))} · ARMEMENT DOMINANT ${WEP[dominantWeapon(s)].l.toUpperCase()}</span></div>
+   <div class="brow">
+     <div class="lbl"><div class="t">Commandant</div>
+       <div class="d">Détermine les points d'action et les bonus d'escadre.</div>
+       <div class="acts" title="Points d'action">${actDots}</div>
+       <div class="tiny" style="margin-top:5px">${c?RAR[c.r].l+' — '+acts+' actions':'aucun'}</div></div>
+     ${c?cardHTML(c,'mid'):slotHTML('cmd','Assigner un commandant',0)}
+     ${c?`<div style="flex:1;padding-left:6px">
+        <div class="tiny">Compétences actives</div>
+        <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap">
+        ${c.sk.map((k,j)=>`<div style="width:104px;padding:7px;border:1px solid ${j<acts?'var(--line-hi)':'var(--line)'};background:#0b110f;${j>=acts?'opacity:.35':''}">
+           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="${j<acts?'#f5a623':'#4d574f'}" stroke-width="1.3"><use href="#${k.ic}"/></svg>
+           <div style="font-size:9px;letter-spacing:.08em;color:var(--paper);margin-top:5px;line-height:1.2">${k.n}</div>
+           <div style="font-size:8px;color:var(--muted);margin-top:3px;line-height:1.35">${k.d}</div></div>`).join('')}
+        ${c.leg?`<div class="slot leg" style="width:104px;padding:7px;align-items:flex-start;justify-content:flex-start">
+           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#f5a623" stroke-width="1.3"><use href="#ic-ult"/></svg>
+           <div style="font-size:9px;letter-spacing:.08em;color:var(--gold);line-height:1.2;text-align:left">${c.leg.n}</div>
+           <div style="font-size:8px;color:var(--muted);line-height:1.35;text-align:left">Slot légendaire — arbre Commandement</div></div>`:''}
+        </div>
+        <div class="pillrow" style="margin-top:9px">${c.bonus.map(b=>`<span class="pill k">${b}</span>`).join('')}</div>
+       </div>`:'<div style="flex:1;padding-left:10px;color:var(--muted);font-size:11px">Aucun commandant assigné — l\'escouade ne dispose d\'aucun point d\'action.</div>'}
+   </div>
+   <div class="brow">
+     <div class="lbl"><div class="t">Flotte</div>
+       <div class="d">3 emplacements. Une escadrille compte plusieurs appareils, une unité un seul.</div></div>
+     ${s.ships.map((id,j)=>{const u=byId(id);return u?cardHTML(u,'mid'):slotHTML('ship','Vaisseau',j);}).join('')}
+     <div style="flex:1"></div>
+   </div>
+   <div class="brow">
+     <div class="lbl"><div class="t">Force méca</div>
+       <div class="d">2 emplacements. Engagée uniquement sur les combats terrestres.</div></div>
+     ${s.mechs.map((id,j)=>{const u=byId(id);return u?cardHTML(u,'mid'):slotHTML('mech','Méca',j);}).join('')}
+     <div style="flex:1"></div>
+   </div>`;
+  $$('#board .card').forEach(c2=>c2.onclick=()=>{
+    const u=byId(c2.dataset.id);unassign(u);renderEsc();});
+  $$('#board .slot[data-slot]').forEach(sl=>sl.onclick=()=>{
+    const k=sl.dataset.slot;$$('#rfilter button').forEach(b=>b.classList.toggle('on',b.dataset.f===k));
+    rosterFilter=k;renderRoster();});
+}
+function unassign(u){const s=SQUADS[curSquad];
+  if(u.k==='cmd'&&s.cmd===u.id)s.cmd=null;
+  s.ships=s.ships.map(x=>x===u.id?null:x);
+  s.mechs=s.mechs.map(x=>x===u.id?null:x);}
+function assign(u){const s=SQUADS[curSquad];
+  if(u.k==='cmd'){s.cmd=u.id;return;}
+  const arr=u.k==='ship'?s.ships:s.mechs;
+  if(arr.includes(u.id)){arr[arr.indexOf(u.id)]=null;return;}
+  const f=arr.indexOf(null);if(f>=0)arr[f]=u.id;else arr[arr.length-1]=u.id;}
+
+let rosterFilter='cmd';
+function renderRoster(){
+  const s=SQUADS[curSquad],used=[s.cmd,...s.ships,...s.mechs].filter(Boolean);
+  $('#rlist').innerHTML=familyOf(rosterFilter).map(u=>
+    cardHTML(u,'mini',{cls:used.includes(u.id)?'sel':''})).join('');
+  $$('#rlist .card').forEach(c=>c.onclick=()=>{assign(byId(c.dataset.id));renderEsc();});
+}
+function renderSummary(){
+  const s=SQUADS[curSquad],c=byId(s.cmd);
+  const units=[...s.ships,...s.mechs].map(byId).filter(Boolean);
+  const pv=units.reduce((a,u)=>a+u.st.pv*(u.qty||1),0);
+  const atk=units.reduce((a,u)=>a+u.st.atk*(u.qty||1),0);
+  const df=units.length?Math.round(units.reduce((a,u)=>a+u.st.def,0)/units.length):0;
+  const wm=squadWeapons(s),tot=Object.values(wm).reduce((a,b)=>a+b,0)||1;
+  const dom=dominantWeapon(s);
+  $('#sumry').innerHTML=`
+   <div class="hd"><span class="dot"></span>Synthèse d'escouade<span class="rt">${units.length} UNITÉS</span></div>
+   <div class="bd" style="overflow:auto">
+     <div class="sline"><span class="lb">PV totaux</span><div class="bar k"><i style="width:${Math.min(100,pv/90)}%"></i></div><span class="vv">${fr(pv)}</span></div>
+     <div class="sline"><span class="lb">Attaque</span><div class="bar r"><i style="width:${Math.min(100,atk/16)}%"></i></div><span class="vv">${fr(atk)}</span></div>
+     <div class="sline"><span class="lb">Défense moy.</span><div class="bar"><i style="width:${df}%"></i></div><span class="vv">${df}</span></div>
+
+     <div class="tiny" style="margin:16px 0 7px">Composition d'armement</div>
+     ${Object.keys(wm).map(k=>`<div class="trin"><span class="ic ${WEP[k].cls}">${WEP[k].s}</span>
+        <span style="font-size:10.5px;color:var(--paper)">${WEP[k].l}</span>
+        <span class="nb">${Math.round(wm[k]/tot*100)}%</span></div>`).join('')}
+     <div style="margin-top:8px;padding:8px;border:1px solid var(--line);background:#0b110f">
+       <div class="tiny">Dominante</div>
+       <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+         <span class="ic ${WEP[dom].cls}" style="width:22px;height:22px;display:flex;align-items:center;justify-content:center;border:1px solid;font-family:var(--f-mono);font-size:10px">${WEP[dom].s}</span>
+         <span style="font-size:11px;color:var(--paper)">${WEP[dom].l}</span></div>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.5;margin-top:6px">${WEP[dom].prof}</div>
+     </div>
+
+     <div class="tiny" style="margin:16px 0 7px">Points d'action</div>
+     <div class="toggle" style="padding:0 0 9px">
+       <div><div class="tt">${actionMode==='fixe'?'Fixes par rareté':'Achetables en jeu'}</div>
+         <div class="td">${actionMode==='fixe'
+           ?'Commun 2 · Rare 3 · Épique 4 · Légendaire 5'
+           :'Base 2 pour tous, +1 par palier acheté (crédits ou recherche)'}</div></div>
+     </div>
+     <div class="seg" style="width:100%">
+       <button class="${actionMode==='fixe'?'on':''}" data-am="fixe" style="flex:1">Fixes</button>
+       <button class="${actionMode==='achat'?'on':''}" data-am="achat" style="flex:1">Achetables</button>
+     </div>
+     <div style="margin-top:8px"><span class="open" title="Débat non tranché en réunion">À trancher · point 3 du CR</span></div>
+
+     <div class="tiny" style="margin:16px 0 7px">Formation par défaut</div>
+     <div class="miniform"><canvas id="miniform" width="292" height="94"></canvas>
+       <div style="position:absolute;left:0;right:0;bottom:0;padding:3px 6px;background:rgba(6,10,9,.9);
+         font-family:var(--f-mono);font-size:8px;color:var(--muted);letter-spacing:.1em">
+         ${SQUADS[curSquad].form==='ring'?'360° AUTOUR DE L\'OBJECTIF':'ARC DEPUIS UN BORD'}</div></div>
+     <div class="seg" style="width:100%;margin-top:7px">
+       <button class="${SQUADS[curSquad].form==='ring'?'on':''}" data-fm="ring" style="flex:1">360°</button>
+       <button class="${SQUADS[curSquad].form==='arc'?'on':''}" data-fm="arc" style="flex:1">Arc</button>
+     </div>
+     <div style="font-size:9.5px;color:var(--muted);line-height:1.5;margin-top:8px">
+       Blindés en première ligne, unités à portée derrière. Modifiable avant chaque mission.</div>
+   </div>`;
+  $$('#sumry [data-am]').forEach(b=>b.onclick=()=>{actionMode=b.dataset.am;renderEsc();});
+  $$('#sumry [data-fm]').forEach(b=>b.onclick=()=>{SQUADS[curSquad].form=b.dataset.fm;renderEsc();});
+  drawMiniForm();
+}
+function drawMiniForm(){
+  const c=$('#miniform');if(!c)return;const x=c.getContext('2d'),W=292,H=94;
+  x.clearRect(0,0,W,H);x.fillStyle='#080d0c';x.fillRect(0,0,W,H);
+  const mode=SQUADS[curSquad].form;
+  const cy=H/2-2;
+  x.strokeStyle='rgba(99,214,188,.25)';x.setLineDash([3,3]);
+  if(mode==='ring'){
+    x.beginPath();x.arc(W/2,cy,22,0,7);x.stroke();
+    x.beginPath();x.arc(W/2,cy,34,0,7);x.stroke();x.setLineDash([]);
+    x.fillStyle='#f5a623';x.beginPath();x.arc(W/2,cy,5,0,7);x.fill();
+    for(let i=0;i<8;i++){const a=i/8*Math.PI*2;
+      x.fillStyle='#e8543f';x.fillRect(W/2+Math.cos(a)*22-3,cy+Math.sin(a)*22-3,6,6);}
+    for(let i=0;i<8;i++){const a=(i/8+.06)*Math.PI*2;
+      x.fillStyle='#63d6bc';x.fillRect(W/2+Math.cos(a)*34-2.5,cy+Math.sin(a)*34-2.5,5,5);}
+  }else{
+    x.beginPath();x.arc(64,cy,74,-.85,.85);x.stroke();
+    x.beginPath();x.arc(64,cy,54,-.85,.85);x.stroke();x.setLineDash([]);
+    x.fillStyle='#f5a623';x.beginPath();x.arc(228,cy,5,0,7);x.fill();
+    for(let i=0;i<6;i++){const a=-.78+i*.31;
+      x.fillStyle='#e8543f';x.fillRect(64+Math.cos(a)*74-3,cy+Math.sin(a)*74-3,6,6);}
+    for(let i=0;i<6;i++){const a=-.78+i*.31;
+      x.fillStyle='#63d6bc';x.fillRect(64+Math.cos(a)*54-2.5,cy+Math.sin(a)*54-2.5,5,5);}
+  }
+}
+function renderEsc(){renderSquadTabs();renderBoard();renderRoster();renderSummary();}
+$$('#rfilter button').forEach(b=>b.onclick=()=>{
+  $$('#rfilter button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  rosterFilter=b.dataset.f;renderRoster();});
+
+/* ============================================================
+   ÉCRAN 02 — ATLAS / FICHE D'UNITÉ
+   ============================================================ */
+let atlasId='s1',atlasTier=2,atlasWep='las';
+function renderAtlas(){
+  const u=byId(atlasId),R=RAR[u.r],isCmd=u.k==='cmd';
+  const shown=Object.assign({},u,{tier:atlasTier,w:isCmd?u.w:atlasWep});
+  $('#atl-card').innerHTML=`<div class="card big notched" style="--notch:9px;--rc:${R.c}">
+     <div class="art">${isCmd?cmdArt(u.i,R.c):(u.k==='ship'?shipArt(u.i,R.c,atlasTier,atlasWep):mechArt(u.i,R.c,atlasTier,atlasWep))}</div>
+     <div class="shade"></div><div class="rr">${R.l}</div><div class="lv">NIV ${u.lv}</div>
+     <div class="nm">${u.n}</div><div class="st ${R.cls}">${stars(u.s,R.max)}</div></div>`;
+  $('#atl-tiers').innerHTML=isCmd?'':[1,2,3,4].map(t=>
+    `<div class="tier ${t===atlasTier?'on':''}" data-t="${t}">
+      <div class="tn">Palier ${t}</div><div class="tv">${['Coque nue','+ Canons','+ Structures','+ Escadron'][t-1]}</div></div>`).join('');
+  $$('#atl-tiers .tier').forEach(t=>t.onclick=()=>{atlasTier=+t.dataset.t;renderAtlas();});
+
+  /* --- colonne gauche --- */
+  const st=u.st||{};
+  $('#atl-left').innerHTML=`
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Effectifs<span class="rt">${POOL.length} CARTES</span></div>
+     <div class="bd" style="display:flex;gap:6px;flex-wrap:wrap;max-height:172px;overflow:auto">
+       ${POOL.map(p=>`<div class="card mini notched" style="--notch:5px;--rc:${RAR[p.r].c};width:52px;height:72px"
+          data-id="${p.id}"><div class="art">${artFor(p)}</div><div class="shade"></div>
+          <div class="nm" style="font-size:6px;bottom:4px">${p.n.split(' ').slice(-1)[0]}</div></div>`).join('')}
+     </div>
+   </div>
+   <div class="panel notched" style="flex:1;overflow:auto">
+     <div class="hd"><span class="dot"></span>Caractéristiques<span class="rt">${u.code}</span></div>
+     <div class="bd">
+       ${isCmd?`
+         <div class="kv"><span class="k">Rôle</span><span class="v">${u.role}</span></div>
+         <div class="kv"><span class="k">Points d'action</span><span class="v gold">${R.act}</span></div>
+         <div class="kv"><span class="k">Slot légendaire</span><span class="v" style="color:${R.slot?'var(--gold)':'var(--muted)'}">${R.slot?'Disponible':'Non'}</span></div>
+         <div class="tiny" style="margin:14px 0 6px">Bonus d'escadre</div>
+         <div class="pillrow">${u.bonus.map(b=>`<span class="pill k">${b}</span>`).join('')}</div>`
+       :`
+         <div class="sline"><span class="lb">PV</span><div class="bar k"><i style="width:${Math.min(100,st.pv/16)}%"></i></div><span class="vv">${st.pv}</span></div>
+         <div class="sline"><span class="lb">Attaque</span><div class="bar r"><i style="width:${Math.min(100,st.atk/1.6)}%"></i></div><span class="vv">${st.atk}</span></div>
+         <div class="sline"><span class="lb">Défense</span><div class="bar"><i style="width:${st.def}%"></i></div><span class="vv">${st.def}</span></div>
+         <div class="sline"><span class="lb">Portée</span><div class="bar"><i style="width:${st.rng/2.4}%"></i></div><span class="vv">${st.rng}</span></div>
+         <div class="sline"><span class="lb">Vitesse</span><div class="bar"><i style="width:${st.spd}%"></i></div><span class="vv">${st.spd}</span></div>
+         <div class="kv" style="margin-top:12px"><span class="k">Type d'unité</span>
+           <span class="v" style="color:var(--sig)">${u.form==='unité'?'À l\'unité':'Escadrille'}</span></div>
+         <div class="kv"><span class="k">Effectif</span><span class="v">${u.qty} / ${u.qmax} max</span></div>
+         <div class="kv"><span class="k">Blindage</span><span class="v">${u.arm}</span></div>
+         ${u.k==='ship'?`<div class="kv"><span class="k">Moteur</span><span class="v">${u.eng}</span></div>`:''}
+         <div style="margin-top:12px;padding:9px;border:1px solid var(--line);background:#0b110f">
+           <div class="tiny">Progression visuelle</div>
+           <div style="font-size:9.5px;color:var(--txt);line-height:1.55;margin-top:5px">
+             La silhouette ne change jamais. Chaque palier ajoute des éléments lisibles :
+             canons au palier 2, structures au palier 3, escadron d'escorte au palier 4.
+             Le joueur reconnaît son vaisseau tout en voyant qu'il a monté en puissance.</div></div>
+         ${u.carrier?`<div style="margin-top:10px;padding:8px;border:1px solid var(--sig-dim);background:rgba(99,214,188,.05)">
+            <div class="tiny sig">Porte-nefs</div>
+            <div style="font-size:9.5px;color:var(--txt);line-height:1.5;margin-top:5px">
+            Transporte 6 unités sur les trajets longue distance. Capacité augmentée par la recherche « Soutes lourdes ».</div></div>`:''}`}
+     </div>
+   </div>`;
+  $$('#atl-left .card').forEach(c=>c.onclick=()=>{atlasId=c.dataset.id;
+    const n=byId(atlasId);if(n.w)atlasWep=n.w;atlasTier=n.tier||1;renderAtlas();});
+
+  /* --- colonne droite : armement --- */
+  const keys=['las','art','nuc'],soon=['ion','cin'];
+  $('#atl-right').innerHTML=`
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Skins d'armement<span class="rt">3 ACTIFS · 2 PRÉVUS</span></div>
+     <div class="bd">
+       <div class="skinrow">
+         ${keys.map(k=>`<div class="skin ${k===atlasWep?'on':''}" data-w="${k}">
+            <div class="sv">${weaponGlyph(k)}</div>
+            <div class="sn" style="color:${WEP[k].c}">${WEP[k].l}</div>
+            <div class="sx">fort vs ${WEP[k].on.toLowerCase()}</div></div>`).join('')}
+       </div>
+       <div class="skinrow" style="margin-top:9px">
+         ${soon.map(k=>`<div class="skin" style="opacity:.4;pointer-events:none">
+            <div class="sv">${weaponGlyph(k)}</div>
+            <div class="sn" style="color:${WEP[k].c}">${WEP[k].l}</div>
+            <div class="sx">non ouvert</div></div>`).join('')}
+         <div class="skin" style="opacity:.25;pointer-events:none;display:flex;align-items:center;justify-content:center">
+           <div class="sx">extension<br>trinité → 5</div></div>
+       </div>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:11px">${WEP[atlasWep].prof}</div>
+     </div>
+   </div>
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Matrice de dégâts<span class="rt">ATTAQUANT ▸ DÉFENSEUR</span></div>
+     <div class="bd">
+       <table class="matrix">
+         <tr><th></th>${keys.map(k=>`<th style="color:${WEP[k].c}">${WEP[k].s}</th>`).join('')}</tr>
+         ${keys.map(a=>`<tr><th style="color:${WEP[a].c};text-align:left">${WEP[a].l}</th>
+           ${keys.map(d=>{const m=modOf(a,d);return `<td class="${m>1?'up':m<1?'dn':'eq'}">×${m.toFixed(2)}</td>`;}).join('')}</tr>`).join('')}
+       </table>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:10px">
+         L'artillerie ne perd jamais gros mais ne gagne jamais gros. Le nucléaire domine le blindé lourd
+         mais s'effondre face aux chasseurs légers. Équilibrage à valider en test.</div>
+     </div>
+   </div>
+   <div class="panel notched" style="flex:1">
+     <div class="hd"><span class="dot"></span>Motorisation<span class="rt">CR POINT 8</span></div>
+     <div class="bd">
+       ${[['Standard','Trajets courts, consommation moyenne','1,0 u/UA'],
+          ['Léger','Rapide mais faible autonomie','0,7 u/UA'],
+          ['Subspatial','Saut hyperespace, portée illimitée','3,4 u/UA']].map(e=>
+         `<div class="kv"><span class="k">${e[0]}</span><span class="v">${e[2]}</span></div>
+          <div style="font-size:9px;color:var(--muted);margin:-2px 0 6px">${e[1]}</div>`).join('')}
+     </div>
+   </div>`;
+  $$('#atl-right .skin[data-w]').forEach(s=>s.onclick=()=>{atlasWep=s.dataset.w;renderAtlas();});
+}
+function weaponGlyph(k){const c=WEP[k].c;
+  const g={las:`<path d="M20 4v22" stroke="${c}" stroke-width="3"/><circle cx="20" cy="4" r="4" fill="${c}"/><path d="M14 26h12v8H14z" fill="#2a3632" stroke="${c}"/>`,
+   art:`<rect x="12" y="8" width="5" height="20" fill="${c}"/><rect x="23" y="8" width="5" height="20" fill="${c}"/><path d="M8 28h24v8H8z" fill="#2a3632" stroke="${c}"/>`,
+   nuc:`<circle cx="20" cy="12" r="8" fill="${c}"/><path d="M14 20h12v10H14z" fill="#2a3632" stroke="${c}"/><path d="M20 4v4" stroke="${c}" stroke-width="2"/>`,
+   ion:`<circle cx="20" cy="16" r="9" fill="none" stroke="${c}" stroke-width="2"/><circle cx="20" cy="16" r="3" fill="${c}"/><path d="M20 25v9" stroke="${c}" stroke-width="3"/>`,
+   cin:`<path d="M20 4l6 10v14h-12V14z" fill="${c}"/><path d="M14 28h12v6H14z" fill="#2a3632" stroke="${c}"/>`}[k];
+  return `<svg viewBox="0 0 40 40" width="42" height="42">${g}</svg>`;}
+
+/* ============================================================
+   ÉCRAN 03 — BASE
+   ============================================================ */
+function bldgSVG(kind,w,h){return art('b'+kind+w,()=>{
+  const A='#63d6bc',M='url(#bm)',S='#b3bcae';
+  const defs=`<defs>
+    <linearGradient id="bm" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#556660"/><stop offset=".45" stop-color="#293632"/><stop offset="1" stop-color="#111918"/></linearGradient>
+    <linearGradient id="bd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#374540"/><stop offset="1" stop-color="#0d1413"/></linearGradient></defs>`;
+  const S_={
+   hq:`<ellipse cx="100" cy="150" rx="88" ry="26" fill="#0a100e" opacity=".75"/>
+       <path d="M30 150V96l70-40 70 40v54l-70 26z" fill="${M}" stroke="${S}" stroke-width="1.6"/>
+       <path d="M30 96l70 26 70-26-70-40z" fill="url(#bd)" stroke="${S}" stroke-width="1.4"/>
+       <rect x="86" y="18" width="28" height="40" fill="${M}" stroke="${S}" stroke-width="1.3"/>
+       <path d="M100 18V2" stroke="${A}" stroke-width="1.6"/><circle cx="100" cy="2" r="3.5" fill="${A}"/>
+       <g fill="${A}" opacity=".9"><rect x="52" y="126" width="10" height="6"/><rect x="76" y="132" width="10" height="6"/><rect x="114" y="132" width="10" height="6"/><rect x="138" y="126" width="10" height="6"/></g>`,
+   refinery:`<ellipse cx="100" cy="152" rx="84" ry="22" fill="#0a100e" opacity=".7"/>
+       <path d="M24 152V84h44v68z" fill="${M}" stroke="${S}" stroke-width="1.4"/>
+       <path d="M74 152V60h34v92z" fill="${M}" stroke="${S}" stroke-width="1.4"/>
+       <path d="M116 152V96h58v56z" fill="url(#bd)" stroke="${S}" stroke-width="1.4"/>
+       <rect x="126" y="40" width="16" height="56" fill="${M}" stroke="${S}" stroke-width="1.2"/>
+       <g fill="${A}"><rect x="34" y="120" width="8" height="5"/><rect x="82" y="110" width="8" height="5"/></g>`,
+   lab:`<ellipse cx="100" cy="150" rx="76" ry="22" fill="#0a100e" opacity=".7"/>
+       <path d="M40 150v-42a60 60 0 01120 0v42z" fill="${M}" stroke="${S}" stroke-width="1.6"/>
+       <circle cx="100" cy="104" r="16" fill="#0d1a18" stroke="${A}" stroke-width="1.4"/>
+       <circle cx="100" cy="104" r="7" fill="${A}" opacity=".8"/>
+       <path d="M100 62V34" stroke="${S}" stroke-width="1.6"/><circle cx="100" cy="30" r="5" fill="none" stroke="${A}" stroke-width="1.4"/>`,
+   shipyard:`<ellipse cx="100" cy="152" rx="92" ry="22" fill="#0a100e" opacity=".7"/>
+       <path d="M16 152v-16h168v16z" fill="url(#bd)" stroke="${S}" stroke-width="1.4"/>
+       <path d="M30 136V54M170 136V54" stroke="${S}" stroke-width="3"/>
+       <path d="M22 54h156v14H22z" fill="${M}" stroke="${S}" stroke-width="1.4"/>
+       <path d="M100 74l14 30v26l-14 12-14-12v-26z" fill="${M}" stroke="${A}" stroke-width="1.5"/>`,
+   mechbay:`<ellipse cx="100" cy="152" rx="86" ry="22" fill="#0a100e" opacity=".7"/>
+       <path d="M22 152V78l78-30 78 30v74z" fill="${M}" stroke="${S}" stroke-width="1.5"/>
+       <path d="M62 152v-44h76v44z" fill="#080d0c" stroke="${A}" stroke-width="1.4"/>
+       <path d="M88 120h24v14H88z" fill="${A}" opacity=".55"/>`,
+   reactor:`<ellipse cx="100" cy="152" rx="72" ry="20" fill="#0a100e" opacity=".7"/>
+       <path d="M52 152V76h96v76z" fill="${M}" stroke="${S}" stroke-width="1.5"/>
+       <ellipse cx="100" cy="76" rx="48" ry="16" fill="url(#bd)" stroke="${S}" stroke-width="1.4"/>
+       <ellipse cx="100" cy="110" rx="60" ry="12" fill="none" stroke="${A}" stroke-width="1.4" opacity=".8"/>
+       <path d="M100 60V26" stroke="${A}" stroke-width="2"/><circle cx="100" cy="22" r="6" fill="${A}" opacity=".8"/>`,
+   radar:`<ellipse cx="100" cy="150" rx="62" ry="18" fill="#0a100e" opacity=".7"/>
+       <path d="M70 150v-28h60v28z" fill="url(#bd)" stroke="${S}" stroke-width="1.4"/>
+       <path d="M100 122V96" stroke="${S}" stroke-width="6"/>
+       <g transform="rotate(-26 100 72)"><ellipse cx="100" cy="72" rx="48" ry="21" fill="${M}" stroke="${S}" stroke-width="1.7"/>
+         <ellipse cx="100" cy="72" rx="30" ry="12" fill="none" stroke="${A}" stroke-width="1" opacity=".55"/>
+         <path d="M100 72V38" stroke="${S}" stroke-width="2.5"/><circle cx="100" cy="34" r="5" fill="${A}"/></g>`,
+   market:`<ellipse cx="100" cy="150" rx="80" ry="20" fill="#0a100e" opacity=".7"/>
+       <path d="M28 150v-52h144v52z" fill="${M}" stroke="${S}" stroke-width="1.4"/>
+       <path d="M20 98l16-26h128l16 26z" fill="url(#bd)" stroke="${S}" stroke-width="1.4"/>
+       <g fill="#0a100e" stroke="${A}" stroke-width="1.2"><rect x="46" y="112" width="26" height="26"/><rect x="86" y="106" width="30" height="32"/></g>`,
+   turret:`<ellipse cx="100" cy="150" rx="52" ry="16" fill="#0a100e" opacity=".7"/>
+       <path d="M64 150v-26h72v26z" fill="url(#bd)" stroke="${S}" stroke-width="1.4"/>
+       <path d="M76 124V96a24 24 0 0148 0v28z" fill="${M}" stroke="${S}" stroke-width="1.4"/>
+       <path d="M118 100l44-22M118 108l44-22" stroke="${S}" stroke-width="5"/><circle cx="100" cy="100" r="6" fill="${A}"/>`};
+  return `<svg width="${w}" height="${h}" viewBox="0 0 200 160">${defs}${S_[kind]||S_.hq}</svg>`;});}
+
+const BUILDINGS=[
+ {k:'hq',n:'Centre de commandement',lv:9,x:640,y:300,w:230,ic:'ic-hq',st:'ACTIF',
+  d:'Détermine le niveau maximum des autres bâtiments et le nombre d\'escouades déployables.'},
+ {k:'refinery',n:'Raffinerie d\'alliage',lv:12,x:410,y:150,w:186,ic:'ic-refinery',st:'+3 420/h',
+  d:'Extraction et raffinage du minerai. Ossature de toute construction.'},
+ {k:'reactor',n:'Centrale à fusion',lv:8,x:900,y:300,w:186,ic:'ic-reactor',st:'2 840/3 200',
+  d:'Alimente l\'ensemble de la base. Un déficit ralentit toutes les productions.'},
+ {k:'lab',n:'Laboratoire central',lv:7,x:1090,y:180,w:176,ic:'ic-lab',st:'EN COURS',
+  d:'Ouvre les trois arbres de recherche. Consomme alliage et crédits.'},
+ {k:'shipyard',n:'Chantier orbital',lv:6,x:430,y:470,w:214,ic:'ic-shipyard',st:'2 EN FILE',
+  d:'Assemble la flotte et augmente l\'effectif des escadrilles.'},
+ {k:'mechbay',n:'Baie méca',lv:5,x:700,y:500,w:190,ic:'ic-mechbay',st:'DISPONIBLE',
+  d:'Produit et entretient la force méca engagée sur les combats terrestres.'},
+ {k:'radar',n:'Station d\'écoute',lv:4,x:900,y:140,w:160,ic:'ic-radar',st:'PORTÉE 820 UA',
+  d:'Révèle les missions et autorise l\'espionnage d\'une planète avant l\'assaut.'},
+ {k:'market',n:'Comptoir',lv:6,x:930,y:520,w:176,ic:'ic-market',st:'+540/h',
+  d:'Convertit les surplus en crédits. Revenu lié à l\'étendue du territoire.'},
+ {k:'turret',n:'Tourelles orbitales',lv:3,x:1150,y:470,w:132,ic:'ic-turret',st:'DÉFENSE 62',
+  d:'Défense passive contre les raids. Intervient en soutien du combat.'}
+];
+const INCOME=[
+ {p:'ASTREA IV',t:'Colonie mère',v:8400},
+ {p:'CAPRICA MINOR',t:'Territoire conquis · 210 UA',v:3200},
+ {p:'LUNE DE TAURON',t:'Territoire conquis · 340 UA',v:2680}
+];
+let sel_b=0;
+function renderBase(){
+  const f=$('#bfield');f.innerHTML='';
+  BUILDINGS.forEach((b,i)=>{
+    const d=el('div','bldg');d.style.left=(b.x-b.w/2)+'px';d.style.top=b.y+'px';d.dataset.i=i;
+    d.innerHTML=bldgSVG(b.k,b.w,b.w*.8)+`<div class="bt">${b.n} · <b>NIV ${b.lv}</b></div>`;
+    d.onclick=()=>selB(i);f.appendChild(d);});
+  $('#blist-rows').innerHTML=BUILDINGS.map((b,i)=>
+    `<div class="blrow" data-i="${i}"><div class="bico"><svg viewBox="0 0 24 24"><use href="#${b.ic}"/></svg></div>
+      <div><div class="bnm">${b.n}</div><div class="blv">NIVEAU ${b.lv}</div></div>
+      <div class="bst">${b.st}</div></div>`).join('');
+  $$('#blist-rows .blrow').forEach(r=>r.onclick=()=>selB(+r.dataset.i));
+  const tot=INCOME.reduce((a,x)=>a+x.v,0);
+  $('#income').innerHTML=`
+   <div class="hd"><span class="dot"></span>Revenu quotidien<span class="rt">${INCOME.length} PLANÈTES</span></div>
+   <div class="bd">
+     ${INCOME.map(x=>`<div class="irow"><div><div class="ip">${x.p}</div><div class="id">${x.t}</div></div>
+        <div class="iv">+${fr(x.v)}</div></div>`).join('')}
+     <div class="kv" style="margin-top:10px"><span class="k">Total / jour</span><span class="v gold">+${fr(tot)}</span></div>
+     <div class="tiny" style="margin:12px 0 6px">Cumul en attente — plafond 7 jours</div>
+     <div class="bar g" style="height:9px"><i style="width:52%"></i></div>
+     <div style="display:flex;justify-content:space-between;margin-top:5px;font-family:var(--f-mono);font-size:9px;color:var(--muted)">
+       <span>14 280 / 27 300</span><span>3 j 16 h avant plafond</span></div>
+     <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:10px">
+       Le plafond force une connexion régulière sans pénaliser les joueurs absents quelques jours.
+       Au-delà de 7 jours, la production s'arrête jusqu'à la collecte.</div>
+     <button class="btn gold notched" style="width:100%;margin-top:11px" onclick="doCollect()">Tout collecter — 14 280 crédits</button>
+   </div>`;
+  selB(sel_b);
+}
+function selB(i){sel_b=i;const b=BUILDINGS[i];
+  $$('.bldg').forEach(x=>x.classList.toggle('sel',+x.dataset.i===i));
+  $$('#blist-rows .blrow').forEach(x=>x.classList.toggle('on',+x.dataset.i===i));
+  $('#bdet').innerHTML=`
+   <div class="hd"><span class="dot"></span>${b.n}<span class="rt">NIV ${b.lv} → ${b.lv+1}</span></div>
+   <div class="bd">
+     <div style="display:flex;gap:11px;align-items:flex-start">
+       <div style="width:60px;height:60px;border:1px solid var(--line-hi);background:#0a100f;display:flex;align-items:center;justify-content:center;flex:0 0 auto">
+         <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#63d6bc" stroke-width="1.1"><use href="#${b.ic}"/></svg></div>
+       <div style="font-size:10.5px;line-height:1.55">${b.d}</div>
+     </div>
+     <div class="tiny" style="margin:13px 0 6px">Coût d'amélioration</div>
+     <div style="display:flex;gap:7px">
+       <span class="pill">${fr(28000+i*4200)} alliage</span>
+       <span class="pill g">${fr(1800+i*260)} crédits</span></div>
+     <div class="kv" style="margin-top:11px"><span class="k">Durée</span><span class="v">04:12:30</span></div>
+     <div class="kv"><span class="k">Effet niveau ${b.lv+1}</span><span class="v ok">+14% rendement</span></div>
+     <div style="display:flex;gap:7px;margin-top:12px">
+       <button class="btn solid notched" style="flex:1">Améliorer</button>
+       <button class="btn ghost notched">File</button></div>
+   </div>`;}
+window.doCollect=()=>{
+  $('#c-amount').textContent='+0';$('#c-cap').style.width='0%';
+  $('#r-cred').textContent=fr(128400+14280);
+  toast('14 280 crédits collectés — cumul remis à zéro');};
+
+/* ============================================================
+   ÉCRAN 04 — RECHERCHE
+   ============================================================ */
+const TREES={
+ arm:{l:'Armement',nodes:[
+  {id:'a1',n:'Canon laser I',ic:'ic-weapon',x:20,y:34,s:'done',lv:'4/4',d:'Ouvre le type laser. Fort contre les coques légères.'},
+  {id:'a2',n:'Canon laser II',ic:'ic-weapon',x:262,y:34,s:'active',lv:'2/4',pr:['a1'],d:'+18% dégâts laser et nouveau skin de canon sur les vaisseaux équipés.'},
+  {id:'a3',n:'Batterie laser lourde',ic:'ic-turret',x:504,y:34,s:'lock',lv:'0/3',pr:['a2'],d:'Palier 3 du laser. Skin dédié : double lance dorsale.'},
+  {id:'a4',n:'Artillerie I',ic:'ic-strike',x:20,y:250,s:'done',lv:'3/3',d:'Arme moyenne partout. Aucun trou de couverture, aucun pic.'},
+  {id:'a5',n:'Artillerie II',ic:'ic-strike',x:262,y:250,s:'active',lv:'1/3',pr:['a4'],d:'+12% dégâts et cadence. Reste la valeur sûre en composition mixte.'},
+  {id:'a6',n:'Salve saturante',ic:'ic-strike',x:504,y:250,s:'lock',lv:'0/2',pr:['a5'],d:'Tir de zone à cadence lente.'},
+  {id:'a7',n:'Ogive nucléaire I',ic:'ic-atk',x:20,y:466,s:'lock',lv:'0/3',d:'Ouvre le type nucléaire. Domine le blindage lourd.'},
+  {id:'a8',n:'Ogive nucléaire II',ic:'ic-atk',x:262,y:466,s:'lock',lv:'0/3',pr:['a7'],d:'+25% dégâts contre les coques lourdes.'},
+  {id:'a9',n:'Calibrage de l\'ogive',ic:'ic-tech',x:504,y:466,s:'lock',lv:'0/1',pr:['a8'],open:1,
+   d:'Le nucléaire est fort partout — ce palier fixe le malus de cadence et le coût de tir. Valeurs à arrêter en test.'},
+  {id:'a10',n:'Canon ionique',ic:'ic-emp',x:746,y:120,s:'lock',lv:'0/3',pr:['a3','a6'],d:'4ᵉ type d\'arme. Perce les boucliers, inefficace sur la structure.'},
+  {id:'a11',n:'Canon cinétique',ic:'ic-weapon',x:746,y:300,s:'lock',lv:'0/3',pr:['a6','a8'],d:'5ᵉ type d\'arme. Détruit les structures, ignore les boucliers.'},
+  {id:'a12',n:'Doctrine d\'armement',ic:'ic-squad',x:988,y:250,s:'lock',lv:'0/2',pr:['a10','a11'],
+   d:'Permet d\'imposer un armement dominant à toute une escouade et d\'en lire l\'avantage avant l\'assaut.'}]},
+ flotte:{l:'Flotte',nodes:[
+  {id:'f1',n:'Coque renforcée',ic:'ic-ship',x:20,y:250,s:'done',lv:'3/3',d:'+PV de base sur tous les vaisseaux.'},
+  {id:'f2',n:'Moteur standard',ic:'ic-engine',x:262,y:34,s:'done',lv:'3/3',pr:['f1'],d:'Motorisation de série. 1,0 unité de carburant par UA.'},
+  {id:'f3',n:'Moteur léger',ic:'ic-engine',x:504,y:34,s:'active',lv:'2/3',pr:['f2'],d:'0,7 u/UA et +30% vitesse, mais autonomie réduite.'},
+  {id:'f4',n:'Moteur subspatial',ic:'ic-engine',x:746,y:34,s:'lock',lv:'0/2',pr:['f3'],d:'Saut hyperespace : atteint les cibles hors portée, 3,4 u/UA.'},
+  {id:'f5',n:'Escadrille +1',ic:'ic-ship',x:262,y:250,s:'done',lv:'2/2',pr:['f1'],d:'Augmente de 1 l\'effectif maximum des unités en escadrille.'},
+  {id:'f6',n:'Escadrille +2',ic:'ic-ship',x:504,y:250,s:'active',lv:'1/3',pr:['f5'],d:'Un escadron plus fourni est visible sur la carte de l\'unité.'},
+  {id:'f7',n:'Escadrille +3',ic:'ic-ship',x:746,y:250,s:'lock',lv:'0/3',pr:['f6'],d:'Palier maximum d\'effectif par escadrille.'},
+  {id:'f8',n:'Porte-nefs',ic:'ic-cargo',x:262,y:466,s:'active',lv:'1/2',pr:['f1'],d:'Débloque le transport de troupes sur les trajets longs.'},
+  {id:'f9',n:'Soutes lourdes',ic:'ic-cargo',x:504,y:466,s:'lock',lv:'0/3',pr:['f8'],d:'Capacité de transport 6 → 12 unités par porte-nefs.'},
+  {id:'f10',n:'Réservoirs longue portée',ic:'ic-fuel',x:746,y:466,s:'lock',lv:'0/3',pr:['f8'],d:'-20% de consommation sur tous les trajets.'},
+  {id:'f11',n:'Armada de Cyrannus',ic:'ic-hq',x:988,y:250,s:'lock',lv:'0/1',pr:['f7','f9'],d:'Ouvre une quatrième escouade déployable simultanément.'}]},
+ cmdt:{l:'Commandement',nodes:[
+  {id:'k1',n:'Doctrine d\'escouade',ic:'ic-squad',x:20,y:250,s:'done',lv:'2/2',d:'Ouvre les escouades 2 et 3.'},
+  {id:'k2',n:'Point d\'action +1',ic:'ic-cmd',x:262,y:60,s:'active',lv:'1/2',pr:['k1'],open:1,
+   d:'Ajoute un point d\'action à tous les commandants. Existe uniquement si l\'on retient les actions achetables plutôt que fixes par rareté.'},
+  {id:'k3',n:'Point d\'action +2',ic:'ic-cmd',x:504,y:60,s:'lock',lv:'0/2',pr:['k2'],open:1,d:'Second palier d\'actions achetées.'},
+  {id:'k4',n:'Slot légendaire',ic:'ic-ult',x:746,y:60,s:'lock',lv:'0/1',pr:['k3'],leg:1,
+   d:'Ouvre l\'emplacement de compétence légendaire sur les cartes légendaires et divines : frappe orbitale à portée illimitée ou capacité de choc. Coût : 3 artefacts anciens.'},
+  {id:'k5',n:'Déploiement automatique',ic:'ic-def',x:262,y:266,s:'active',lv:'1/3',pr:['k1'],
+   d:'Place les unités selon la formation par défaut : blindés en première ligne, portée derrière.'},
+  {id:'k6',n:'Formations avancées',ic:'ic-shield',x:504,y:266,s:'lock',lv:'0/3',pr:['k5'],
+   d:'Ajoute la formation en arc et le réglage de l\'écartement des lignes.'},
+  {id:'k7',n:'Réseau d\'espionnage',ic:'ic-spy',x:262,y:466,s:'done',lv:'2/2',pr:['k1'],d:'Révèle la difficulté et le butin d\'une planète avant l\'assaut.'},
+  {id:'k8',n:'Rapport de vagues',ic:'ic-radar',x:504,y:466,s:'active',lv:'1/2',pr:['k7'],
+   d:'L\'espionnage détaille le nombre de vagues, leur composition et l\'armement dominant adverse.'},
+  {id:'k9',n:'Capacité ultime',ic:'ic-ult',x:988,y:266,s:'lock',lv:'0/1',pr:['k4','k6'],leg:1,
+   d:'Capacité liée au niveau du joueur, pas à une carte : débloquée tous les 10 niveaux, réservée aux boss.'}]}
+};
+let curTree='arm',selNodeId='a2';
+function renderTree(k){
+  curTree=k;const t=TREES[k],host=$('#tnodes');host.innerHTML='';
+  $$('#rtabs .rtab').forEach(b=>b.classList.toggle('on',b.dataset.t===k));
+  const pos={};
+  t.nodes.forEach(n=>{
+    pos[n.id]={x:n.x+73,y:n.y+34};
+    const d=el('div','tnode notched '+n.s+(n.leg?' leg':'')+(n.id===selNodeId?' picked':''));
+    d.style.cssText='--notch:6px;left:'+n.x+'px;top:'+n.y+'px';
+    d.innerHTML=`<div class="bg">${n.s==='done'?'ACQUIS':n.s==='active'?'EN COURS':'VERROU'}</div>
+      <div class="th"><svg viewBox="0 0 24 24"><use href="#${n.ic}"/></svg><span class="tn">${n.n}</span></div>
+      <div class="tl">NIVEAU ${n.lv}${n.open?' · À TRANCHER':''}</div>
+      <div class="tb"><i style="width:${n.s==='done'?100:n.s==='active'?45:0}%"></i></div>`;
+    d.onclick=()=>{selNodeId=n.id;renderTree(k);};host.appendChild(d);});
+  const c=$('#tcv');c.width=c.clientWidth;c.height=c.clientHeight;
+  const x=c.getContext('2d');x.clearRect(0,0,c.width,c.height);
+  t.nodes.forEach(n=>(n.pr||[]).forEach(p=>{
+    const a=pos[p],b=pos[n.id];if(!a||!b)return;
+    x.strokeStyle=n.s==='lock'?'rgba(120,132,126,.22)':'rgba(99,214,188,.45)';
+    x.lineWidth=n.s==='lock'?1:1.5;x.setLineDash(n.s==='lock'?[4,5]:[]);
+    const mx=(a.x+b.x)/2;x.beginPath();
+    x.moveTo(a.x+73,a.y);x.lineTo(mx,a.y);x.lineTo(mx,b.y);x.lineTo(b.x-73,b.y);x.stroke();}));
+  const n=t.nodes.find(v=>v.id===selNodeId)||t.nodes[0];selNodeId=n.id;
+  const pr=(n.pr||[]).map(p=>t.nodes.find(v=>v.id===p).n);
+  $('#rdet').innerHTML=`
+   <div class="hd"><span class="dot"></span>Dossier de recherche
+     <span class="rt" style="color:${n.s==='done'?'var(--sig)':n.s==='active'?'var(--paper)':'var(--muted)'}">${n.s==='done'?'ACQUIS':n.s==='active'?'EN COURS':'VERROUILLÉ'}</span></div>
+   <div class="bd" style="overflow:auto">
+     <div style="display:flex;gap:11px;align-items:center">
+       <div style="width:54px;height:54px;border:1px solid ${n.leg?'rgba(245,166,35,.5)':'var(--line-hi)'};background:#0a100f;display:flex;align-items:center;justify-content:center;flex:0 0 auto">
+         <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="${n.leg?'#f5a623':'#63d6bc'}" stroke-width="1.2"><use href="#${n.ic}"/></svg></div>
+       <div><h3 style="font-size:14px;line-height:1.2">${n.n}</h3>
+         <div class="mono" style="font-size:9.5px;color:var(--muted);margin-top:4px">NIVEAU ${n.lv}</div></div></div>
+     <div style="font-size:10.5px;line-height:1.6;margin:13px 0">${n.d}</div>
+     ${n.open?`<div style="margin-bottom:12px"><span class="open">Dépend d'un arbitrage — points 2 et 3 du CR</span></div>`:''}
+     <div class="tiny" style="margin:0 0 6px">Prérequis</div>
+     <div class="pillrow">${pr.length?pr.map(p=>`<span class="pill s">${p}</span>`).join(''):'<span class="pill k">Aucun</span>'}
+       <span class="pill">Laboratoire NIV ${4+(n.pr?n.pr.length:0)*2}</span></div>
+     <div class="tiny" style="margin:14px 0 6px">Coût du palier</div>
+     <div class="pillrow"><span class="pill">${fr(18000+n.x*22)} alliage</span>
+       <span class="pill g">${fr(2200+n.x*3)} crédits</span>
+       ${n.leg?'<span class="pill w">3 artefacts</span>':''}</div>
+     <div class="kv" style="margin-top:13px"><span class="k">Durée</span><span class="v">0${1+(n.x%5)}:24:00</span></div>
+     <div class="kv"><span class="k">Effet par niveau</span><span class="v ok">+8% rendement</span></div>
+     <button class="btn ${n.s==='lock'?'ghost':'solid'} notched" style="width:100%;margin-top:13px">
+       ${n.s==='lock'?'Prérequis manquants':n.s==='done'?'Palier maximum atteint':'Lancer la recherche'}</button>
+     <div class="tiny" style="margin:20px 0 7px">Légende</div>
+     <div class="pillrow"><span class="pill s">Acquis</span><span class="pill">En cours</span>
+       <span class="pill w">Verrouillé</span><span class="pill g">Palier légendaire</span></div>
+     <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:11px">
+       Toute recherche consomme de l'alliage et des crédits. Les paliers légendaires exigent en plus
+       des artefacts anciens, récupérés uniquement sur les planètes inexplorées.</div>
+   </div>`;
+}
+$('#rtabs').innerHTML=Object.keys(TREES).map((k,i)=>
+  `<div class="rtab ${i===0?'on':''}" data-t="${k}">${TREES[k].l}</div>`).join('');
+$$('#rtabs .rtab').forEach(b=>b.onclick=()=>{selNodeId=TREES[b.dataset.t].nodes[0].id;renderTree(b.dataset.t);});
+$('#qrow').innerHTML=`
+  <div class="qc"><div class="qi"><svg viewBox="0 0 24 24"><use href="#ic-weapon"/></svg></div>
+    <div style="flex:1"><div class="qn">Canon laser II — palier 3</div>
+      <div class="tb bar" style="margin-top:5px"><i style="width:62%"></i></div></div>
+    <div class="qt">00:48:12</div></div>
+  <div class="qc"><div class="qi"><svg viewBox="0 0 24 24"><use href="#ic-engine"/></svg></div>
+    <div style="flex:1"><div class="qn">Moteur léger — palier 3</div>
+      <div class="tb bar" style="margin-top:5px"><i style="width:18%"></i></div></div>
+    <div class="qt">03:11:40</div></div>
+  <div class="qc empty"><div class="qn" style="color:var(--muted)">Emplacement libre — Laboratoire NIV 9</div></div>`;
+
+/* ============================================================
+   ÉCRAN 05 — CARTE GALACTIQUE
+   Monde de 3x3 secteurs. Déplacement N/S/E/O + 3 niveaux de zoom.
+   Trajet en ligne droite, distance et carburant calculés. (CR point 7)
+   ============================================================ */
+const BASE={x:2400,y:1224};
+const ZOOM=[{z:1,l:'Secteur'},{z:.42,l:'Bras'},{z:.17,l:'Galaxie'}];
+let cam={x:BASE.x,y:BASE.y},zi=0;
+const PLANETS=[
+ {n:'ASTREA IV',x:2400,y:1224,r:30,c1:'#8fd6a8',c2:'#1d4a35',own:'BASE',res:['Alliage','Carburant'],mis:0,
+  d:'Colonie mère. Point de départ de tous les trajets.'},
+ {n:'CAPRICA MINOR',x:2010,y:960,r:21,c1:'#d6b98f',c2:'#4a3a1d',own:'CONTRÔLE',res:['Alliage'],mis:2,
+  d:'Territoire conquis. Verse 3 200 crédits par jour.'},
+ {n:'LUNE DE TAURON',x:2820,y:900,r:15,c1:'#c9c9d6',c2:'#33343f',own:'CONTRÔLE',res:['Carburant'],mis:1,
+  d:'Satellite minier. Seule source stable de carburant du secteur.'},
+ {n:'GEMENON',x:1880,y:1560,r:24,c1:'#d68f8f',c2:'#4a1d1d',own:'HOSTILE',res:['Alliage','Crédits'],mis:3,
+  d:'Avant-poste hostile. Une victoire transfère le territoire et son revenu quotidien.'},
+ {n:'CEINTURE DE PICON',x:2900,y:1520,r:13,c1:'#a89b8f',c2:'#3a332c',own:'NEUTRE',res:['Alliage'],mis:2,
+  d:'Champ d\'astéroïdes dense. Pertes probables au minage.'},
+ {n:'STATION VIRGON',x:2660,y:1230,r:11,c1:'#8fb8d6',c2:'#1d3a4a',own:'MARCHAND',res:['Crédits'],mis:1,
+  d:'Comptoir indépendant. Achat de crédits et de pièces détachées.'},
+ {n:'SAGITTARON',x:1740,y:930,r:19,c1:'#b8a8d6',c2:'#2f2447',own:'HOSTILE',res:['Alliage','Carburant'],mis:2,
+  d:'Bastion fortifié. Défense orbitale et terrestre : engagement combiné requis.'},
+ {n:'AERILON',x:3020,y:1700,r:15,c1:'#9fd68f',c2:'#274a1d',own:'NEUTRE',res:['Crédits'],mis:1,
+  d:'Agromonde neutre. Faible défense, butin modeste.'},
+ {n:'RUINES D\'ÉRÈBE',x:3480,y:640,r:17,c1:'#63d6bc',c2:'#0d3a33',own:'INEXPLORÉ',res:['Artefact'],mis:1,
+  d:'Signature ancienne. Hors de portée sans moteur subspatial.'},
+ {n:'AMAS DE KOBOL',x:1180,y:1880,r:22,c1:'#d6c78f',c2:'#3f3a1d',own:'INEXPLORÉ',res:['Artefact','Alliage'],mis:0,
+  d:'Nébuleuse dense. Trajet long, consommation très élevée.'},
+ {n:'LIBRAN',x:3760,y:1380,r:18,c1:'#8fa8d6',c2:'#1d2a4a',own:'HOSTILE',res:['Crédits'],mis:2,d:'Secteur voisin. Flotte de raid connue.'},
+ {n:'SCORPIA',x:820,y:700,r:20,c1:'#d69f8f',c2:'#4a2a1d',own:'HOSTILE',res:['Alliage'],mis:1,d:'Bras extérieur. Difficulté maximale.'},
+ {n:'TAURON PRIME',x:2960,y:420,r:23,c1:'#c9b48f',c2:'#43371d',own:'NEUTRE',res:['Alliage','Crédits'],mis:2,d:'Monde industriel neutre.'},
+ {n:'PICON',x:1420,y:1180,r:19,c1:'#8fd6c9',c2:'#1d4a44',own:'NEUTRE',res:['Carburant'],mis:1,d:'Monde océanique. Raffineries de deutérium.'},
+ {n:'CANCERON',x:4120,y:760,r:16,c1:'#d68fc9',c2:'#4a1d3f',own:'INEXPLORÉ',res:['Artefact'],mis:0,d:'Limite de la carte connue.'},
+ {n:'LEONIS',x:660,y:1620,r:17,c1:'#b8d68f',c2:'#374a1d',own:'INEXPLORÉ',res:['Alliage'],mis:0,d:'Bras opposé. Aucun relais de ravitaillement.'}
+];
+const STARS=[];for(let i=0;i<1500;i++)STARS.push([Math.random()*4800,Math.random()*2448,Math.random()*1.5,.15+Math.random()*.8]);
+const NEB=[];for(let i=0;i<26;i++)NEB.push([Math.random()*4800,Math.random()*2448,300+Math.random()*700,Math.random()<.5?'99,214,188':'160,120,220']);
+let selP=3, fuelRate=1.0, engineName='Standard';
+
+const dist=p=>Math.hypot(p.x-BASE.x,p.y-BASE.y)*1.1|0;
+const diffOf=p=>p.own==='BASE'?0:Math.max(1,Math.min(5,Math.round(dist(p)/220)));
+const lootOf=p=>Math.round(dist(p)*3.1+400);
+const fuelOf=p=>Math.round(dist(p)*fuelRate);
+const reachUA=900;
+
+function renderMap(){
+  const z=ZOOM[zi].z;
+  $('#zonename').textContent=['BRAS DE CYRANNUS · SECTEUR 04-07','BRAS DE CYRANNUS','GALAXIE DE KOBOL'][zi];
+  $('#coords').textContent='X:'+String(Math.round(cam.x/100)).padStart(2,'0')+' Y:'+String(Math.round(cam.y/100)).padStart(2,'0');
+  /* fond */
+  const c=$('#starfield'),x=c.getContext('2d'),W=1600,H=816;
+  const g=x.createRadialGradient(800,380,60,800,380,900);
+  g.addColorStop(0,'#08131a');g.addColorStop(.5,'#040a0e');g.addColorStop(1,'#010203');
+  x.fillStyle=g;x.fillRect(0,0,W,H);
+  const P=(wx,wy)=>[(wx-cam.x)*z+800,(wy-cam.y)*z+408];
+  NEB.forEach(n=>{const[sx,sy]=P(n[0],n[1]),r=n[2]*z;if(sx<-r||sx>W+r||sy<-r||sy>H+r)return;
+    const ng=x.createRadialGradient(sx,sy,0,sx,sy,r);
+    ng.addColorStop(0,'rgba('+n[3]+',.035)');ng.addColorStop(1,'rgba(0,0,0,0)');
+    x.fillStyle=ng;x.beginPath();x.arc(sx,sy,r,0,7);x.fill();});
+  STARS.forEach(s=>{const[sx,sy]=P(s[0],s[1]);if(sx<0||sx>W||sy<0||sy>H)return;
+    x.fillStyle='rgba(212,226,255,'+s[3]+')';x.fillRect(sx,sy,s[2],s[2]);});
+  x.strokeStyle='rgba(99,214,188,.045)';x.lineWidth=1;
+  const step=400*z;const ox=(-cam.x*z+800)%step,oy=(-cam.y*z+408)%step;
+  for(let i=ox;i<W;i+=step){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke();}
+  for(let i=oy;i<H;i+=step){x.beginPath();x.moveTo(0,i);x.lineTo(W,i);x.stroke();}
+
+  /* planètes */
+  const h=$('#planets');h.innerHTML='';
+  PLANETS.forEach((p,i)=>{
+    const[sx,sy]=P(p.x,p.y);const r=Math.max(4,p.r*z);
+    if(sx<-90||sx>W+90||sy<-90||sy>H+90)return;
+    const out=dist(p)>reachUA&&p.own!=='BASE';
+    const d=el('div','planet'+(out?' out':'')+(i===selP?' sel':''));
+    d.style.left=sx+'px';d.style.top=sy+'px';
+    const col={BASE:'#f5a623','CONTRÔLE':'#63d6bc',HOSTILE:'#e8543f',NEUTRE:'#8b968f',MARCHAND:'#8fb8d6','INEXPLORÉ':'#6d7972'}[p.own];
+    d.innerHTML=`<div class="pbody" style="width:${r*2}px;height:${r*2}px;margin:${-r}px 0 0 ${-r}px;position:absolute;
+        background:radial-gradient(circle at 32% 28%,${p.c1},${p.c2} 62%,#05080a 100%);
+        box-shadow:inset ${-r*.5}px ${-r*.3}px ${r*.8}px rgba(0,0,0,.85)"></div>
+      ${p.mis&&zi===0?`<div class="mis" style="right:${-r-5}px;top:${-r-5}px">${p.mis}</div>`:''}
+      ${zi<2?`<div class="pl" style="top:${r+6}px">${p.n}</div>
+      <div class="ps" style="top:${r+19}px;color:${col}">${p.own}</div>`:''}`;
+    d.onclick=()=>{selP=i;renderMap();renderHolo();};h.appendChild(d);});
+
+  /* trajet en ligne droite + portée */
+  const sv=$('#routes'),p=PLANETS[selP];
+  const[bx,by]=P(BASE.x,BASE.y),[px,py]=P(p.x,p.y);
+  const rr=reachUA/1.1*z;
+  sv.innerHTML=`
+   <circle cx="${bx}" cy="${by}" r="${rr}" fill="none" stroke="rgba(99,214,188,.28)" stroke-width="1" stroke-dasharray="7 9"/>
+   <text x="${bx}" y="${by-rr-8}" fill="rgba(99,214,188,.6)" font-family="monospace" font-size="10" text-anchor="middle" letter-spacing="2">PORTÉE ${reachUA} UA — MOTEUR ${engineName.toUpperCase()}</text>
+   ${selP!==0?`
+   <line x1="${bx}" y1="${by}" x2="${px}" y2="${py}" stroke="${dist(p)>reachUA?'rgba(232,84,63,.55)':'rgba(99,214,188,.65)'}" stroke-width="1.4" stroke-dasharray="6 5"/>
+   <circle id="convoy" cx="${bx}" cy="${by}" r="3.5" fill="#63d6bc"/>
+   <text x="${(bx+px)/2}" y="${(by+py)/2-8}" fill="#9ff0dd" font-family="monospace" font-size="11" text-anchor="middle">${fr(dist(p))} UA</text>`:''}`;
+  $('#mapinfo').innerHTML=`
+    <div class="chip">ÉCHELLE <b>${ZOOM[zi].l.toUpperCase()}</b></div>
+    <div class="chip">FLOTTE <b>${engineName}</b> · ${fuelRate.toFixed(1)} u/UA</div>
+    <div class="chip g">CARBURANT <b>9 420</b></div>`;
+}
+function renderHolo(){
+  const p=PLANETS[selP],d=dist(p),f=fuelOf(p),ok=d<=reachUA,fuel=9420;
+  const diff=diffOf(p),loot=lootOf(p);
+  const speed=[96,60,88][selP%3];
+  const hh=Math.floor(d/speed),mm=Math.round((d/speed-hh)*60);
+  $('#holo').innerHTML=`
+   <div class="hd"><span class="dot"></span>${p.n}<span class="rt" style="color:${ok?'var(--sig)':'var(--warn)'}">${ok?'À PORTÉE':'HORS PORTÉE'}</span></div>
+   <div class="hglobe"><div style="width:110px;height:110px;border-radius:50%;
+     background:radial-gradient(circle at 32% 28%,${p.c1},${p.c2} 60%,#04080a 100%);
+     box-shadow:inset -30px -16px 42px rgba(0,0,0,.85),0 0 50px ${p.c1}33"></div></div>
+   <div style="padding:12px 13px;overflow:auto;flex:1">
+     <div style="font-size:10.5px;line-height:1.55;min-height:32px">${p.d}</div>
+     <div class="tiny" style="margin:11px 0 6px">Trajet depuis Astrea IV</div>
+     <div class="kv"><span class="k">Distance</span><span class="v">${fr(d)} UA</span></div>
+     <div class="kv"><span class="k">Carburant requis</span><span class="v" style="color:${f<=fuel?'var(--paper)':'var(--warn)'}">${fr(f)} / ${fr(fuel)}</span></div>
+     <div class="kv"><span class="k">Temps de trajet</span><span class="v">${hh}h ${String(mm).padStart(2,'0')}</span></div>
+     <div class="kv"><span class="k">Vitesse d'escouade</span><span class="v">${speed} UA/h</span></div>
+     <div class="bar" style="margin-top:9px"><i style="width:${Math.min(100,f/fuel*100)}%"></i></div>
+     <div class="tiny" style="margin:14px 0 6px">Généré par la distance</div>
+     <div class="kv"><span class="k">Difficulté</span><span class="v">
+       <span style="display:inline-flex;gap:2px;vertical-align:middle">${[1,2,3,4,5].map(i=>`<i style="width:4px;height:11px;display:inline-block;background:var(--warn);opacity:${i<=diff?1:.2}"></i>`).join('')}</span></span></div>
+     <div class="kv"><span class="k">Butin estimé</span><span class="v gold">${fr(loot)} crédits</span></div>
+     <div class="kv"><span class="k">Ressources</span><span class="v">${p.res.join(' · ')}</span></div>
+     <div style="font-size:9.5px;color:var(--muted);line-height:1.5;margin-top:8px">
+       Plus la cible est loin, plus la défense et le butin montent. Aucune colonisation :
+       le territoire s'étend en prenant la planète.</div>
+     ${p.mis?`<div class="tiny" style="margin:14px 0 4px">Opérations disponibles</div>
+     <div class="misrow" style="border:1px solid var(--line);margin-top:6px" onclick="openBrief('${p.n.replace(/'/g,"\\'")}')">
+       <div class="mtype"><svg viewBox="0 0 24 24"><use href="#ic-atk"/></svg></div>
+       <div><div class="mt">Assaut sur ${p.n}</div><div class="md">${diff*2} VAGUES · ${fr(loot)} CRÉDITS</div></div>
+       <div class="diff">${[1,2,3,4,5].map(i=>`<i class="${i<=diff?'on':''}"></i>`).join('')}</div></div>`:''}
+     <div class="tiny" style="margin:16px 0 6px">Renseignement</div>
+     <div style="padding:9px;border:1px solid var(--line);background:#0a1112">
+       <div style="display:flex;align-items:center;gap:8px">
+         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#6d7972" stroke-width="1.3"><use href="#ic-spy"/></svg>
+         <span style="font-size:10px;color:var(--muted)">Composition adverse inconnue</span></div>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:7px">
+         L'espionnage révèle le nombre de vagues, leur composition et l'armement dominant.
+         Sans lui, la simulation reste approximative.</div>
+     </div>
+   </div>
+   </div>
+   <div style="padding:11px 13px;display:flex;gap:7px">
+     <button class="btn solid notched" style="flex:1" ${ok&&p.mis?'':'disabled'} onclick="openBrief('${p.n.replace(/'/g,"\\'")}')">Préparer l'assaut</button>
+     <button class="btn ghost notched" ${p.mis?'':'disabled'} onclick="openBrief('${p.n.replace(/'/g,"\\'")}')">Espionner</button>
+   </div>`;
+}
+$$('.navpad button').forEach(b=>b.onclick=()=>{
+  const z=ZOOM[zi].z,s=420/z;
+  if(b.dataset.d==='n')cam.y-=s*.6; if(b.dataset.d==='s')cam.y+=s*.6;
+  if(b.dataset.d==='w')cam.x-=s; if(b.dataset.d==='e')cam.x+=s;
+  cam.x=Math.max(300,Math.min(4500,cam.x));cam.y=Math.max(200,Math.min(2250,cam.y));
+  renderMap();});
+$$('#zoomer button').forEach(b=>b.onclick=()=>{
+  $$('#zoomer button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  zi=+b.dataset.z;renderMap();});
+/* convoi animé en temps réel sur le trajet */
+setInterval(()=>{
+  const cv=$('#convoy');if(!cv||!$('#sc-carte').classList.contains('on'))return;
+  const z=ZOOM[zi].z,p=PLANETS[selP];
+  const bx=(BASE.x-cam.x)*z+800,by=(BASE.y-cam.y)*z+408;
+  const px=(p.x-cam.x)*z+800,py=(p.y-cam.y)*z+408;
+  const t=(Date.now()%6000)/6000;
+  cv.setAttribute('cx',bx+(px-bx)*t);cv.setAttribute('cy',by+(py-by)*t);},40);
+
+/* ============================================================
+   ÉCRAN 06 — BRIEFING & ESPIONNAGE (CR point 4)
+   ============================================================ */
+let target='GEMENON', autoDeploy=true, spied=false, theatre='orbital';
+const ENEMY={w:'nuc',arm:'Lourd',def:68};
+function wavesFor(diff){const out=[];
+  for(let i=1;i<=diff*2;i++){
+    const boss=i===diff*2;
+    out.push({i,boss,
+      c:boss?'Croiseur porte-nef · escorte lourde':
+        i%3===0?'Frégates de raid ×5':i%2===0?'Intercepteurs ×12 · frégates ×2':'Intercepteurs ×9',
+      w:boss?'nuc':i%2?'las':'art',
+      t:boss?'b':i%3===0?'h':i%2===0?'m':'l'});}
+  return out;}
+function winChance(){
+  const s=SQUADS[curSquad],p=power(s);
+  const dom=dominantWeapon(s),mod=modOf(dom,ENEMY.w);
+  const ep=Math.round(p*.86/mod*(1+(diffOf(PLANETS.find(x=>x.n===target)||PLANETS[3])-2)*.08));
+  const raw=p*mod/(p*mod+ep);
+  return {p,ep,mod,dom,pct:Math.max(4,Math.min(96,Math.round(raw*100)))};}
+function renderBrief(){
+  const pl=PLANETS.find(x=>x.n===target)||PLANETS[3];
+  const diff=diffOf(pl),W=wavesFor(diff),wc=winChance(),s=SQUADS[curSquad];
+  $('#briefname').textContent='ASSAUT SUR '+target;
+  $('#bc1').innerHTML=`
+   <div class="panel notched" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+     <div class="hd"><span class="dot"></span>Rapport d'espionnage<span class="rt">${spied?'STATION D\'ÉCOUTE NIV 4':'NON EFFECTUÉ'}</span></div>
+     ${spied?`<div class="wavelist" style="overflow:auto">
+       ${W.map(w=>`<div class="wrow ${w.boss?'boss':''}">
+         <div class="wn">VAGUE ${String(w.i).padStart(2,'0')}</div>
+         <div><div class="wc">${w.c}</div><div class="wd">${WEP[w.w].l.toUpperCase()}</div></div>
+         <div class="wp"><span class="pip ${w.t}"></span></div></div>`).join('')}
+       </div>
+       <div class="bd" style="border-top:1px solid var(--line)">
+         <div class="kv"><span class="k">Vagues totales</span><span class="v">${W.length}</span></div>
+         <div class="kv"><span class="k">Armement dominant</span><span class="v" style="color:${WEP[ENEMY.w].c}">${WEP[ENEMY.w].l}</span></div>
+         <div class="kv"><span class="k">Blindage moyen</span><span class="v">${ENEMY.arm}</span></div>
+         <div class="kv"><span class="k">Défense de site</span><span class="v">${ENEMY.def}</span></div>
+       </div>`
+     :`<div class="bd" style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center">
+        <svg viewBox="0 0 24 24" width="46" height="46" fill="none" stroke="#31403a" stroke-width="1"><use href="#ic-spy"/></svg>
+        <div style="font-size:11px;line-height:1.6;color:var(--muted);max-width:250px">
+          Sans reconnaissance, le nombre de vagues et l'armement adverse restent inconnus.
+          L'espionnage coûte 900 crédits et 2 heures.</div>
+        <button class="btn notched" onclick="spied=true;renderBrief()">Espionner la planète</button>
+      </div>`}
+   </div>`;
+
+  const units=[...s.ships,...s.mechs].map(byId).filter(Boolean);
+  const heavy=units.filter(u=>u.arm==='Lourd'||u.arm==='Moyen').length;
+  const constraintOK=heavy>=2;
+  $('#bc2').innerHTML=`
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Théâtre d'opération<span class="rt">CR POINT 2</span></div>
+     <div class="bd">
+       <div class="seg" style="width:100%">
+         <button class="${theatre==='orbital'?'on':''}" data-th="orbital" style="flex:1">Combat spatial</button>
+         <button class="${theatre==='sol'?'on':''}" data-th="sol" style="flex:1">Combat terrestre</button>
+       </div>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:9px">
+         ${theatre==='orbital'
+           ?'Seuls les vaisseaux sont engagés. Emplacements libres en trois dimensions autour de l\'objectif.'
+           :'Les mécas mènent l\'assaut, les vaisseaux fournissent l\'appui. Le relief bloque certaines lignes de tir.'}</div>
+     </div>
+   </div>
+   <div class="panel notched" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+     <div class="hd"><span class="dot"></span>Composition envoyée<span class="rt">${s.n.toUpperCase()}</span></div>
+     <div class="compo">${units.map(u=>cardHTML(u,'mini')).join('')}</div>
+     <div class="bd" style="border-top:1px solid var(--line)">
+       <div class="constraint" style="margin-bottom:11px;${constraintOK?'border-color:rgba(159,209,90,.4);background:rgba(159,209,90,.05)':''}">
+         <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="${constraintOK?'#9fd15a':'currentColor'}" stroke-width="1.4"><use href="#ic-shield"/></svg>
+         <div class="ct" style="${constraintOK?'color:#c9e6a3':''}">Contrainte de mission : au moins 2 unités de blindage moyen ou lourd.
+           ${constraintOK?'Composition conforme ('+heavy+').':'La composition actuelle n\'en compte que '+heavy+' — l\'assaut échouera.'}</div></div>
+       <div class="kv"><span class="k">Puissance envoyée</span><span class="v ok">${fr(wc.p)}</span></div>
+       <div class="kv"><span class="k">Puissance adverse estimée</span><span class="v">${fr(wc.ep)}</span></div>
+       <div class="kv"><span class="k">Armement dominant</span><span class="v" style="color:${WEP[wc.dom].c}">${WEP[wc.dom].l}</span></div>
+       <div class="kv"><span class="k">Avantage de trinité</span>
+         <span class="v" style="color:${wc.mod>1?'var(--ok)':wc.mod<1?'var(--warn)':'var(--muted)'}">×${wc.mod.toFixed(2)} vs ${WEP[ENEMY.w].l}</span></div>
+     </div>
+   </div>
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Objectifs</div>
+     <div class="bd">
+       <div class="kv"><span class="k">Principal</span><span class="v">Tenir la relique ${W.length} vagues</span></div>
+       <div class="kv"><span class="k">Secondaire</span><span class="v">Intégrité &gt; 60%</span></div>
+       <div class="kv"><span class="k">Gain de territoire</span><span class="v ok">+${fr(Math.round(lootOf(pl)/12))} crédits / jour</span></div>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:9px">
+         Certaines missions imposent une composition : blindage minimum, présence de mécas au sol,
+         ou armement précis contre la dominante adverse. La contrainte est annoncée avant le départ.</div>
+     </div>
+   </div>`;
+  $$('#bc2 [data-th]').forEach(b=>b.onclick=()=>{theatre=b.dataset.th;renderBrief();});
+
+  $('#bc3').innerHTML=`
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Simulation<span class="rt">CALCUL HORS LIGNE</span></div>
+     <div class="gauge">
+       <div class="gv" style="color:${wc.pct>60?'var(--ok)':wc.pct>35?'var(--gold)':'var(--warn)'}">${wc.pct}%</div>
+       <div class="gl">chances de victoire</div>
+     </div>
+     <div class="gbar" style="margin-bottom:13px"><i style="width:${wc.pct}%"></i><span style="left:50%"></span></div>
+     <div class="bd" style="padding-top:0">
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55">
+         Le scénario peut se dérouler sans vous : le combat est résolu en arrière-plan à partir de la
+         puissance des deux camps, sans rendu. Vous récupérez le résultat et le butin à la reconnexion.</div>
+       <button class="btn notched" style="width:100%;margin-top:11px" onclick="autoResolve(${wc.pct})">Résoudre automatiquement</button>
+     </div>
+   </div>
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Déploiement<span class="rt">CR POINT 4</span></div>
+     <div class="toggle">
+       <div><div class="tt">Déploiement automatique</div>
+         <div class="td">Blindés devant, unités à portée derrière, selon la formation par défaut.</div></div>
+       <div class="sw ${autoDeploy?'on':''}" id="swauto"><i></i></div>
+     </div>
+     <div class="toggle">
+       <div><div class="tt">Formation par défaut</div>
+         <div class="td">${s.form==='ring'?'Défense 360° autour de l\'objectif':'Arc depuis un bord de carte'}</div></div>
+       <div class="seg"><button class="${s.form==='ring'?'on':''}" data-f2="ring">360°</button>
+         <button class="${s.form==='arc'?'on':''}" data-f2="arc">Arc</button></div>
+     </div>
+     <div class="bd">
+       <span class="open">Objectif et disposition à trancher — point 2 du CR</span>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:9px">
+         L'objectif retenu pour la maquette est la défense d'une relique. La variante « point stratégique
+         à tenir pendant N vagues » utilise le même plateau.</div>
+     </div>
+   </div>
+   <div style="display:flex;gap:8px;margin-top:auto">
+     <button class="btn solid notched" style="flex:1;padding:13px" onclick="startDeploy()">Passer au déploiement</button>
+   </div>`;
+  $('#swauto').onclick=()=>{autoDeploy=!autoDeploy;renderBrief();};
+  $$('#bc3 [data-f2]').forEach(b=>b.onclick=()=>{SQUADS[curSquad].form=b.dataset.f2;renderBrief();});
+}
+window.openBrief=n=>{target=n;spied=false;go('brief');};
+window.autoResolve=pct=>{
+  const win=Math.random()*100<pct;
+  showModal(`
+   <div class="hd"><span class="dot"></span>Résolution automatique<span class="rt">AUCUN RENDU — CALCUL SERVEUR</span></div>
+   <div class="bd" style="padding:26px 30px">
+     <div style="font-size:26px;letter-spacing:.16em;color:${win?'var(--ok)':'var(--warn)'};text-transform:uppercase">
+       ${win?'Opération réussie':'Opération échouée'}</div>
+     <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.6;max-width:520px">
+       Tirage effectué sur ${pct}% de chances de victoire. Le combat s'est déroulé en arrière-plan :
+       aucun rendu n'a été calculé, seule la puissance des deux camps et l'avantage d'armement ont été comparés.</div>
+     <div style="display:flex;gap:22px;margin-top:22px">
+       <div><div class="tiny">Pertes</div><div class="num" style="font-size:19px;margin-top:5px">${win?'2 appareils':'11 appareils'}</div></div>
+       <div><div class="tiny">Butin</div><div class="num gold" style="font-size:19px;margin-top:5px">${win?fr(lootOf(PLANETS[3])):'0'}</div></div>
+       <div><div class="tiny">Territoire</div><div class="num" style="font-size:19px;margin-top:5px">${win?'+1 planète':'inchangé'}</div></div>
+     </div>
+     <div style="display:flex;gap:8px;margin-top:26px">
+       <button class="btn ghost notched" onclick="closeModal()">Fermer</button>
+       <button class="btn notched" onclick="closeModal();startDeploy()">Rejouer en manuel</button></div>
+   </div>`);};
+
+/* ============================================================
+   ÉCRAN 07 — DÉPLOIEMENT (phase d'initialisation) — CR point 2
+   ============================================================ */
+const DEP={mode:'ring',slots:[],placed:{},pick:null};
+function buildSlots(){
+  const m=SQUADS[curSquad].form;DEP.mode=m;DEP.slots=[];
+  const W=988,H=752;
+  if(m==='ring'){
+    DEP.obj={x:W/2,y:H/2};
+    for(let i=0;i<8;i++){const a=i/8*Math.PI*2-Math.PI/2;
+      DEP.slots.push({x:DEP.obj.x+Math.cos(a)*132,y:DEP.obj.y+Math.sin(a)*132,line:'front'});}
+    for(let i=0;i<8;i++){const a=(i/8+.0625)*Math.PI*2-Math.PI/2;
+      DEP.slots.push({x:DEP.obj.x+Math.cos(a)*236,y:DEP.obj.y+Math.sin(a)*236,line:'back'});}
+  }else{
+    DEP.obj={x:W-170,y:H/2};
+    for(let i=0;i<7;i++){const a=Math.PI-.95+i*(1.9/6);
+      DEP.slots.push({x:DEP.obj.x+Math.cos(a)*340,y:DEP.obj.y+Math.sin(a)*340,line:'front'});}
+    for(let i=0;i<6;i++){const a=Math.PI-.8+i*(1.6/5);
+      DEP.slots.push({x:DEP.obj.x+Math.cos(a)*225,y:DEP.obj.y+Math.sin(a)*225,line:'back'});}
+  }
+}
+function squadUnits(){return [...SQUADS[curSquad].ships,...SQUADS[curSquad].mechs].map(byId).filter(Boolean)
+  .filter(u=>theatre==='orbital'?u.k==='ship':true);}
+function autoPlace(){
+  DEP.placed={};
+  const us=squadUnits().slice().sort((a,b)=>b.st.def-a.st.def);
+  const front=DEP.slots.map((s,i)=>({s,i})).filter(o=>o.s.line==='front');
+  const back=DEP.slots.map((s,i)=>({s,i})).filter(o=>o.s.line==='back');
+  let fi=0,bi=0;
+  us.forEach(u=>{
+    const isFront=u.arm!=='Léger';
+    if(isFront&&fi<front.length)DEP.placed[front[fi++].i]=u.id;
+    else if(bi<back.length)DEP.placed[back[bi++].i]=u.id;
+    else if(fi<front.length)DEP.placed[front[fi++].i]=u.id;});
+  drawDeploy();renderDeployPanels();
+}
+function drawDeploy(){
+  const c=$('#dcv');if(!c)return;const x=c.getContext('2d'),W=988,H=752;
+  x.clearRect(0,0,W,H);
+  /* fond selon le théâtre */
+  if(theatre==='orbital'){
+    const g=x.createRadialGradient(DEP.obj.x,DEP.obj.y,20,DEP.obj.x,DEP.obj.y,560);
+    g.addColorStop(0,'#0a1720');g.addColorStop(.5,'#050b10');g.addColorStop(1,'#020405');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    for(let i=0;i<260;i++){x.fillStyle='rgba(200,220,255,'+(.1+Math.random()*.35)+')';
+      x.fillRect((i*137)%W,(i*211)%H,1,1);}
+  }else{
+    const g=x.createLinearGradient(0,0,0,H);
+    g.addColorStop(0,'#131b16');g.addColorStop(1,'#1b1c12');x.fillStyle=g;x.fillRect(0,0,W,H);
+    x.strokeStyle='rgba(120,140,110,.07)';
+    for(let i=0;i<W;i+=44){x.beginPath();x.moveTo(i,0);x.lineTo(i,H);x.stroke();}
+    for(let i=0;i<H;i+=44){x.beginPath();x.moveTo(0,i);x.lineTo(W,i);x.stroke();}
+  }
+  /* anneaux */
+  x.setLineDash([5,7]);
+  [['front','rgba(232,84,63,.28)'],['back','rgba(99,214,188,.24)']].forEach(([ln,col])=>{
+    const pts=DEP.slots.filter(s=>s.line===ln);if(!pts.length)return;
+    x.strokeStyle=col;x.lineWidth=1;
+    if(DEP.mode==='ring'){const r=Math.hypot(pts[0].x-DEP.obj.x,pts[0].y-DEP.obj.y);
+      x.beginPath();x.arc(DEP.obj.x,DEP.obj.y,r,0,7);x.stroke();}
+    else{x.beginPath();pts.forEach((p,i)=>i?x.lineTo(p.x,p.y):x.moveTo(p.x,p.y));x.stroke();}});
+  x.setLineDash([]);
+  /* flèches d'arrivée ennemie */
+  x.strokeStyle='rgba(232,84,63,.5)';x.fillStyle='rgba(232,84,63,.5)';x.lineWidth=1.4;
+  const arrows=DEP.mode==='ring'
+    ? [[0,-1],[1,-1],[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1]].map(v=>({a:Math.atan2(v[1],v[0])}))
+    : [{a:0},{a:.28},{a:-.28}];
+  arrows.forEach(o=>{
+    const sx=DEP.obj.x+Math.cos(o.a)*(DEP.mode==='ring'?330:-430),
+          sy=DEP.obj.y+Math.sin(o.a)*(DEP.mode==='ring'?330:430);
+    const ex=DEP.obj.x+Math.cos(o.a)*(DEP.mode==='ring'?290:-380),
+          ey=DEP.obj.y+Math.sin(o.a)*(DEP.mode==='ring'?290:380);
+    x.beginPath();x.moveTo(sx,sy);x.lineTo(ex,ey);x.stroke();
+    x.beginPath();x.arc(ex,ey,3,0,7);x.fill();});
+  x.font='10px "Share Tech Mono"';x.fillStyle='rgba(232,84,63,.7)';
+  x.fillText(DEP.mode==='ring'?'ARRIVÉES ENNEMIES — 360°':'ARRIVÉES ENNEMIES — BORD OUEST',18,26);
+  /* objectif */
+  const o=DEP.obj;
+  x.save();x.translate(o.x,o.y);
+  x.strokeStyle='rgba(245,166,35,.5)';x.lineWidth=1;
+  x.beginPath();x.arc(0,0,52+Math.sin(Date.now()/500)*3,0,7);x.stroke();
+  x.fillStyle='rgba(245,166,35,.14)';x.strokeStyle='#f5a623';x.lineWidth=2;
+  x.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/2;
+    i?x.lineTo(Math.cos(a)*28,Math.sin(a)*28):x.moveTo(Math.cos(a)*28,Math.sin(a)*28);}
+  x.closePath();x.fill();x.stroke();
+  x.fillStyle='#f5a623';x.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/2;
+    i?x.lineTo(Math.cos(a)*11,Math.sin(a)*11):x.moveTo(Math.cos(a)*11,Math.sin(a)*11);}
+  x.closePath();x.fill();x.restore();
+  x.font='10px "Share Tech Mono"';x.fillStyle='#f5a623';x.textAlign='center';
+  x.fillText('RELIQUE — OBJECTIF',o.x,o.y+70);x.textAlign='left';
+  /* emplacements */
+  DEP.slots.forEach((s,i)=>{
+    const uid=DEP.placed[i],u=uid?byId(uid):null;
+    x.save();x.translate(s.x,s.y);
+    const col=s.line==='front'?'#e8543f':'#63d6bc';
+    x.strokeStyle=u?col:'rgba(140,152,146,.32)';x.lineWidth=u?1.6:1;
+    x.fillStyle=u?'rgba(10,16,15,.92)':'rgba(255,255,255,.02)';
+    x.beginPath();for(let k=0;k<6;k++){const a=k*Math.PI/3;
+      k?x.lineTo(Math.cos(a)*27,Math.sin(a)*24):x.moveTo(27,0);}
+    x.closePath();x.fill();x.stroke();
+    if(!u){x.fillStyle='rgba(140,152,146,.4)';x.font='15px "Share Tech Mono"';x.textAlign='center';
+      x.fillText('+',0,5);x.textAlign='left';}
+    else{
+      x.fillStyle=RAR[u.r].c;x.font='9px Oswald';x.textAlign='center';
+      x.fillText(u.n.split(' ')[0],0,-3);
+      x.fillStyle=WEP[u.w].c;x.fillRect(-13,3,26,2);
+      x.fillStyle='#a9b3ab';x.font='8px "Share Tech Mono"';
+      x.fillText((u.qty>1?'×'+u.qty+' · ':'')+u.st.pv+'PV',0,16);x.textAlign='left';
+      x.fillStyle='#0a100f';x.strokeStyle=col;x.lineWidth=1;
+      x.beginPath();x.arc(20,-18,8,0,7);x.fill();x.stroke();
+      x.fillStyle=col;x.font='8px "Share Tech Mono"';x.textAlign='center';
+      x.fillText(s.line==='front'?'1L':'2L',20,-15);x.textAlign='left';}
+    x.restore();});
+  if(DEP.pick){x.fillStyle='rgba(99,214,188,.85)';x.font='11px "Share Tech Mono"';
+    x.fillText('▸ CLIQUEZ UN EMPLACEMENT POUR PLACER '+byId(DEP.pick).n,18,H-18);}
+}
+function renderDeployPanels(){
+  const placedIds=Object.values(DEP.placed);
+  const us=squadUnits();
+  $('#dleft').innerHTML=`
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Théâtre<span class="rt">${theatre==='orbital'?'SPATIAL':'TERRESTRE'}</span></div>
+     <div class="bd" style="padding:10px 12px">
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55">
+         ${theatre==='orbital'
+           ?'Engagement orbital : la force méca reste au sol et n\'apparaît pas dans la liste.'
+           :'Engagement terrestre : mécas et vaisseaux d\'appui sont déployés ensemble.'}</div>
+     </div>
+   </div>
+   <div class="panel notched" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+     <div class="hd"><span class="dot"></span>Unités à placer<span class="rt">${placedIds.length}/${us.length}</span></div>
+     <div class="upool">
+       ${us.map(u=>`<div class="urow ${placedIds.includes(u.id)?'placed':''} ${DEP.pick===u.id?'picked':''}" data-id="${u.id}">
+         <div class="uav" style="--rc:${RAR[u.r].c}">${artFor(u)}</div>
+         <div><div class="un">${u.n}</div>
+           <div class="ust"><span class="hp">${u.st.pv} PV</span><span class="at">${u.st.atk} ATQ</span><span class="df">${u.st.def} DÉF</span></div></div>
+         <div class="utag ${u.arm==='Léger'?'back':'front'}">${u.arm==='Léger'?'2ᵉ L.':'1ʳᵉ L.'}</div></div>`).join('')}
+     </div>
+     <div class="bd" style="border-top:1px solid var(--line)">
+       <div class="legendrow"><span class="sq" style="background:#e8543f"></span>Première ligne — blindage moyen et lourd</div>
+       <div class="legendrow"><span class="sq" style="background:#63d6bc"></span>Seconde ligne — unités à portée</div>
+       <div class="legendrow"><span class="sq" style="background:#f5a623"></span>Objectif à défendre</div>
+     </div>
+   </div>`;
+  $$('#dleft .urow').forEach(r=>r.onclick=()=>{
+    const id=r.dataset.id;
+    if(placedIds.includes(id)){for(const k in DEP.placed)if(DEP.placed[k]===id)delete DEP.placed[k];DEP.pick=null;}
+    else DEP.pick=DEP.pick===id?null:id;
+    drawDeploy();renderDeployPanels();});
+
+  const s=SQUADS[curSquad];
+  $('#dright').innerHTML=`
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Disposition<span class="rt">CR POINT 2</span></div>
+     <div class="bd">
+       <div class="seg" style="width:100%">
+         <button class="${s.form==='ring'?'on':''}" data-f3="ring" style="flex:1">360°</button>
+         <button class="${s.form==='arc'?'on':''}" data-f3="arc" style="flex:1">Arc</button></div>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:9px">
+         ${s.form==='ring'
+           ?'L\'objectif est au centre, les vagues arrivent de tous les côtés. Il faut couvrir 360°.'
+           :'L\'objectif est adossé à un bord, les vagues arrivent d\'une seule direction. Les lignes se concentrent.'}</div>
+       <div style="margin-top:9px"><span class="open">Disposition à trancher</span></div>
+     </div>
+   </div>
+   <div class="panel notched">
+     <div class="hd"><span class="dot"></span>Objectif<span class="rt">${theatre==='orbital'?'ORBITAL':'TERRESTRE'}</span></div>
+     <div class="bd">
+       <div class="kv"><span class="k">Type</span><span class="v gold">Relique</span></div>
+       <div class="kv"><span class="k">Intégrité</span><span class="v">1 000 PV</span></div>
+       <div class="kv"><span class="k">Vagues</span><span class="v">${wavesFor(diffOf(PLANETS[3])).length}</span></div>
+       <div class="kv"><span class="k">Condition de victoire</span><span class="v">Relique &gt; 0</span></div>
+     </div>
+   </div>
+   <div class="panel notched" style="flex:1">
+     <div class="hd"><span class="dot"></span>Assistance</div>
+     <div class="bd">
+       <button class="btn notched" style="width:100%" onclick="autoPlace()">Déploiement automatique</button>
+       <div style="font-size:9.5px;color:var(--muted);line-height:1.55;margin-top:9px">
+         Applique la formation par défaut : blindés en première ligne, unités à portée derrière.
+         Modifiable emplacement par emplacement avant le lancement.</div>
+       <button class="btn ghost notched" style="width:100%;margin-top:9px" onclick="DEP.placed={};DEP.pick=null;drawDeploy();renderDeployPanels()">Tout retirer</button>
+     </div>
+   </div>
+   <button class="btn solid notched" style="width:100%;padding:13px"
+     ${placedIds.length?'':'disabled'} onclick="startCombat()">Lancer le combat</button>`;
+  $$('#dright [data-f3]').forEach(b=>b.onclick=()=>{
+    SQUADS[curSquad].form=b.dataset.f3;buildSlots();DEP.placed={};DEP.pick=null;
+    drawDeploy();renderDeployPanels();});
+}
+$('#dcv').addEventListener('click',e=>{
+  const r=e.currentTarget.getBoundingClientRect();
+  const sx=(e.clientX-r.left)/r.width*988,sy=(e.clientY-r.top)/r.height*752;
+  let best=-1,bd=40;
+  DEP.slots.forEach((s,i)=>{const d=Math.hypot(s.x-sx,s.y-sy);if(d<bd){bd=d;best=i;}});
+  if(best<0)return;
+  if(DEP.placed[best]){delete DEP.placed[best];}
+  else if(DEP.pick){for(const k in DEP.placed)if(DEP.placed[k]===DEP.pick)delete DEP.placed[k];
+    DEP.placed[best]=DEP.pick;DEP.pick=null;}
+  drawDeploy();renderDeployPanels();});
+window.startDeploy=()=>{buildSlots();if(autoDeploy)autoPlace();else{DEP.placed={};drawDeploy();renderDeployPanels();}go('depl');};
+
+/* ============================================================
+   ÉCRAN 08 — COMBAT — PV / ATQ / DÉF (CR points 2, 3, 6)
+   ============================================================ */
+const CB={run:false,units:[],foes:[],shots:[],boom:[],obj:{x:800,y:408,hp:1000,max:1000},
+  wave:0,waves:[],timer:0,pts:0,maxpts:0,t:0,fx:[],shield:0,emp:0};
+const PLAYER_LEVEL=47, ULT_EVERY=10;
+const ultReady=()=>PLAYER_LEVEL%ULT_EVERY===0;
+
+function startCombat(){
+  const s=SQUADS[curSquad],c=byId(s.cmd);
+  CB.obj={x:DEP.mode==='ring'?800:1200,y:408,hp:1000,max:1000};
+  CB.units=[];
+  Object.keys(DEP.placed).forEach(k=>{
+    const u=byId(DEP.placed[k]),sl=DEP.slots[k];
+    CB.units.push({u,x:CB.obj.x+(sl.x-DEP.obj.x)*1.04,y:CB.obj.y+(sl.y-DEP.obj.y)*.98,
+      hp:u.st.pv*(u.qty||1),max:u.st.pv*(u.qty||1),atk:u.st.atk,def:u.st.def,rng:u.st.rng,
+      w:u.w,line:sl.line,cd:0});});
+  CB.waves=wavesFor(diffOf(PLANETS.find(x=>x.n===target)||PLANETS[3]));
+  CB.wave=0;CB.foes=[];CB.shots=[];CB.boom=[];CB.fx=[];CB.timer=180;CB.shield=0;CB.emp=0;
+  CB.pts=CB.maxpts=c?RAR[c.r].act:0;
+  $('#combatname').textContent=(theatre==='orbital'?'ORBITAL':'TERRESTRE')+' · DÉFENSE DE LA RELIQUE · '+target;
+  $('#loglines').innerHTML='';
+  log('Escouade déployée — '+CB.units.length+' unités en position','ok');
+  log('Formation '+(DEP.mode==='ring'?'360°':'en arc')+' · objectif au centre du dispositif','');
+  renderCombatPanels();go('combat');CB.run=true;spawnWave();
+}
+function log(t,c){const b=$('#loglines');if(!b)return;
+  b.prepend(el('div','ll '+(c||''),t));if(b.children.length>11)b.lastChild.remove();}
+function spawnWave(){
+  if(CB.wave>=CB.waves.length)return;
+  const w=CB.waves[CB.wave];CB.wave++;
+  $('#wv').textContent=String(CB.wave).padStart(2,'0');
+  $('#wvmax').textContent=String(CB.waves.length).padStart(2,'0');
+  const n=w.boss?1:(w.t==='h'?5:w.t==='m'?9:12);
+  for(let i=0;i<n;i++){
+    let a;
+    if(DEP.mode==='ring')a=Math.random()*Math.PI*2;
+    else a=Math.PI+(Math.random()-.5)*1.5;
+    const d=w.boss?620:520+Math.random()*140;
+    const hp=w.boss?2600:(w.t==='h'?520:w.t==='m'?230:120);
+    CB.foes.push({x:CB.obj.x+Math.cos(a)*d,y:CB.obj.y+Math.sin(a)*d*.72,
+      hp,max:hp,atk:w.boss?90:(w.t==='h'?34:w.t==='m'?18:11),def:w.boss?70:(w.t==='h'?46:22),
+      rng:w.boss?150:110,spd:w.boss?.24:(w.t==='h'?.42:w.t==='m'?.6:.85),w:w.w,boss:w.boss,cd:0,frz:0});}
+  log('Vague '+String(CB.wave).padStart(2,'0')+' — '+w.c+(w.boss?' · BOSS':''),w.boss?'gold':'');
+  CB.timer=w.boss?260:200;
+}
+function dmg(a,d,mod){return Math.max(1,a*mod*(1-d/(d+130)));}
+function combatLoop(){
+  if(!CB.run){return;}
+  const c=$('#arena'),x=c.getContext('2d'),W=1600,H=816;CB.t++;
+  /* fond */
+  if(theatre==='orbital'){
+    const g=x.createRadialGradient(CB.obj.x,CB.obj.y,30,CB.obj.x,CB.obj.y,900);
+    g.addColorStop(0,'#0a1620');g.addColorStop(.45,'#050a10');g.addColorStop(1,'#010203');
+    x.fillStyle=g;x.fillRect(0,0,W,H);
+    for(let i=0;i<300;i++){x.fillStyle='rgba(200,220,255,'+(.08+((i*37)%40)/140)+')';
+      x.fillRect((i*173)%W,(i*97)%H,1,1);}
+  }else{const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#111a15');g.addColorStop(1,'#1a1b11');
+    x.fillStyle=g;x.fillRect(0,0,W,H);}
+  /* objectif */
+  const o=CB.obj;
+  x.save();x.translate(o.x,o.y);
+  x.strokeStyle='rgba(245,166,35,'+(.25+.15*Math.sin(CB.t/22))+')';x.lineWidth=1;
+  x.beginPath();x.arc(0,0,58,0,7);x.stroke();
+  x.fillStyle='rgba(245,166,35,.16)';x.strokeStyle='#f5a623';x.lineWidth=2;
+  x.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/2;
+    i?x.lineTo(Math.cos(a)*30,Math.sin(a)*30):x.moveTo(Math.cos(a)*30,Math.sin(a)*30);}
+  x.closePath();x.fill();x.stroke();x.restore();
+  /* unités joueur */
+  CB.units.forEach(u=>{
+    if(u.hp<=0)return;
+    const col=u.line==='front'?'#e8543f':'#63d6bc';
+    x.save();x.translate(u.x,u.y);
+    x.fillStyle='rgba(22,32,29,.95)';x.strokeStyle=col;x.lineWidth=1.5;
+    x.beginPath();x.moveTo(0,-13);x.lineTo(10,8);x.lineTo(0,4);x.lineTo(-10,8);x.closePath();x.fill();x.stroke();
+    if(CB.shield>0){x.strokeStyle='rgba(99,214,188,.55)';x.beginPath();x.arc(0,0,19,0,7);x.stroke();}
+    x.restore();
+    x.fillStyle='rgba(0,0,0,.6)';x.fillRect(u.x-16,u.y-24,32,3.5);
+    x.fillStyle=u.hp/u.max>.4?'#9fd15a':'#e8543f';x.fillRect(u.x-16,u.y-24,32*(u.hp/u.max),3.5);
+    x.fillStyle=WEP[u.w].c;x.fillRect(u.x-16,u.y+12,32,2);
+    x.strokeStyle='rgba(99,214,188,.05)';x.beginPath();x.arc(u.x,u.y,u.rng,0,7);x.stroke();});
+  /* ennemis */
+  CB.foes.forEach(f=>{
+    const a=Math.atan2(o.y-f.y,o.x-f.x);
+    let tgt=null,bd=1e9;
+    CB.units.forEach(u=>{if(u.hp<=0)return;const d=Math.hypot(u.x-f.x,u.y-f.y);if(d<bd){bd=d;tgt=u;}});
+    const stop=tgt&&bd<f.rng;
+    if(!stop&&f.frz<=0){const ang=tgt?Math.atan2(tgt.y-f.y,tgt.x-f.x):a;
+      f.x+=Math.cos(ang)*f.spd*1.5;f.y+=Math.sin(ang)*f.spd*1.5;}
+    if(f.frz>0)f.frz--;
+    const dobj=Math.hypot(o.x-f.x,o.y-f.y);
+    if(f.cd>0)f.cd--;
+    else if(stop){f.cd=42;
+      const dd=dmg(f.atk,tgt.def*(CB.shield>0?1.7:1),modOf(f.w,tgt.w));
+      tgt.hp-=dd;CB.shots.push({a:[f.x,f.y],b:[tgt.x,tgt.y],l:8,c:WEP[f.w].c});
+      if(tgt.hp<=0)log(tgt.u.n+' détruit','crit');}
+    else if(dobj<70){f.cd=48;o.hp-=f.atk*.5;
+      CB.shots.push({a:[f.x,f.y],b:[o.x,o.y],l:8,c:'#e8543f'});}
+    const sz=f.boss?22:(f.max>400?14:f.max>200?10:7);
+    const col=f.boss?'#ff5fc0':(f.max>400?'#ff7a5c':f.max>200?'#ffd07a':'#8fd6ff');
+    x.save();x.translate(f.x,f.y);x.rotate(Math.atan2(o.y-f.y,o.x-f.x));
+    x.fillStyle='rgba(35,20,18,.95)';x.strokeStyle=col;x.lineWidth=1.3;
+    x.beginPath();x.moveTo(-sz,-sz*.6);x.lineTo(sz,0);x.lineTo(-sz,sz*.6);x.lineTo(-sz*.5,0);x.closePath();
+    x.fill();x.stroke();if(f.frz>0){x.strokeStyle='#b479ff';x.beginPath();x.arc(0,0,sz+5,0,7);x.stroke();}
+    x.restore();
+    if(f.boss||f.max>200){x.fillStyle='rgba(0,0,0,.6)';x.fillRect(f.x-16,f.y-sz-8,32,3);
+      x.fillStyle=col;x.fillRect(f.x-16,f.y-sz-8,32*(f.hp/f.max),3);}});
+  /* tirs joueur */
+  CB.units.forEach(u=>{
+    if(u.hp<=0)return;if(u.cd>0){u.cd--;return;}
+    let tgt=null,bd=u.rng;
+    CB.foes.forEach(f=>{const d=Math.hypot(f.x-u.x,f.y-u.y);if(d<bd){bd=d;tgt=f;}});
+    if(!tgt)return;u.cd=34;
+    const m=modOf(u.w,tgt.w);
+    tgt.hp-=dmg(u.atk*(u.boost?1.5:1),tgt.def,m);
+    CB.shots.push({a:[u.x,u.y],b:[tgt.x,tgt.y],l:9,c:WEP[u.w].c});
+    if(m>1&&CB.t%90<2)log('Avantage '+WEP[u.w].l.toUpperCase()+' ▸ '+WEP[tgt.w].l.toUpperCase()+' <b>×'+m.toFixed(2)+'</b>','ok');});
+  /* projectiles */
+  CB.shots=CB.shots.filter(s=>{x.strokeStyle=s.c;x.globalAlpha=s.l/9;x.lineWidth=1.8;
+    x.beginPath();x.moveTo(s.a[0],s.a[1]);x.lineTo(s.b[0],s.b[1]);x.stroke();x.globalAlpha=1;
+    s.l--;return s.l>0;});
+  CB.foes=CB.foes.filter(f=>{if(f.hp<=0){CB.boom.push({x:f.x,y:f.y,l:16,b:f.boss});
+      if(f.boss)log('BOSS DÉTRUIT','gold');return false;}return true;});
+  CB.boom=CB.boom.filter(b=>{x.strokeStyle='rgba(245,166,35,'+(b.l/16)+')';x.lineWidth=2;
+    x.beginPath();x.arc(b.x,b.y,(16-b.l)*(b.b?5:2.6),0,7);x.stroke();b.l--;return b.l>0;});
+  CB.fx=CB.fx.filter(f=>{
+    x.strokeStyle=f.c+Math.max(0,f.l/f.max).toFixed(2).slice(1);x.lineWidth=2;
+    x.beginPath();x.arc(f.x,f.y,f.r*(1-f.l/f.max)+10,0,7);x.stroke();f.l--;return f.l>0;});
+  if(CB.shield>0)CB.shield--;
+  /* vagues */
+  CB.timer--;
+  if(CB.timer<=0&&CB.wave<CB.waves.length)spawnWave();
+  $('#wtimer').textContent='0:'+String(Math.max(0,Math.ceil(CB.timer/60))).padStart(2,'0');
+  const pct=Math.max(0,o.hp/o.max);
+  $('#objfill').style.width=(pct*100)+'%';
+  $('#objtxt').textContent='RELIQUE '+Math.round(pct*100)+'%';
+  if(o.hp<=0){CB.run=false;endCombat(false);return;}
+  if(CB.wave>=CB.waves.length&&!CB.foes.length){CB.run=false;endCombat(true);return;}
+  if(CB.t%30===0)renderForce();
+  requestAnimationFrame(combatLoop);
+}
+function renderForce(){
+  $('#cforce').innerHTML=`<div class="hd" style="font-size:10px"><span class="dot"></span>Force engagée
+    <span class="rt">${CB.units.filter(u=>u.hp>0).length}/${CB.units.length}</span></div>
+   ${CB.units.map(u=>`<div class="frow" style="${u.hp<=0?'opacity:.3':''}">
+     <span class="pip" style="background:${WEP[u.w].c}"></span>
+     <span class="fn">${u.u.n}</span>
+     <span class="fb"><i style="width:${Math.max(0,u.hp/u.max*100)}%"></i></span>
+     <span class="fq">${Math.max(0,Math.round(u.hp))}</span></div>`).join('')}`;
+}
+function renderCombatPanels(){
+  const s=SQUADS[curSquad],c=byId(s.cmd);
+  renderForce();
+  const dom=dominantWeapon(s);
+  $('#ctrin').innerHTML=`<div class="hd" style="font-size:10px"><span class="dot"></span>Trinité d'armement
+    <span class="rt">${CB.waves.length} VAGUES</span></div>
+   <div class="bd" style="padding:9px 11px">
+     ${['las','art','nuc'].map(a=>`<div class="trin" style="padding:3px 0">
+       <span class="ic ${WEP[a].cls}">${WEP[a].s}</span>
+       <span style="font-size:9.5px;color:${a===dom?'var(--paper)':'var(--muted)'}">${WEP[a].l}${a===dom?' · dominante':''}</span>
+       <span class="nb" style="color:${modOf(a,ENEMY.w)>1?'var(--ok)':modOf(a,ENEMY.w)<1?'#ff9c8f':'var(--muted)'}">×${modOf(a,ENEMY.w).toFixed(2)}</span></div>`).join('')}
+     <div class="tiny" style="margin-top:7px">adverse : ${WEP[ENEMY.w].l}</div>
+   </div>`;
+  let dots='';for(let i=0;i<CB.maxpts;i++)dots+=`<i class="${i<CB.pts?'f':''}"></i>`;
+  $('#apts').innerHTML=dots;
+  $('#aptsrc').textContent=c?RAR[c.r].l+' — '+CB.maxpts+' actions':'';
+  $('#actbar').innerHTML=(c?c.sk:[]).slice(0,CB.maxpts).map((k,i)=>
+    `<div class="act notched" style="--notch:6px" data-a="${i}">
+      <svg viewBox="0 0 24 24"><use href="#${k.ic}"/></svg>
+      <span class="an">${k.n}</span><span class="ac">1</span></div>`).join('')
+   +`<div class="act ult notched ${ultReady()?'':'locked'}" style="--notch:6px" data-ult="1">
+      <svg viewBox="0 0 24 24"><use href="#ic-ult"/></svg>
+      <span class="an">Ultime de palier</span>
+      <span class="ac" style="color:var(--r-div)">NIV ${Math.ceil((PLAYER_LEVEL+1)/ULT_EVERY)*ULT_EVERY}</span>
+      <div class="ub"><i style="width:${(PLAYER_LEVEL%ULT_EVERY)/ULT_EVERY*100}%"></i></div></div>`;
+  $$('#actbar .act[data-a]').forEach(b=>b.onclick=()=>useAction(+b.dataset.a,b));
+  const ub=$('#actbar .act[data-ult]');if(ub)ub.onclick=()=>toast('Capacité ultime — débloquée au niveau 50, réservée aux boss');
+}
+function useAction(i,btn){
+  if(CB.pts<=0){toast('Plus de point d\'action');return;}
+  const c=byId(SQUADS[curSquad].cmd),k=c.sk[i];CB.pts--;btn.classList.add('spent');
+  let dots='';for(let j=0;j<CB.maxpts;j++)dots+=`<i class="${j<CB.pts?'f':''}"></i>`;$('#apts').innerHTML=dots;
+  log('<b>'+k.n.toUpperCase()+'</b> — '+k.d,'gold');
+  if(/orbitale|Abordage|Charge|soutien/i.test(k.n)){
+    let cx=CB.obj.x,cy=CB.obj.y,best=0;
+    CB.foes.forEach(f=>{let n=0;CB.foes.forEach(g=>{if(Math.hypot(f.x-g.x,f.y-g.y)<120)n++;});
+      if(n>best){best=n;cx=f.x;cy=f.y;}});
+    CB.fx.push({x:cx,y:cy,r:150,l:26,max:26,c:'rgba(245,166,35,'});
+    CB.foes.forEach(f=>{if(Math.hypot(f.x-cx,f.y-cy)<150)f.hp-=420;});
+  }else if(/Bouclier|acier|Garde/i.test(k.n)){CB.shield=420;
+    CB.fx.push({x:CB.obj.x,y:CB.obj.y,r:280,l:30,max:30,c:'rgba(99,214,188,'});
+  }else if(/Réparation|Ralliement/i.test(k.n)){
+    CB.units.forEach(u=>{if(u.hp>0)u.hp=Math.min(u.max,u.hp+u.max*.25);});
+    CB.fx.push({x:CB.obj.x,y:CB.obj.y,r:260,l:26,max:26,c:'rgba(159,209,90,'});
+  }else if(/EM|Fumigène|Repli/i.test(k.n)){
+    CB.foes.forEach(f=>{if(!f.boss)f.frz=200;});
+    CB.fx.push({x:CB.obj.x,y:CB.obj.y,r:420,l:30,max:30,c:'rgba(180,121,255,'});
+  }else{CB.units.forEach(u=>u.boost=true);
+    CB.fx.push({x:CB.obj.x,y:CB.obj.y,r:240,l:26,max:26,c:'rgba(232,84,63,'});}
+}
+function endCombat(win){
+  showModal(`
+   <div class="hd"><span class="dot"></span>Fin d'engagement<span class="rt">${target}</span></div>
+   <div class="bd" style="padding:26px 30px">
+     <div style="font-size:26px;letter-spacing:.16em;color:${win?'var(--ok)':'var(--warn)'};text-transform:uppercase">
+       ${win?'Relique sécurisée':'Relique perdue'}</div>
+     <div style="font-size:11px;color:var(--muted);margin-top:8px;max-width:520px;line-height:1.6">
+       ${win?'Toutes les vagues ont été repoussées. Le territoire passe sous votre contrôle et commence à produire des crédits quotidiens.'
+            :'L\'objectif est tombé avant la dernière vague. Aucun butin, les unités détruites sont perdues.'}</div>
+     <div style="display:flex;gap:22px;margin-top:22px">
+       <div><div class="tiny">Vagues tenues</div><div class="num" style="font-size:19px;margin-top:5px">${CB.wave}/${CB.waves.length}</div></div>
+       <div><div class="tiny">Unités restantes</div><div class="num" style="font-size:19px;margin-top:5px">${CB.units.filter(u=>u.hp>0).length}/${CB.units.length}</div></div>
+       <div><div class="tiny">Butin</div><div class="num gold" style="font-size:19px;margin-top:5px">${win?fr(lootOf(PLANETS[3])):'0'}</div></div>
+     </div>
+     <div style="display:flex;gap:8px;margin-top:26px">
+       <button class="btn notched" onclick="closeModal();startDeploy()">Redéployer</button>
+       <button class="btn ghost notched" onclick="closeModal();go('carte')">Retour à la carte</button></div>
+   </div>`);}
+
+/* ============================================================
+   ÉCRAN 09 — BUTIN (CR point 10)
+   ============================================================ */
+const CRATES=[
+ {k:'free',t:'Coffre quotidien',sub:'Gratuit · 1 par jour',ic:'ic-crate',
+  odds:[['com',82,'#8b968f'],['rare',17,'#4f9ad6'],['epic',1,'#9d6ff0']],
+  cta:'Ouvrir — disponible',time:'Prochain dans 18 h 42'},
+ {k:'week',t:'Coffre hebdomadaire',sub:'Gratuit · 1 par semaine',ic:'ic-crate',
+  odds:[['com',40,'#8b968f'],['rare',48,'#4f9ad6'],['epic',9,'#9d6ff0'],['leg',2.5,'#f5a623'],['div',0.5,'#ff5fc0']],
+  cta:'Ouvrir dans 2 j 06 h',time:'Cumule si non ouvert'},
+ {k:'prem',t:'Dossier gradé',sub:'9 800 crédits',ic:'ic-academy',
+  odds:[['rare',62,'#4f9ad6'],['epic',30,'#9d6ff0'],['leg',7,'#f5a623'],['div',1,'#ff5fc0']],
+  cta:'Acheter — 9 800 crédits',time:'Pitié légendaire 34/50'}
+];
+function renderButin(){
+  $('#crates').innerHTML=CRATES.map(c=>`
+   <div class="crate ${c.k} notched" style="--notch:8px">
+     <div class="ch"><svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+        stroke="${c.k==='free'?'#63d6bc':c.k==='week'?'#f5a623':'#ff5fc0'}" stroke-width="1.3"><use href="#${c.ic}"/></svg>
+       <div><div class="ct">${c.t}</div><div class="tiny" style="margin-top:2px">${c.sub}</div></div></div>
+     <div class="cb">
+       <div class="odds" style="width:100%">
+         ${c.odds.map(o=>`<div class="orow"><span class="on" style="color:${o[2]}">${RAR[o[0]].l}</span>
+           <span class="ob"><i style="width:${o[1]}%;background:${o[2]}"></i></span>
+           <span class="ov">${String(o[1]).replace('.',',')}%</span></div>`).join('')}
+
+       </div>
+     </div>
+     <div class="cd"><div class="tiny">${c.time}</div></div>
+     <div class="cta" style="background:${c.k==='free'?'rgba(99,214,188,.16)':c.k==='week'?'rgba(245,166,35,.14)':'rgba(255,95,192,.12)'};
+       color:${c.k==='free'?'#9ff0dd':c.k==='week'?'#f5a623':'#ff5fc0'};border-top:1px solid var(--line)">${c.cta}</div>
+   </div>`).join('');
+  const groups=[['com','Communes — 5 cartes'],['rare','Rares — 5 cartes'],['div','Divine — 1 carte']];
+  $('#poolgrid').innerHTML=groups.map(([r,l])=>{
+    const cards=POOL.filter(u=>u.r===r);
+    return `<div class="grp"><span class="gl ${RAR[r].cls}" style="color:${RAR[r].c}">${l}</span>
+      <span class="gr" style="background:${RAR[r].c}33"></span>
+      <span class="gc">${cards.length} obtenues</span></div>
+      ${cards.map(u=>cardHTML(u,'mini')).join('')}
+      ${r==='div'?`<div style="width:1px;height:102px;background:var(--line);margin:0 10px"></div>
+        ${[0,1,2,3].map((_,q)=>`<div class="card mini notched" style="--notch:5px;--rc:${['#9d6ff0','#9d6ff0','#f5a623','#f5a623'][q]};opacity:.32">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#556059">
+            <span style="font-size:20px">?</span>
+            <span style="font-size:6.5px;letter-spacing:.14em">${q<2?'ÉPIQUE':'LÉGEND.'}</span></div></div>`).join('')}`:''}
+      <div style="width:100%;height:5px"></div>`;}).join('');
+}
+
+/* ============================================================
+   MODALE · TOAST · NOTES
+   ============================================================ */
+function showModal(h){$('#mbox').innerHTML=h;$('#modal').classList.add('show');}
+window.closeModal=()=>$('#modal').classList.remove('show');
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
+function toast(t){
+  const d=el('div','',t);
+  d.style.cssText='position:absolute;left:50%;top:120px;transform:translateX(-50%);z-index:300;'+
+    'padding:11px 20px;background:rgba(8,14,12,.96);border:1px solid var(--sig-dim);color:var(--sig-hi);'+
+    'font-size:11px;letter-spacing:.14em;text-transform:uppercase';
+  stage.appendChild(d);setTimeout(()=>d.remove(),2600);}
+
+const NOTES=[
+ [1,'Escouades','01 Escouades','Composition commandant / vaisseaux / mécas par équipe, 5 escouades dont 2 verrouillées par grade.'],
+ [2,'Combat','07 Déploiement + 08 Combat','Phase de positionnement avant lancement, PV / ATQ / DÉF sur chaque unité, objectif = relique, bascule 360° / arc, bascule spatial / terrestre.',1],
+ [3,'Actions','01 Escouades + 08 Combat','Points d\'action par rareté (2/3/4/5), slot légendaire sur carte divine, ultime lié au niveau du joueur tous les 10 niveaux. Bascule fixes / achetables sur l\'écran Escouades.',1],
+ [4,'Missions','06 Briefing','Espionnage détaillant les vagues, résolution automatique en arrière-plan avec pourcentage, déploiement automatique et formation par défaut, contrainte de composition.'],
+ [5,'Visuel','tous','Ambre réservé au légendaire et aux alertes, accent d\'interaction passé au phosphore, ressources ramenées de 8 à 4, grain divisé par 3, cadres colorés par rareté, atlas d\'images généré une fois puis mis en cache.'],
+ [6,'Armement','02 Atlas','Trois types actifs avec skin propre, deux prévus, matrice de dégâts croisés, composition d\'armement dominante par escouade.'],
+ [7,'Carte','05 Carte','Déplacement N/S/E/O, trois niveaux de zoom, trajet en ligne droite, distance, carburant consommé et temps de trajet par moteur.'],
+ [8,'Vaisseaux','02 Atlas','Trois motorisations, porte-nefs avec capacité de transport, distinction unité / escadrille avec effectif ajustable, identité visuelle conservée sur quatre paliers.'],
+ [9,'Ressources','03 Base','Revenu quotidien par planète, collecte globale depuis le bandeau, plafond de cumul sur 7 jours. Difficulté et butin générés par la distance sur la carte.'],
+ [10,'Butin','09 Butin','Coffre quotidien commun, coffre hebdomadaire plus généreux, taux affichés par rareté, pool de lancement à 5 communes / 5 rares / 1 divine.']
+];
+$('#notes').innerHTML=`
+ <h2 style="font-size:20px;letter-spacing:.2em">Maquette v2 — traitement du compte-rendu</h2>
+ <div style="font-size:11.5px;color:var(--muted);margin-top:9px;line-height:1.6;max-width:900px">
+   Chaque point de la réunion et l'écran où il a été traité. Les lignes surlignées correspondent aux
+   arbitrages laissés ouverts en réunion : ils apparaissent dans la maquette sous forme de bascule,
+   pour être tranchés en regardant le résultat.</div>
+ <table class="ntable">
+   <tr><th>#</th><th class="w">Sujet</th><th class="w">Écran</th><th>Traitement</th></tr>
+   ${NOTES.map(n=>`<tr class="${n[4]?'open':''}"><td>${n[0]}</td><td class="w">${n[1]}</td>
+     <td class="w" style="font-family:var(--f-mono);font-size:10px;color:var(--sig)">${n[2]}</td><td>${n[3]}</td></tr>`).join('')}
+ </table>
+ <div style="margin-top:26px;display:flex;gap:9px">
+   <button class="btn notched" onclick="document.getElementById('notes').classList.remove('show')">Fermer</button></div>`;
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+const SCREENS=['esc','atlas','base','rech','carte','brief','depl','combat','butin'];
+const LABELS={esc:'01 Escouades',atlas:'02 Atlas',base:'03 Base',rech:'04 Recherche',carte:'05 Carte',
+  brief:'06 Briefing',depl:'07 Déploiement',combat:'08 Combat',butin:'09 Butin'};
+const MAIN=[['esc','ic-squad','Escouades'],['base','ic-hq','Base'],['rech','ic-tech','Recherche'],
+  ['carte','ic-map','Carte'],['butin','ic-crate','Butin']];
+$('#mainnav').innerHTML=MAIN.map(m=>
+  `<button data-s="${m[0]}"><svg viewBox="0 0 24 24"><use href="#${m[1]}"/></svg>${m[2]}</button>`).join('');
+function go(s){
+  SCREENS.forEach(k=>$('#sc-'+k).classList.toggle('on',k===s));
+  $$('#pager button[data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===s));
+  $$('#mainnav button').forEach(b=>b.classList.toggle('on',b.dataset.s===s));
+  if(s!=='combat')CB.run=false;
+  if(s==='esc')renderEsc();
+  if(s==='atlas')renderAtlas();
+  if(s==='rech')renderTree(curTree);
+  if(s==='carte'){renderMap();renderHolo();}
+  if(s==='brief')renderBrief();
+  if(s==='depl'){if(!DEP.slots.length)buildSlots();drawDeploy();renderDeployPanels();}
+  if(s==='combat'&&!CB.run&&CB.units.length){CB.run=true;combatLoop();}
+  if(s==='butin')renderButin();
+}
+window.go=go;
+$$('#mainnav button').forEach(b=>b.onclick=()=>go(b.dataset.s));
+$('#pager').innerHTML=SCREENS.map(s=>`<button data-s="${s}">${LABELS[s]}</button>`).join('')
+  +'<span class="sep"></span><button id="notesbtn">Notes v2</button>';
+$$('#pager button[data-s]').forEach(b=>b.onclick=()=>{
+  if(b.dataset.s==='depl'){startDeploy();return;}
+  if(b.dataset.s==='combat'){if(!CB.units.length){startDeploy();startCombat();return;}}
+  go(b.dataset.s);});
+$('#notesbtn').onclick=()=>$('#notes').classList.add('show');
+$('#collect').onclick=()=>doCollect();
+/* boucle d'animation du plateau de déploiement */
+setInterval(()=>{if($('#sc-depl').classList.contains('on'))drawDeploy();},90);
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderEsc();renderBase();renderTree('arm');renderMap();renderHolo();renderButin();
+buildSlots();autoPlace();
+go('esc');
+</script>
+</body>
+</html>
