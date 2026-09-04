@@ -19,6 +19,11 @@ sur `main`.
 decision s'en ecarte, mettre `plan.md` a jour dans la meme PR plutot que de
 laisser les deux diverger.
 
+**`WORKFLOW.md`** donne le deroule d'une tache de bout en bout et l'etat reel
+du depot (ce qui existe, ce qui manque, les pieges connus). A lire au demarrage
+d'une session sur ce projet. Ce fichier-ci reste prioritaire sur les
+conventions.
+
 ## Workflow git — regles imperatives
 
 **Ne jamais commiter directement sur `main` ni sur `dev`.** Tout passe par une
