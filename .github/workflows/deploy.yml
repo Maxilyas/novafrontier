@@ -13,8 +13,30 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # L'app n'existe pas encore (phase P0 du plan). Sans ce garde-fou, chaque
+  # merge sur main lancerait un build docker sans Dockerfile et laisserait une
+  # croix rouge sur main. Les deux jobs suivants se sautent tant que le
+  # Dockerfile n'est pas la. A supprimer une fois l'app conteneurisee.
+  check:
+    name: Application deployable ?
+    runs-on: ubuntu-latest
+    outputs:
+      ready: ${{ steps.detect.outputs.ready }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: detect
+        run: |
+          if [ -f Dockerfile ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Pas encore de Dockerfile - deploiement ignore."
+          fi
+
   build:
     name: Build & push de l'image
+    needs: check
+    if: needs.check.outputs.ready == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: read
