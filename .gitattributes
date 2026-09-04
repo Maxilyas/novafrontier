@@ -1,0 +1,34 @@
+# Normalise les fins de ligne : LF dans le repo ET dans le working tree,
+# quel que soit l'OS de chacun. Prioritaire sur core.autocrlf.
+# Sans ca, un dev Windows et un dev Mac/Linux se renvoient des diffs
+# de fichiers entiers ou aucune ligne n'a change.
+* text=auto eol=lf
+
+# Scripts qui doivent garder des fins de ligne Windows
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# Binaires : jamais de conversion
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.pdf  binary
+*.zip  binary
+*.gz   binary
+*.woff binary
+*.woff2 binary
+*.ttf  binary
+*.otf  binary
+*.mp4  binary
+*.mp3  binary
+
+# Lockfiles : generes, on evite le bruit dans les diffs et les reviews
+package-lock.json  -diff linguist-generated
+yarn.lock          -diff linguist-generated
+pnpm-lock.yaml     -diff linguist-generated
+poetry.lock        -diff linguist-generated
+uv.lock            -diff linguist-generated
