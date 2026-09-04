@@ -1,0 +1,20 @@
+# Sans ce fichier, le contexte de build embarque .git et node_modules :
+# builds lents, image obese, et l'historique git (donc d'eventuels secrets
+# passes puis retires) se retrouve dans l'image.
+.git
+.github
+node_modules
+npm-debug.log*
+dist
+build
+coverage
+.env
+.env.*
+!.env.example
+*.md
+!README.md
+.vscode
+.idea
+.claude
+Dockerfile
+.dockerignore

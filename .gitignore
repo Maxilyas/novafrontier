@@ -1,0 +1,56 @@
+# ---- Secrets (le plus important : ne JAMAIS commiter) ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json
+credentials.json
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Editeurs / IDE ----
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+.idea/
+*.swp
+*.swo
+
+# ---- Claude Code ----
+# .claude/settings.local.json = prefs perso, ne se partage pas.
+# .claude/settings.json et CLAUDE.md SE partagent (voir CLAUDE.md).
+.claude/settings.local.json
+
+# ---- Node / JS ----
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+npm-debug.log*
+yarn-error.log*
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+htmlcov/
+
+# ---- Divers ----
+*.log
+tmp/
+.cache/
+
+# pnpm
+.pnpm-store/

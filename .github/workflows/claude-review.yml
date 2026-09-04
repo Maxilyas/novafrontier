@@ -1,0 +1,73 @@
+name: Claude Code Review
+
+# Se declenche automatiquement a chaque ouverture ou mise a jour d'une PR
+# vers dev (pas besoin de mentionner @claude).
+#
+# Volontairement limite a dev : la PR dev -> main ne contient que des commits
+# deja passes par une review, la re-analyser serait du bruit et du cout en plus.
+on:
+  pull_request:
+    branches: [dev]
+    types: [opened, synchronize]
+
+# Une seule review a la fois par PR : si vous poussez 3 commits d'affilee,
+# les runs precedents sont annules au lieu de tourner (et d'etre factures)
+# pour un diff deja perime.
+concurrency:
+  group: claude-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write   # necessaire pour poster les commentaires
+  id-token: write        # requis par l'action
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Revue de code par Claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Relis cette pull request et reponds en francais.
+            Concentre-toi sur :
+            - les bugs et les cas limites non geres
+            - la securite (injections, secrets en dur, validation des entrees)
+            - les regressions possibles par rapport au reste du code
+            - la lisibilite et la coherence avec les conventions du projet
+
+            Ne signale pas les questions de style pur deja couvertes par le linter.
+            Si la PR est correcte, dis-le en une phrase plutot que d'inventer
+            des remarques.
+
+            La branche de la PR est deja checkout dans le repertoire courant.
+
+            Utilise `gh pr comment` pour le retour general.
+            Utilise `mcp__github_inline_comment__create_inline_comment`
+            (avec `confirmed: true`) pour pointer une ligne precise.
+            Poste uniquement des commentaires GitHub.
+
+          # Sans cette ligne, Claude analyse la PR mais n'a pas le droit de
+          # poster : la review tourne dans le vide.
+          claude_args: |
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
+
+      # ---------------------------------------------------------------
+      # Variante : utiliser le plugin officiel "code-review" a la place
+      # du prompt maison ci-dessus. Remplacer le bloc `prompt:` par :
+      #
+      #   plugin_marketplaces: "https://github.com/anthropics/claude-code.git"
+      #   plugins: "code-review@claude-code-plugins"
+      #   prompt: "/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+      #
+      # (garder claude_args, le besoin de permissions est le meme)
+      # ---------------------------------------------------------------
