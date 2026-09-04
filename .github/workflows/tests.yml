@@ -1,7 +1,8 @@
 name: Tests & Lint
 
-# Double filet : sur les PR vers dev (avant la review Claude) et sur les PR
-# vers main (avant que quoi que ce soit parte en prod).
+# Double filet : sur les PR vers dev, puis sur les PR vers main, avant que
+# quoi que ce soit parte en prod. La review de code se fait en local avec
+# /code-review (voir CLAUDE.md), pas dans la CI.
 on:
   pull_request:
     branches: [dev, main]

@@ -73,6 +73,38 @@ test: ajoute les cas limites du parser
 Un commit = un changement coherent. Pas de commit "wip" ou "fix" seul sur
 une branche destinee a etre mergee.
 
+## Review de code
+
+La review se fait **en local, avant de pousser**, pendant la session de code.
+Il n'y a pas de review automatique dans la CI : c'est un choix assume, la
+contrepartie est que personne ne la declenche a votre place.
+
+Avant d'ouvrir une PR, sur la branche de travail :
+
+```
+/code-review
+```
+
+Par defaut la commande relit le diff courant. Quelques variantes utiles :
+
+```
+/code-review high        # plus large, remonte aussi les cas incertains
+/code-review --fix       # applique les corrections dans le working tree
+/code-review dev         # relit tout l'ecart entre la branche et dev
+```
+
+Reflexes :
+- Lancer la review **avant** le dernier commit, pas apres avoir pousse : les
+  corrections restent dans la branche au lieu de faire un commit "fix review".
+- Sur une grosse branche, viser `/code-review dev` plutot que le dernier diff,
+  sinon on ne relit que le dernier commit.
+- Ce que la review trouve et qu'on decide de ne pas corriger se dit dans la
+  description de la PR. L'autre n'a pas le contexte de votre session.
+
+La CI (`tests.yml`) reste le seul garde-fou automatique : lint, typecheck,
+tests, build. Elle ne juge pas la conception, seulement que ca compile et que
+ca passe.
+
 ## Ce que Claude ne fait pas sans qu'on le demande
 
 - Pousser sur `origin` (`git push`).
@@ -87,13 +119,15 @@ une branche destinee a etre mergee.
 Aucun secret dans le repo. `.env` est ignore par git ; le modele des variables
 attendues va dans `.env.example`, qui lui est versionne.
 
-La cle API pour la review automatique est dans les secrets GitHub du repo
-(`ANTHROPIC_API_KEY`), pas dans le code.
+Secrets GitHub necessaires (Settings > Secrets and variables > Actions) :
+`VPS_HOST`, `VPS_USER`, `VPS_SSH_KEY`, `VPS_PORT`, `VPS_APP_PATH` pour le
+deploiement. Aucune cle Anthropic cote GitHub : la review tourne en local,
+avec l'abonnement de chacun.
 
 ## Commandes du projet
 
 Claude doit utiliser ces commandes pour verifier son travail plutot que de
-supposer que le code marche. A ajuster si les scripts npm changent.
+supposer que le code marche. A ajuster si les scripts pnpm changent.
 
 ```
 pnpm install --frozen-lockfile   # installation
