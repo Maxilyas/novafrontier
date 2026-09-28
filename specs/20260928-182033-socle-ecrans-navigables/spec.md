@@ -23,6 +23,7 @@ Cette feature sert la phase P0 de la feuille de route. Termes employes :
 
 - Q: Le joueur doit-il deja pouvoir modifier la composition d'une escouade (ajouter ou retirer un commandant, un vaisseau ou un meca) en phase P0 de la feuille de route ? → A: Non. La composition reste celle de l'etat de demonstration ; ajouter ou retirer une unite affiche le message d'indisponibilite, et les chiffres restent ceux de la maquette.
 - Q: Quand le joueur active une commande qui n'existe pas encore en phase P0 de la feuille de route (Collecter, Ameliorer, Lancer la recherche, ouvrir un coffre, actions de combat...), que doit-il se passer ? → A: La commande garde l'apparence de la maquette ; l'activer affiche un message bref "pas encore disponible", sans rien modifier.
+- Q: En phase P0 de la feuille de route, que doivent montrer les zones animees des ecrans Carte, Deploiement et Combat, la ou la maquette dessine la galaxie, le plateau de deploiement et l'arene ? → A: Un fond spatial provisoire anime. Planetes, plateau et combat arrivent en phases P1 et P2 de la feuille de route ; la planete visee reste celle de la demonstration (Gemenon).
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -245,6 +246,7 @@ L'interface occupe toute la fenetre et repartit ses zones selon la place disponi
 - **Poste de reference** pour les mesures de performance et de fluidite : ordinateur courant de moins de 5 ans, a processeur graphique integre, ecran 1920x1080. Le plan peut en retenir un autre et le dire.
 - **Dimensions minimales** : 1280 px de large, fixes par `plan.md` §2 ; la hauteur minimale de 720 px est une hypothese de cette spec, `plan.md` n'en fixant pas.
 - **Commandes d'une phase ulterieure** : un message bref (voir Clarifications), pour rester fidele a la maquette sans rien laisser croire. Alternatives ecartees : la commande grisee ou masquee, qui eloigne les ecrans de la maquette, et l'effet simule, qui ferait une fausse economie locale. Aucune commande ne simule une regle du jeu, une economie ou un tirage (principes II et IV de la constitution).
+- **Zones de scene** : contenu provisoire (voir Clarifications). Alternatives ecartees : afficher des la phase P0 de la feuille de route les planetes et le trajet de la maquette, ou une reproduction figee de ses zones graphiques ; ces deux travaux seraient a refaire en phase P2 de la feuille de route.
 - **Composition des escouades** : figee sur l'etat de demonstration (voir Clarifications). La modifier suppose des regles du jeu et une sauvegarde que des phases ulterieures de la feuille de route introduisent.
 - **Valeurs calculees** : la composition etant figee, ces valeurs ne varient qu'avec l'escouade et le theatre choisis. FR-013 fixe les valeurs affichees, pas la maniere de les obtenir, qui releve du plan.
 - **Decisions ouvertes** : les points 2 et 3 du compte-rendu repris dans la maquette (objectif et disposition du combat, bascule spatial ou terrestre ; points d'action fixes ou achetables) ne sont pas tranches a la date de cette spec. Leurs selecteurs sont repris tant qu'ils ne le sont pas.
