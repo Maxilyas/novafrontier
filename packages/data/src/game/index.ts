@@ -2,6 +2,7 @@
 
 export * from './buildings';
 export * from './crates';
+export * from './engines';
 export * from './planets';
 export * from './rarities';
 export * from './research';

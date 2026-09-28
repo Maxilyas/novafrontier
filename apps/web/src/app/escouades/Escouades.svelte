@@ -1,12 +1,18 @@
 <script lang="ts">
+  import Board from './Board.svelte';
   import Roster from './Roster.svelte';
+  import SquadTabs from './SquadTabs.svelte';
+  import Summary from './Summary.svelte';
 
   /** Ecran 01 · Escouades (maquette, lignes 716-733, CSS 252-301). */
 </script>
 
 <section class="screen escouades" data-screen="escouades" aria-label="Escouades" tabindex="-1">
   <h1 class="tag">// 01 · <b>ESCOUADES</b> — COMPOSITION DES ÉQUIPES</h1>
+  <SquadTabs />
+  <Board />
   <Roster />
+  <Summary />
   <div class="foot">
     Une escouade = 1 commandant + 3 vaisseaux + 2 mécas · le commandant détermine les points
     d'action
@@ -27,5 +33,22 @@
     background:
       radial-gradient(ellipse at 50% 120%, rgba(99, 214, 188, 0.06), transparent 58%),
       linear-gradient(180deg, #080d0c, #050807);
+  }
+  .escouades :global(.panel.board) {
+    grid-area: board;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .escouades :global(.panel.roster) {
+    grid-area: roster;
+    overflow: hidden;
+  }
+  .escouades :global(.panel.sumry) {
+    grid-area: sumry;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 </style>

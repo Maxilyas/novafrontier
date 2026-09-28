@@ -4,6 +4,7 @@ import {
   crates,
   demoState,
   derivedValues,
+  engines,
   launchPool,
   planetIncome,
   planets,
@@ -100,6 +101,11 @@ describe('2. references valides', () => {
     for (const g of launchPool.groups) {
       for (const id of g.units) expect(unite.get(id)?.rarity).toBe(g.rarity);
     }
+  });
+
+  it('la mission consomme le carburant de sa motorisation', () => {
+    const moteur = engines.find((e) => e.id === demoState.mission.engine);
+    expect(moteur?.fuelRate).toBe(demoState.mission.fuelRate);
   });
 
   it('les valeurs par defaut designent des elements existants', () => {

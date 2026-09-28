@@ -57,10 +57,6 @@
 </Panel>
 
 <style>
-  :global(.panel.roster) {
-    grid-area: roster;
-    overflow: hidden;
-  }
   .rlist {
     display: flex;
     gap: 8px;

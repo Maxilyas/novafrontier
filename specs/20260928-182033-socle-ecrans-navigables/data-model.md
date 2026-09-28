@@ -59,6 +59,14 @@ remplies, multiplicateurs strictement positifs (1,35 / 1 / 0,75 dans la maquette
 
 `Enemy` : `{ weapon: 'nuc', armor: 'Lourd', siteDefense: 68 }` (constante `ENEMY`).
 
+### Engine (3)
+
+| Champ | Type | Regle |
+|---|---|---|
+| `id` | `Engine` | `Standard`, `Léger`, `Subspatial` |
+| `description` | texte | texte de la maquette (panneau "Motorisation" de l'Atlas) |
+| `fuelRate` | nombre > 0 | consommation en carburant par UA : 1 / 0,7 / 3,4 |
+
 ### Unit (11), union discriminee par `family`
 
 Champs communs :

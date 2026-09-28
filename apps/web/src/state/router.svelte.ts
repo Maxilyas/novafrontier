@@ -35,10 +35,20 @@ export function startRouter(): () => void {
   return () => window.removeEventListener('hashchange', synchroniser);
 }
 
-/** Change d'ecran : une entree d'historique, aucune si l'adresse est deja la bonne. */
-export function navigate(route: Route): void {
+/**
+ * Change d'ecran : une entree d'historique, aucune si l'adresse est deja la bonne. `replace`
+ * remplace l'adresse sans entree d'historique : choisir une unite dans l'Atlas n'est pas un
+ * changement d'ecran, mais l'adresse doit la designer pour le rechargement (FR-006).
+ */
+export function navigate(route: Route, { replace = false }: { replace?: boolean } = {}): void {
   const cible = toHash(route);
-  if (window.location.hash !== cible) window.location.hash = cible;
+  if (window.location.hash === cible) return;
+  if (replace) {
+    history.replaceState(history.state, '', cible);
+    synchroniser();
+  } else {
+    window.location.hash = cible;
+  }
 }
 
 export { toHash };

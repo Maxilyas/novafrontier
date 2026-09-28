@@ -21,7 +21,7 @@ export type {
 
 // Donnees de jeu portees de la maquette (lecture seule)
 export {
-  rarities, weapons, damageMatrix, enemy, units, buildings, buildingSlots,
+  rarities, weapons, damageMatrix, enemy, engines, units, buildings, buildingSlots,
   researchTrees, planets, planetIncome, crates, launchPool,
 } from './game';
 

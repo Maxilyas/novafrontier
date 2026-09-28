@@ -160,6 +160,38 @@
   border-color: rgba(245, 166, 35, 0.5);
   background: rgba(245, 166, 35, 0.04);
 }
+/* Emplacement cliquable : un bouton qui garde l'apparence de la maquette. */
+button.slot {
+  font: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+/* composition d'armement (lignes 283-289) ; la couleur de chaque armement vient des donnees */
+.trin {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.trin .ic {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  flex: 0 0 auto;
+}
+.trin .nb {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--paper);
+}
+
 .slot.leg .plus,
 .slot.leg .sl {
   color: var(--gold);
