@@ -16,7 +16,8 @@
 > Si ce fichier contredit l'un des trois premiers, c'est lui qui a tort : le
 > corriger ici, dans la meme PR que le changement.
 
-Derniere mise a jour : 28 septembre 2026 (adoption de spec-kit).
+Derniere mise a jour : 28 septembre 2026 (adoption de spec-kit ; review sur
+la PR, merge par Claude sur demande).
 
 ---
 
@@ -60,9 +61,9 @@ celui de `deploy.yml`.
 |---|---|---|
 | Specifier, planifier, decouper une feature | humain + Claude, skills `/speckit-*` | non — chaque etape est lancee puis relue par un humain |
 | Ecrire le code | humain + Claude en session | — |
-| Review de code | Claude en local, `/code-review` | **non** — personne ne la declenche a votre place |
+| Review de code | l'equipe avec Claude, sur la PR | non |
 | Lint, typecheck, tests, build | CI (`tests.yml`) | oui, sur chaque PR |
-| Merge | humain, en squash vers `main` | non |
+| Merge | Claude, en squash vers `main` | non — uniquement quand un humain le demande |
 | Deploiement preprod | CI | oui, a chaque merge sur `main` — **pas encore en place** |
 | Mise en prod | CI (`deploy.yml`), sur feu vert humain | non — le job attend la validation de l'environnement `production` (piege 3) |
 
@@ -123,16 +124,7 @@ trois causes de conflit les plus couteuses a deux.
 
 ### Avant de commiter
 
-```
-/code-review
-```
-
-A lancer **avant** le dernier commit, pas apres avoir pousse : les corrections
-restent dans la branche au lieu de produire un commit "fix review". Sur une
-branche qui a vecu plusieurs jours, viser `/code-review main` pour relire tout
-l'ecart, sinon seul le dernier diff est relu.
-
-Puis verifier localement ce que la CI verifiera :
+Verifier localement ce que la CI verifiera :
 
 ```
 pnpm -r lint && pnpm -r typecheck && pnpm -r test
@@ -159,16 +151,24 @@ branche a jour) ; le bouton **Update branch** de la PR marche aussi.
 La PR vise `main`. Son titre suit le format des commits (`feat: ...`) : au
 merge en squash, c'est lui qui devient le message du commit sur `main`.
 
-Remplir le template, en particulier la section **Points laisses de cote** : la
-review ayant eu lieu dans votre session, l'autre personne n'a aucune visibilite
-sur ce qui a ete signale puis ecarte. Sans ce report, l'information est perdue.
+Remplir le template, en particulier la section **Points laisses de cote** : ce
+qui a ete signale pendant la session de travail puis ecarte, les relecteurs
+n'en ont aucune visibilite. Sans ce report, l'information est perdue.
 
 Pour une feature spec-kit, donner le chemin de `specs/<feature>/` dans la
 description : la spec et le plan sont le point d'entree de la relecture.
 
+### Relire la PR
+
+La review se fait sur la PR, par l'equipe avec Claude : commentaires sur la
+PR, corrections poussees sur la meme branche. Il n'y a pas de review locale
+obligatoire avant de pousser.
+
 ### Merger
 
-En **squash**, vers `main`, une fois la CI verte et la PR relue.
+En **squash**, vers `main`, une fois la CI verte et la PR relue. C'est Claude
+qui merge, et seulement quand un humain le lui demande explicitement : une PR
+verte et relue attend ce feu vert.
 
 Un merge sur `main` n'est **pas** une mise en production, mais tout ce qui est
 sur `main` doit rester livrable : la prochaine mise en prod embarquera tous les
@@ -218,9 +218,10 @@ merges depuis la precedente, pas seulement le dernier.
 5. **`.gitattributes` force LF.** Sous Windows, git affiche un avertissement
    `CRLF will be replaced by LF` a l'ajout d'un fichier : c'est le comportement
    attendu, pas une erreur.
-6. **Aucune cle Anthropic cote GitHub.** La review tourne en local avec
-   l'abonnement de chacun. Les seuls secrets a creer sont les `VPS_*`, et
-   seulement a partir du P5.
+6. **Aucune cle Anthropic cote GitHub.** Claude intervient depuis des
+   sessions Claude Code (en local ou dans le cloud), avec l'abonnement de
+   chacun ; rien dans la CI ne l'appelle. Les seuls secrets a creer sont les
+   `VPS_*`, et seulement a partir du P5.
 7. **`deploy.yml` ne deploie pas encore par SHA** (sans effet tant qu'il n'y a
    pas de `Dockerfile`). Le build pousse `:latest` avant toute validation, y
    compris depuis une autre branche via `workflow_dispatch`, et le deploiement

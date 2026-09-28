@@ -61,3 +61,9 @@ qui apparait dans un diff casse l'install de l'autre.
 
 Les memes scripts sont appeles par la CI dans `.github/workflows/tests.yml` :
 si vous en renommez un, mettez le workflow a jour dans la meme PR.
+
+## Review et merge
+
+La review se fait sur la PR, par l'equipe avec Claude. Claude ne merge une PR
+(en squash vers `main`) que lorsqu'un humain le lui demande explicitement,
+meme si elle est verte et relue.
