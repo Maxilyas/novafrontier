@@ -1,0 +1,301 @@
+{
+  "squads": {
+    "alpha": {
+      "filled": 6,
+      "unitCount": 5,
+      "power": 2566,
+      "dominantWeapon": "las",
+      "weaponMix": [
+        {
+          "weapon": "las",
+          "count": 11,
+          "percent": 61
+        },
+        {
+          "weapon": "nuc",
+          "count": 3,
+          "percent": 17
+        },
+        {
+          "weapon": "art",
+          "count": 4,
+          "percent": 22
+        }
+      ],
+      "totalHp": 10360,
+      "totalAttack": 1686,
+      "averageDefense": 58
+    },
+    "bravo": {
+      "filled": 3,
+      "unitCount": 2,
+      "power": 991,
+      "dominantWeapon": "las",
+      "weaponMix": [
+        {
+          "weapon": "las",
+          "count": 13,
+          "percent": 100
+        }
+      ],
+      "totalHp": 3980,
+      "totalAttack": 784,
+      "averageDefense": 26
+    },
+    "charlie": {
+      "filled": 1,
+      "unitCount": 0,
+      "power": 0,
+      "dominantWeapon": "las",
+      "weaponMix": [],
+      "totalHp": 0,
+      "totalAttack": 0,
+      "averageDefense": 0
+    }
+  },
+  "route": {
+    "target": "gemenon",
+    "distance": 681,
+    "fuelRequired": 681,
+    "fuelAvailable": 9420,
+    "travelTime": "7h 06",
+    "squadSpeed": 96,
+    "difficulty": 3,
+    "loot": 2511,
+    "inRange": true,
+    "reach": 900
+  },
+  "briefing": {
+    "alpha": {
+      "sentPower": 2566,
+      "enemyPower": 3178,
+      "advantage": 0.75,
+      "winChance": 38,
+      "armoredUnits": 3,
+      "constraintMet": true
+    },
+    "bravo": {
+      "sentPower": 991,
+      "enemyPower": 1227,
+      "advantage": 0.75,
+      "winChance": 38,
+      "armoredUnits": 0,
+      "constraintMet": false
+    },
+    "charlie": {
+      "sentPower": 0,
+      "enemyPower": 0,
+      "advantage": 0.75,
+      "winChance": null,
+      "armoredUnits": 0,
+      "constraintMet": false
+    }
+  },
+  "mission": {
+    "waves": [
+      {
+        "index": 1,
+        "boss": false,
+        "composition": "Intercepteurs ×9",
+        "weapon": "las",
+        "threat": "l"
+      },
+      {
+        "index": 2,
+        "boss": false,
+        "composition": "Intercepteurs ×12 · frégates ×2",
+        "weapon": "art",
+        "threat": "m"
+      },
+      {
+        "index": 3,
+        "boss": false,
+        "composition": "Frégates de raid ×5",
+        "weapon": "las",
+        "threat": "h"
+      },
+      {
+        "index": 4,
+        "boss": false,
+        "composition": "Intercepteurs ×12 · frégates ×2",
+        "weapon": "art",
+        "threat": "m"
+      },
+      {
+        "index": 5,
+        "boss": false,
+        "composition": "Intercepteurs ×9",
+        "weapon": "las",
+        "threat": "l"
+      },
+      {
+        "index": 6,
+        "boss": true,
+        "composition": "Croiseur porte-nef · escorte lourde",
+        "weapon": "nuc",
+        "threat": "b"
+      }
+    ],
+    "territoryGain": 209
+  },
+  "deployment": {
+    "alpha": {
+      "orbital": {
+        "units": [
+          {
+            "unit": "s1",
+            "line": "back"
+          },
+          {
+            "unit": "s2",
+            "line": "front"
+          },
+          {
+            "unit": "s4",
+            "line": "front"
+          }
+        ]
+      },
+      "sol": {
+        "units": [
+          {
+            "unit": "s1",
+            "line": "back"
+          },
+          {
+            "unit": "s2",
+            "line": "front"
+          },
+          {
+            "unit": "s4",
+            "line": "front"
+          },
+          {
+            "unit": "m1",
+            "line": "front"
+          },
+          {
+            "unit": "m2",
+            "line": "back"
+          }
+        ]
+      }
+    },
+    "bravo": {
+      "orbital": {
+        "units": [
+          {
+            "unit": "s3",
+            "line": "back"
+          }
+        ]
+      },
+      "sol": {
+        "units": [
+          {
+            "unit": "s3",
+            "line": "back"
+          },
+          {
+            "unit": "m2",
+            "line": "back"
+          }
+        ]
+      }
+    },
+    "charlie": {
+      "orbital": {
+        "units": []
+      },
+      "sol": {
+        "units": []
+      }
+    }
+  },
+  "combatStart": {
+    "alpha": {
+      "orbital": {
+        "units": [
+          {
+            "unit": "s4",
+            "maxHp": 1500
+          },
+          {
+            "unit": "s2",
+            "maxHp": 2340
+          },
+          {
+            "unit": "s1",
+            "maxHp": 2520
+          }
+        ]
+      },
+      "sol": {
+        "units": [
+          {
+            "unit": "s4",
+            "maxHp": 1500
+          },
+          {
+            "unit": "m1",
+            "maxHp": 2100
+          },
+          {
+            "unit": "s2",
+            "maxHp": 2340
+          },
+          {
+            "unit": "s1",
+            "maxHp": 2520
+          },
+          {
+            "unit": "m2",
+            "maxHp": 1900
+          }
+        ]
+      }
+    },
+    "bravo": {
+      "orbital": {
+        "units": [
+          {
+            "unit": "s3",
+            "maxHp": 2080
+          }
+        ]
+      },
+      "sol": {
+        "units": [
+          {
+            "unit": "m2",
+            "maxHp": 1900
+          },
+          {
+            "unit": "s3",
+            "maxHp": 2080
+          }
+        ]
+      }
+    },
+    "charlie": {
+      "orbital": {
+        "units": []
+      },
+      "sol": {
+        "units": []
+      }
+    }
+  },
+  "combat": {
+    "titles": {
+      "orbital": "ORBITAL · DÉFENSE DE LA RELIQUE · GEMENON",
+      "sol": "TERRESTRE · DÉFENSE DE LA RELIQUE · GEMENON"
+    },
+    "nextWaveIn": "0:03",
+    "ultimate": {
+      "ready": false,
+      "level": 50,
+      "progress": 0.7
+    }
+  }
+}

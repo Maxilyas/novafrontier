@@ -1,3 +1,4 @@
-/** Etat de demonstration. Les valeurs derivees de la maquette arrivent avec T054. */
+/** Etat de demonstration et valeurs derivees de la maquette. */
 
+export * from './derived';
 export * from './state';

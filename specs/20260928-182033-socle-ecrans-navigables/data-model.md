@@ -181,12 +181,17 @@ francais (`toLocaleString('fr-FR')`) se fait a l'affichage.
 
 | Cle | Contenu | Ecrans |
 |---|---|---|
-| `squads[id]` | `filled` (0 a 6), `power`, `dominantWeapon`, `weaponMix` (effectifs par armement), `totalHp`, `totalAttack`, `averageDefense` | Escouades, Briefing |
-| `route` | `distance`, `fuelRequired`, `fuelAvailable`, `travelTime` ("7h 06"), `squadSpeed`, `difficulty` (1 a 5), `loot`, `inRange`, `reach` | Carte |
-| `briefing[id]` | `sentPower`, `enemyPower`, `advantage` (multiplicateur), `winChance` (%), `armoredUnits`, `constraintMet` | Briefing |
+| `squads[id]` | `filled` (0 a 6), `unitCount`, `power`, `dominantWeapon`, `weaponMix` (`{ weapon, count, percent }`, dans l'ordre de la maquette), `totalHp`, `totalAttack`, `averageDefense` | Escouades, Briefing |
+| `route` | `target`, `distance`, `fuelRequired`, `fuelAvailable`, `travelTime` ("7h 06"), `squadSpeed`, `difficulty` (1 a 5), `loot`, `inRange`, `reach` | Carte |
+| `briefing[id]` | `sentPower`, `enemyPower`, `advantage` (multiplicateur), `winChance` (%, `null` sans unite : la maquette affiche "NaN%"), `armoredUnits`, `constraintMet` | Briefing |
 | `mission` | `waves[]` (`{ index, boss, composition, weapon, threat }`), `territoryGain` | Briefing, Deploiement, Combat |
-| `deployment[id][theatre]` | `units[]` (`{ unit, line: 'front' ou 'back' }`), dans l'ordre de placement automatique de la maquette | Deploiement |
-| `combatStart[id][theatre]` | `title`, `units[]` (`{ unit, maxHp }`), `actionPoints`, `skills` (nombre de competences disponibles), `waveCount`, `nextWaveIn`, `log[]` (`{ text, tone }`) | Combat |
+| `deployment[id][theatre]` | `units[]` (`{ unit, line: 'front' ou 'back' }`), dans l'ordre de la liste "Unites a placer" | Deploiement |
+| `combatStart[id][theatre]` | `units[]` (`{ unit, maxHp }`), dans l'ordre du panneau "Force engagee" | Combat |
+| `combat` | `titles` (intitule par theatre), `nextWaveIn` ("0:03"), `ultimate` (`{ ready, level, progress }`) | Combat |
+
+Le journal initial du Combat, les points d'action et les competences disponibles ne sont pas
+des valeurs derivees : l'interface les compose a partir du nombre d'unites engagees, de la
+formation et des donnees du commandant (rarete, competences).
 
 `id` parcourt les escouades deverrouillees (alpha, bravo, charlie) ; `theatre` parcourt
 `orbital` et `sol`. Exemples extraits de la maquette : puissance d'Alpha 2566 ; Gemenon a 681 UA,

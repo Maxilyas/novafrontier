@@ -3,12 +3,14 @@ import {
   buildings,
   crates,
   demoState,
+  derivedValues,
   launchPool,
   planetIncome,
   planets,
   rarities,
   researchTrees,
   units,
+  unlockedSquadIdSchema,
   weapons,
 } from '../src';
 
@@ -42,6 +44,13 @@ describe('2. references valides', () => {
       for (const id of s.ships) if (id !== null) expect(unite.get(id)?.family).toBe('ship');
       for (const id of s.mechs) if (id !== null) expect(unite.get(id)?.family).toBe('mech');
     }
+  });
+
+  it('les escouades sans grade requis sont exactement les escouades jouables', () => {
+    const jouables = demoState.squads
+      .filter((s) => s.lockedUntilRank === undefined)
+      .map((s) => s.id);
+    expect(jouables).toEqual(unlockedSquadIdSchema.options);
   });
 
   it('une escouade verrouillee n a aucune unite', () => {
@@ -107,5 +116,33 @@ describe('3. contraintes des unites', () => {
   it('etoiles <= maxStars de la rarete', () => {
     const max = new Map(rarities.map((r) => [r.id, r.maxStars]));
     for (const u of units) expect(u.stars).toBeLessThanOrEqual(max.get(u.rarity) ?? 0);
+  });
+});
+
+describe('6. valeurs derivees', () => {
+  const escouades = Object.keys(
+    derivedValues.deployment,
+  ) as (keyof typeof derivedValues.deployment)[];
+
+  it('les unites engagees existent et appartiennent a l escouade', () => {
+    const existantes = new Set(ids(units));
+    for (const id of escouades) {
+      const escouade = demoState.squads.find((s) => s.id === id);
+      const membres = new Set([...(escouade?.ships ?? []), ...(escouade?.mechs ?? [])]);
+      for (const theatre of ['orbital', 'sol'] as const) {
+        const citees = [
+          ...derivedValues.deployment[id][theatre].units,
+          ...derivedValues.combatStart[id][theatre].units,
+        ].map((u) => u.unit);
+        for (const unite of citees) {
+          expect(existantes.has(unite), unite).toBe(true);
+          expect(membres.has(unite), `${unite} dans ${id}`).toBe(true);
+        }
+      }
+    }
+  });
+
+  it('le trajet mene a la cible de la mission', () => {
+    expect(derivedValues.route.target).toBe(demoState.mission.target);
   });
 });

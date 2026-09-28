@@ -29,7 +29,7 @@ export {
 export { demoState, derivedValues } from './demo';
 
 // Acces par identifiant : lectures, aucune regle de jeu
-export { unitById, rarityById, weaponById, planetById, nodeById } from './lookup';
+export { unitById, rarityById, weaponById, planetById, nodeById, basePlanet } from './lookup';
 ```
 
 ## Garanties
@@ -41,7 +41,8 @@ export { unitById, rarityById, weaponById, planetById, nodeById } from './lookup
    l'execution.
 3. **Sans effet de bord** : `"sideEffects": false`. Seules dependances d'execution : `zod`, pour
    les schemas. Un ecran qui n'importe que des donnees n'embarque pas zod.
-4. **Aucune regle de jeu** : les fonctions `*ById` sont des lectures. Les regles (puissance,
+4. **Aucune regle de jeu** : les fonctions `*ById` et `basePlanet` (l'unique planete au statut
+   `BASE`) sont des lectures. Les regles (puissance,
    degats, vagues, chances de victoire...) vivent dans `@nova/sim` a partir de la phase P1 de la
    feuille de route. D'ici la, leurs resultats sont dans `derivedValues`.
 5. **Valeurs derivees tracables** : `demo/derived.generated.json` est produit par

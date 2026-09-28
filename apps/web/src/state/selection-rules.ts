@@ -10,6 +10,7 @@ import type {
   Theatre,
   Unit,
   UnitFamily,
+  UnlockedSquadId,
 } from '@nova/data';
 
 /**
@@ -17,7 +18,8 @@ import type {
  * valeurs par defaut au rechargement (FR-014).
  */
 export interface Selection {
-  squad: SquadId;
+  /** Toujours une escouade jouable : les escouades verrouillees ne se choisissent pas. */
+  squad: UnlockedSquadId;
   rosterFilter: UnitFamily;
   actionPointsMode: ActionPointsMode;
   formation: Record<SquadId, Formation>;
@@ -46,11 +48,18 @@ export function initialSelection(demo: DemoState): Selection {
   };
 }
 
+/**
+ * Escouade jouable : sans grade requis. Les invariants de @nova/data garantissent que ce sont
+ * exactement les escouades de `UnlockedSquadId`.
+ */
+export function isUnlockedSquad(id: SquadId, demo: DemoState): id is UnlockedSquadId {
+  const escouade = demo.squads.find((x) => x.id === id);
+  return escouade !== undefined && escouade.lockedUntilRank === undefined;
+}
+
 /** Choisir une escouade verrouillee ne change rien. */
 export function selectSquad(s: Selection, id: SquadId, demo: DemoState): Selection {
-  const escouade = demo.squads.find((x) => x.id === id);
-  if (!escouade || escouade.lockedUntilRank !== undefined) return s;
-  return { ...s, squad: id };
+  return isUnlockedSquad(id, demo) ? { ...s, squad: id } : s;
 }
 
 /** Choisir un emplacement vide fixe le filtre des effectifs a sa famille. */

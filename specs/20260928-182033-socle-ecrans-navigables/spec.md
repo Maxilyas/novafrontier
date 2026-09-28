@@ -148,7 +148,13 @@ L'interface occupe toute la fenetre et repartit ses zones selon la place disponi
   - le contenu provisoire des zones de scene (FR-022) ;
   - le comportement des commandes d'une phase ulterieure (FR-018) et le placement automatique des unites au Deploiement (FR-017) ;
   - l'acces a l'Atlas depuis Escouades (FR-004) et la mise en evidence de la section courante sur Atlas, Briefing, Deploiement et Combat (FR-003), que la maquette n'offre pas ;
-  - la correction du melange de couleurs entre illustrations de la maquette (FR-010).
+  - la correction du melange de couleurs entre illustrations de la maquette (FR-010) ;
+  - la correction de deux defauts d'affichage de la maquette : les etoiles de rarete des cartes,
+    invisibles (taille nulle), sont visibles ; les chances de victoire d'une escouade sans unite,
+    affichees "NaN%", sont affichees "—" ;
+  - le compteur de visuels en cache de l'Atlas, qui compte les illustrations affichees depuis
+    l'ouverture de l'application : la maquette genere tous ses ecrans au chargement, l'application
+    seulement l'ecran affiche.
 
 **Donnees**
 

@@ -8,9 +8,9 @@ import {
   nonNegativeIntSchema,
   positiveIntSchema,
   researchTreeIdSchema,
-  squadIdSchema,
   theatreSchema,
   unitFamilySchema,
+  unlockedSquadIdSchema,
 } from './common';
 import { planetIdSchema } from './planet';
 import { squadSchema } from './squad';
@@ -78,7 +78,7 @@ export const missionSchema = z.object({
 export type Mission = z.infer<typeof missionSchema>;
 
 export const defaultsSchema = z.object({
-  squad: squadIdSchema,
+  squad: unlockedSquadIdSchema,
   rosterFilter: unitFamilySchema,
   actionPointsMode: actionPointsModeSchema,
   theatre: theatreSchema,

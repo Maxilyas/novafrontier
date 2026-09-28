@@ -21,3 +21,6 @@ export const rarityById = (id: RarityId): Rarity | undefined => raritiesById.get
 export const weaponById = (id: WeaponId): Weapon | undefined => weaponsById.get(id);
 export const planetById = (id: string): Planet | undefined => planetsById.get(id);
 export const nodeById = (id: string): ResearchNode | undefined => nodesById.get(id);
+
+/** Planete de la base du joueur : l'unique planete au statut BASE (data-model.md §7). */
+export const basePlanet = (): Planet | undefined => planets.find((p) => p.status === 'BASE');

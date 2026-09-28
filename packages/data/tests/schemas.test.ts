@@ -10,6 +10,8 @@ import {
   damageMatrixSchema,
   demoState,
   demoStateSchema,
+  derivedValues,
+  derivedValuesSchema,
   enemy,
   enemySchema,
   launchPool,
@@ -43,6 +45,7 @@ describe('chaque donnee passe son schema', () => {
     ['coffres', crateSchema.array(), crates],
     ['pool de lancement', launchPoolSchema, launchPool],
     ['etat de demonstration', demoStateSchema, demoState],
+    ['valeurs derivees de la maquette', derivedValuesSchema, derivedValues],
   ] as const)('%s', (_nom, schema, valeur) => {
     const resultat = schema.safeParse(valeur);
     expect(resultat.error?.issues ?? []).toEqual([]);

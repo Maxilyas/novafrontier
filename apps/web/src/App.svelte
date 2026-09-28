@@ -1,25 +1,25 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import ScreenView from './app/ScreenView.svelte';
+  import TopBar from './app/TopBar.svelte';
   import { startRouter } from './state/router.svelte';
   import IconSprite from './ui/IconSprite.svelte';
   import Toast from './ui/Toast.svelte';
 
+  /** Bandeau superieur, ecran courant, voile de grain et message bref (plan, structure). */
   onMount(() => startRouter());
 </script>
 
 <IconSprite />
 <div class="app">
-  <header class="app-top"></header>
-  <main class="app-screens"></main>
+  <TopBar />
+  <ScreenView />
 </div>
 <div class="grain" aria-hidden="true"></div>
 <Toast />
 
 <style>
-  /*
-   * Mise en page racine (research R5) : bandeau de 84 px, zone d'ecran sur le reste. En dessous
-   * de 1280x720, l'interface garde ces dimensions et la page defile (FR-031).
-   */
+  /* Mise en page fluide (research R5) : en dessous de 1280x720, la page defile. */
   .app {
     position: relative;
     isolation: isolate;
@@ -30,10 +30,5 @@
     height: 100vh;
     min-height: 720px;
     background: var(--ink);
-  }
-
-  .app-screens {
-    position: relative;
-    overflow: hidden;
   }
 </style>

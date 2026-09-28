@@ -48,6 +48,10 @@ export type PlanetStatus = z.infer<typeof planetStatusSchema>;
 export const squadIdSchema = z.enum(['alpha', 'bravo', 'charlie', 'delta', 'echo']);
 export type SquadId = z.infer<typeof squadIdSchema>;
 
+/** Escouades jouables en phase P0 de la feuille de route : Delta et Echo restent verrouillees. */
+export const unlockedSquadIdSchema = z.enum(['alpha', 'bravo', 'charlie']);
+export type UnlockedSquadId = z.infer<typeof unlockedSquadIdSchema>;
+
 /** Les 37 symboles du sprite d'icones de la maquette (lignes 632-668). */
 export const iconIdSchema = z.enum([
   'ic-cmd',

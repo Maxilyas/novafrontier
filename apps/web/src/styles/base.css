@@ -31,9 +31,26 @@ button {
   outline: 2px solid var(--sig-hi);
   outline-offset: 2px;
 }
+/* Coins coupes : la decoupe (clip-path) effacerait un contour exterieur, il passe a l'interieur. */
+.notched:focus-visible {
+  outline-offset: -3px;
+}
+/* Ecran qui recoit le focus apres un changement d'ecran (ScreenView) : pas un arret de Tab. */
+[data-screen]:focus {
+  outline: none;
+}
 a {
   color: inherit;
   text-decoration: none;
+}
+/* Texte reserve aux lecteurs d'ecran (legendes des groupes de boutons). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ---------- Primitives ---------- */

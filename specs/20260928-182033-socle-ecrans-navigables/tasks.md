@@ -220,33 +220,33 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 > **Ecrire ces tests d'abord ; ils doivent echouer avant l'implementation**
 
-- [ ] T039 [P] [US1] Ecrire `apps/web/tests/e2e/navigation.spec.ts` :
+- [X] T039 [P] [US1] Ecrire `apps/web/tests/e2e/navigation.spec.ts` :
   - scenarios 1 a 6 de la story 1 ;
   - SC-001 : nombre d'actions par ecran, soit Escouades 0, Atlas, Base, Recherche, Carte et Butin 1, Briefing 2, Deploiement 3, Combat 4 ;
   - `aria-current="page"` selon FR-003 ;
   - redirections : `#/inconnu` vers `#/escouades` sans nouvelle entree d'historique, `#/atlas/zz` vers `#/atlas/s1`.
-- [ ] T040 [P] [US1] Ecrire `apps/web/tests/e2e/keyboard.spec.ts` : les 9 ecrans atteints au clavier seul (Tab, Entree), contour de `:focus-visible` present a chaque etape (SC-013, partie navigation)
+- [X] T040 [P] [US1] Ecrire `apps/web/tests/e2e/keyboard.spec.ts` : les 9 ecrans atteints au clavier seul (Tab, Entree), contour de `:focus-visible` present a chaque etape (SC-013, partie navigation)
 
 ### Implementation for User Story 1
 
-- [ ] T041 [US1] Creer le bandeau `apps/web/src/app/TopBar.svelte`, d'apres les lignes 671-713 et le CSS des lignes 148-188, avec les valeurs de `demoState` :
+- [X] T041 [US1] Creer le bandeau `apps/web/src/app/TopBar.svelte`, d'apres les lignes 671-713 et le CSS des lignes 148-188, avec les valeurs de `demoState` :
   - portrait SVG et badge de grade, nom, grade, barre d'experience, niveaux ;
   - 4 ressources avec icones et couleurs ;
   - "Collecter" avec montant et jauge, en `laterPhase` `collect`.
-- [ ] T042 [US1] Creer `apps/web/src/app/MainNav.svelte` : `<nav aria-label="Navigation principale">`, les 5 liens de `MAIN` (ligne 2469) avec leurs icones, `aria-current="page"` et classe `on` pour la section courante du routeur (CSS lignes 172-181)
-- [ ] T043 [US1] Creer les coquilles des 9 ecrans :
+- [X] T042 [US1] Creer `apps/web/src/app/MainNav.svelte` : `<nav aria-label="Navigation principale">`, les 5 liens de `MAIN` (ligne 2469) avec leurs icones, `aria-current="page"` et classe `on` pour la section courante du routeur (CSS lignes 172-181)
+- [X] T043 [US1] Creer les coquilles des 9 ecrans :
   - fichiers : `apps/web/src/app/escouades/Escouades.svelte`, `apps/web/src/app/atlas/Atlas.svelte`, `apps/web/src/app/base/Base.svelte`, `apps/web/src/app/recherche/Recherche.svelte`, `apps/web/src/app/carte/Carte.svelte`, `apps/web/src/app/briefing/Briefing.svelte`, `apps/web/src/app/deploiement/Deploiement.svelte`, `apps/web/src/app/combat/Combat.svelte` et `apps/web/src/app/butin/Butin.svelte` ;
   - chacune : `<section data-screen="..." aria-label="...">`, ligne de titre `.tag` et pied `.foot` de la maquette (CSS lignes 189-212) ;
   - les titres qui citent des donnees (planete de la Base, cible du Briefing, intitule du Combat) sont construits depuis `@nova/data`.
-- [ ] T044 [US1] Creer `apps/web/src/app/ScreenView.svelte` : un seul ecran monte, `{#key}` sur l'ecran, fondu de 220 ms supprime si `prefers-reduced-motion`. Brancher `TopBar`, `MainNav` et `ScreenView` dans `apps/web/src/App.svelte`.
-- [ ] T045 [US1] Creer l'acces a l'Atlas :
+- [X] T044 [US1] Creer `apps/web/src/app/ScreenView.svelte` : un seul ecran monte, `{#key}` sur l'ecran, fondu de 220 ms supprime si `prefers-reduced-motion`. Brancher `TopBar`, `MainNav` et `ScreenView` dans `apps/web/src/App.svelte`.
+- [X] T045 [US1] Creer l'acces a l'Atlas :
   - `apps/web/src/app/escouades/Roster.svelte` (panneau "Effectifs disponibles", lignes 719-728 et 1172-1178) :
     - filtre Commandants, Vaisseaux, Mecas, et cartes `mini` de la famille filtree ;
     - marque `sel` des unites de l'escouade courante ;
     - clic sur une carte : `laterPhase` `assign-unit` ;
     - bouton "Fiche" : `navigate` vers `#/atlas/<id>` ;
   - `apps/web/src/app/atlas/Atlas.svelte` place l'unite de l'adresse dans `selection.atlas`.
-- [ ] T046 [US1] Creer les commandes de parcours, avec le style `.btn.solid` de la maquette :
+- [X] T046 [US1] Creer les commandes de parcours, avec le style `.btn.solid` de la maquette :
   - dans `apps/web/src/app/carte/Holo.svelte` : en-tete (planete visee, "À PORTÉE") et liens "Préparer l'assaut", "Espionner" et operation proposee vers `#/briefing` ;
   - dans `apps/web/src/app/briefing/Briefing.svelte` : lien "Passer au déploiement" vers `#/deploiement` ;
   - dans `apps/web/src/app/deploiement/Deploiement.svelte` : lien "Lancer le combat" vers `#/combat`.
@@ -263,7 +263,7 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 ### Tests for User Story 2 ⚠️
 
-- [ ] T047 [P] [US2] Ecrire l'oracle `apps/web/tests/oracle/derived-values.spec.ts` (FR-013) : importer `extractDerivedValues` de `apps/web/scripts/mockup-oracle.mjs` (T053), ouvrir la maquette et comparer l'extraction au contenu de `packages/data/src/demo/derived.generated.json`, lu par `fs`
+- [X] T047 [P] [US2] Ecrire l'oracle `apps/web/tests/oracle/derived-values.spec.ts` (FR-013) : importer `extractDerivedValues` de `apps/web/scripts/mockup-oracle.mjs` (T053), ouvrir la maquette et comparer l'extraction au contenu de `packages/data/src/demo/derived.generated.json`, lu par `fs`
 - [ ] T048 [P] [US2] Ecrire `apps/web/tests/e2e/consultation.spec.ts` :
   - scenarios 2 a 4 et 7 a 9 de la story 2 ;
   - valeurs affichees egales a `derivedValues` : "PUISSANCE 2 566 · ARMEMENT DOMINANT LASER" sur Escouades, 38 % au Briefing, 681 UA sur la Carte ;
@@ -274,8 +274,8 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 ### Implementation for User Story 2
 
-- [ ] T052 [US2] Creer `packages/data/src/schemas/derived.ts` : `derivedValuesSchema` de data-model.md §4, avec `squads`, `route`, `briefing`, `mission`, `deployment` et `combatStart`, pour les escouades `alpha`, `bravo`, `charlie` et les theatres `orbital`, `sol`. Le re-exporter dans `schemas/index.ts`.
-- [ ] T053 [US2] Ecrire l'extraction, en JavaScript pur (research R9).
+- [X] T052 [US2] Creer `packages/data/src/schemas/derived.ts` : `derivedValuesSchema` de data-model.md §4, avec `squads`, `route`, `briefing`, `mission`, `deployment` et `combatStart`, pour les escouades `alpha`, `bravo`, `charlie` et les theatres `orbital`, `sol`. Le re-exporter dans `schemas/index.ts`.
+- [X] T053 [US2] Ecrire l'extraction, en JavaScript pur (research R9).
   - `apps/web/scripts/mockup-oracle.mjs`, fonction `openMockup(browser)` : ouvre `nova-frontier-v2.html` en `file://` depuis la racine, requetes externes bloquees.
   - Meme fichier, fonction `extractDerivedValues(page)`, pour chaque escouade et chaque theatre :
     - fixe `curSquad` et `theatre` ;
@@ -284,7 +284,7 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
     - appelle `startCombat()` puis fixe `CB.run = false`, et lit `CB.units`, `CB.maxpts`, `#combatname`, `#loglines`, `#wv`, `#wvmax` et `#wtimer` ;
     - lit dans le DOM la synthese (`#sumry`), la contrainte (`#bc2`) et le trajet (`#holo`).
   - `apps/web/scripts/extract-mockup.mjs` : lance Chromium (`executablePath` depuis `PW_CHROMIUM_EXECUTABLE` si definie) et ecrit `packages/data/src/demo/derived.generated.json`, en JSON indente de 2 espaces.
-- [ ] T054 [US2] Generer `packages/data/src/demo/derived.generated.json` (`pnpm --filter @nova/web mockup:extract`) et l'exposer par `packages/data/src/demo/derived.ts` (`derivedValues`, type `DerivedValues`) et par `packages/data/src/index.ts`. Ajouter sa validation a `packages/data/tests/schemas.test.ts`. Faire passer T047.
+- [X] T054 [US2] Generer `packages/data/src/demo/derived.generated.json` (`pnpm --filter @nova/web mockup:extract`) et l'exposer par `packages/data/src/demo/derived.ts` (`derivedValues`, type `DerivedValues`) et par `packages/data/src/index.ts`. Ajouter sa validation a `packages/data/tests/schemas.test.ts`. Faire passer T047.
 - [ ] T055 [P] [US2] Creer `apps/web/src/app/escouades/SquadTabs.svelte` (lignes 1102-1111, CSS lignes 252-301) :
   - numero, nom, puis "n/6 · puissance PUISS.", ou "Verrouillé" et le grade ;
   - clic : `selection.selectSquad`, sans effet sur une escouade verrouillee.
