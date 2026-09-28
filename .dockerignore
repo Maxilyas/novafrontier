@@ -1,17 +1,23 @@
 # Sans ce fichier, le contexte de build embarque .git et node_modules :
 # builds lents, image obese, et l'historique git (donc d'eventuels secrets
 # passes puis retires) se retrouve dans l'image.
+#
+# Ce n'est pas un .gitignore : un motif sans / ni ** ne vise que la racine du
+# contexte (node_modules exclut ./node_modules, pas apps/web/node_modules),
+# d'ou les **/ devant ce qui doit valoir a toute profondeur. La derniere regle
+# qui correspond l'emporte : les .env sont en tete pour que !**/.env.example
+# ne repeche rien dans les dossiers exclus plus bas (node_modules, dist...).
+**/.env
+**/.env.*
+!**/.env.example
 .git
 .github
-node_modules
-npm-debug.log*
-dist
-build
-coverage
-.env
-.env.*
-!.env.example
-*.md
+**/node_modules
+**/npm-debug.log*
+**/dist
+**/build
+**/coverage
+**/*.md
 !README.md
 .vscode
 .idea
