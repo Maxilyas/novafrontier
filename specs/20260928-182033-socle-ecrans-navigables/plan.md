@@ -162,7 +162,8 @@ apps/web/                  # @nova/web (plan.md §8)
 │   ├── ui/                # design system : Panel, Btn, Bar, StatLine, KeyValue, Pill, Seg,
 │   │   │                  #   Switch, Stars, OpenBadge, Toast, Icon, IconSprite, UnitCard
 │   │   └── art/           # CommanderArt, ShipArt, MechArt, BuildingArt, WeaponGlyph, registry.ts
-│   ├── scene/             # SceneHost.svelte, renderer.ts, render-mode.ts, scenes/placeholder.ts
+│   ├── scene/             # SceneHost.svelte, renderer.ts, types.ts, render-mode.ts,
+│   │                      #   scenes/placeholder.ts
 │   ├── state/             # router.svelte.ts, selection.svelte.ts, toast.svelte.ts
 │   └── styles/            # tokens.css, base.css, overlay.css, fonts.css
 ├── tests/
@@ -170,7 +171,8 @@ apps/web/                  # @nova/web (plan.md §8)
 │   ├── e2e/               # Playwright : parcours, consultation, commandes a venir, tailles,
 │   │                      #   scenes, cycle de vie, requetes, clavier
 │   └── oracle/            # Playwright : valeurs de la maquette = valeurs derivees
-└── scripts/               # captures.ts, lighthouse.mjs, extract-mockup.ts
+└── scripts/               # JS pur, lance par node : captures.mjs, lighthouse.mjs,
+                           #   extract-mockup.mjs, mockup-oracle.mjs
 
 packages/data/             # @nova/data (sideEffects: false)
 ├── src/

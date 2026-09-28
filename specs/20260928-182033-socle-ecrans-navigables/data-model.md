@@ -102,7 +102,7 @@ Vaisseau et meca (`family: 'ship' | 'mech'`) :
 | `position` | `{ x, y, width }` | coordonnees du plan de la base de la maquette |
 | `icon` | `IconId` | |
 | `status`, `description` | texte | |
-| `upgrade` | `{ alloy, credits, duration, effect }` | valeurs affichees par la maquette, figees (voir section 4) |
+| `upgrade` | `{ alloy, credits, duration, effect }` | valeurs affichees par la maquette : alliage `28000 + i*4200`, credits `1800 + i*260` (i = rang du batiment), duree "04:12:30", effet "+14% rendement" |
 
 Compteur "9 / 12" : `buildingSlots: { used: 9, total: 12 }`.
 
@@ -123,6 +123,10 @@ Compteur "9 / 12" : `buildingSlots: { used: 9, total: 12 }`.
 | `cost` | `{ alloy, credits, artefacts? }` | `artefacts` present si et seulement si `legendary` |
 | `duration`, `effect` | texte | |
 | `labLevel` | entier | niveau de laboratoire requis |
+
+Les couts, durees, effets et niveaux de laboratoire sont ceux que la maquette affiche : alliage
+`18000 + x*22`, credits `2200 + x*3`, 3 artefacts si legendaire, duree `0{1 + x%5}:24:00`,
+laboratoire `4 + 2*(nombre de prerequis)`, effet "+8% rendement" (x = abscisse du noeud).
 
 ### Planet (16)
 
@@ -171,7 +175,7 @@ figee (Clarifications de la spec).
 
 ## 4. Valeurs derivees (`demo/derived.generated.json`)
 
-Valeurs que la maquette calcule, extraites d'elle par `apps/web/scripts/extract-mockup.ts` et
+Valeurs que la maquette calcule, extraites d'elle par `apps/web/scripts/extract-mockup.mjs` et
 verifiees par le test oracle (`research.md` R9, FR-013). Les nombres sont bruts ; le formatage
 francais (`toLocaleString('fr-FR')`) se fait a l'affichage.
 
@@ -183,7 +187,6 @@ francais (`toLocaleString('fr-FR')`) se fait a l'affichage.
 | `mission` | `waves[]` (`{ index, boss, composition, weapon, threat }`), `territoryGain` | Briefing, Deploiement, Combat |
 | `deployment[id][theatre]` | `units[]` (`{ unit, line: 'front' ou 'back' }`), dans l'ordre de placement automatique de la maquette | Deploiement |
 | `combatStart[id][theatre]` | `title`, `units[]` (`{ unit, maxHp }`), `actionPoints`, `skills` (nombre de competences disponibles), `waveCount`, `nextWaveIn`, `log[]` (`{ text, tone }`) | Combat |
-| `buildingUpgrades[id]`, `researchCosts[id]` | couts, durees, effets et niveau de laboratoire, figes tels que la maquette les affiche | Base, Recherche |
 
 `id` parcourt les escouades deverrouillees (alpha, bravo, charlie) ; `theatre` parcourt
 `orbital` et `sol`. Exemples extraits de la maquette : puissance d'Alpha 2566 ; Gemenon a 681 UA,
