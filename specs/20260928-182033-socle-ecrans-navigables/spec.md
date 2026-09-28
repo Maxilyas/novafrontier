@@ -22,6 +22,7 @@ Cette feature sert la phase P0 de la feuille de route. Termes employes :
 ### Session 2026-09-28
 
 - Q: Le joueur doit-il deja pouvoir modifier la composition d'une escouade (ajouter ou retirer un commandant, un vaisseau ou un meca) en phase P0 de la feuille de route ? → A: Non. La composition reste celle de l'etat de demonstration ; ajouter ou retirer une unite affiche le message d'indisponibilite, et les chiffres restent ceux de la maquette.
+- Q: Quand le joueur active une commande qui n'existe pas encore en phase P0 de la feuille de route (Collecter, Ameliorer, Lancer la recherche, ouvrir un coffre, actions de combat...), que doit-il se passer ? → A: La commande garde l'apparence de la maquette ; l'activer affiche un message bref "pas encore disponible", sans rien modifier.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -243,7 +244,7 @@ L'interface occupe toute la fenetre et repartit ses zones selon la place disponi
 - **Navigateurs cibles** : dernieres versions stables de Chrome, Edge, Firefox et Safari sur ordinateur. WebGPU n'y est pas disponible partout (`plan.md` §3) ; les configurations qui ne le proposent pas (par exemple Firefox sous Linux, ou WebGPU desactive) servent a verifier le rendu de repli.
 - **Poste de reference** pour les mesures de performance et de fluidite : ordinateur courant de moins de 5 ans, a processeur graphique integre, ecran 1920x1080. Le plan peut en retenir un autre et le dire.
 - **Dimensions minimales** : 1280 px de large, fixes par `plan.md` §2 ; la hauteur minimale de 720 px est une hypothese de cette spec, `plan.md` n'en fixant pas.
-- **Commandes d'une phase ulterieure** : un message bref plutot qu'une commande grisee, pour rester fidele a la maquette sans rien laisser croire. Aucune ne simule une regle du jeu, une economie ou un tirage (principes II et IV de la constitution).
+- **Commandes d'une phase ulterieure** : un message bref (voir Clarifications), pour rester fidele a la maquette sans rien laisser croire. Alternatives ecartees : la commande grisee ou masquee, qui eloigne les ecrans de la maquette, et l'effet simule, qui ferait une fausse economie locale. Aucune commande ne simule une regle du jeu, une economie ou un tirage (principes II et IV de la constitution).
 - **Composition des escouades** : figee sur l'etat de demonstration (voir Clarifications). La modifier suppose des regles du jeu et une sauvegarde que des phases ulterieures de la feuille de route introduisent.
 - **Valeurs calculees** : la composition etant figee, ces valeurs ne varient qu'avec l'escouade et le theatre choisis. FR-013 fixe les valeurs affichees, pas la maniere de les obtenir, qui releve du plan.
 - **Decisions ouvertes** : les points 2 et 3 du compte-rendu repris dans la maquette (objectif et disposition du combat, bascule spatial ou terrestre ; points d'action fixes ou achetables) ne sont pas tranches a la date de cette spec. Leurs selecteurs sont repris tant qu'ils ne le sont pas.
