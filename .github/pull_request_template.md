@@ -8,7 +8,9 @@
 
 
 ## Checklist
-- [ ] Branche a jour avec `dev` (`git fetch origin && git rebase origin/dev`)
+- [ ] Branche a jour avec `main` (`git fetch origin && git rebase origin/main`)
+- [ ] Titre de la PR au format des commits (`feat: ...`) : en squash, il devient le message du commit sur `main`
+- [ ] Rien de pas fini n'est actif : `main` doit rester livrable
 - [ ] `/code-review` passe en local, remarques traitees
 - [ ] `pnpm -r lint` et `pnpm -r test` passent en local
 - [ ] Pas de secret / `.env` / cle API dans le diff

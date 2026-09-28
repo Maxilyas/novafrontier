@@ -149,7 +149,7 @@ Réutilisation depuis la maquette : les constantes `RAR`, `WEP`, `MATRIX`, `POOL
 | **P2 Carte, déploiement, base** | Champ d'étoiles parallaxe et planètes en shader, routes, pan/zoom fluides (molette, pincement), plateau de déploiement en drag & drop (Pointer Events), base en iso Pixi ou DOM/SVG conservé. | Pan/zoom à 60 fps ; interactions tactiles vérifiées sur tablette ; aucune régression des tests P1. |
 | **P3 Assets définitifs** | Guide de style, calques modulaires, atlas AssetPack, portraits, sprites de combat, polices MSDF. Remplacement des placeholders. | Premier écran < 5 Mo transférés ; chargement progressif par écran ; comparaison visuelle avant/après validée par l'équipe. |
 | **P4 Post-traitement et juice** | Bloom, CRT, particules, traînées, shake, flash, transitions Svelte, option « effets réduits ». | Budget tenu sur un Android milieu de gamme (Chrome) et un iPhone (Safari 26) : 60 fps en combat, profil GPU ; `prefers-reduced-motion` respecté. |
-| **P5 Backend** (parallélisable dès P1) | Fastify, Postgres, auth, économie et timers, gacha serveur avec pitié, validation des combats par re-simulation, résolution hors ligne. | Tests d'intégration ; un journal de commandes falsifié est rejeté ; taux et pitié conformes sur 10 000 tirages simulés ; revenu plafonné à 7 jours. |
+| **P5 Backend** (parallélisable dès P1) | Fastify, Postgres, auth, économie et timers, gacha serveur avec pitié, validation des combats par re-simulation, résolution hors ligne. Mise en ligne : `Dockerfile`, preprod déployée à chaque merge sur `main`, prod par promotion manuelle du même artefact, donc configuration par environnement (URL d'API, flags) lue à l'exécution et non figée au build. | Tests d'intégration ; un journal de commandes falsifié est rejeté ; taux et pitié conformes sur 10 000 tirages simulés ; revenu plafonné à 7 jours ; un artefact validé en preprod part en prod sans être reconstruit. |
 | **P6 Mobile** | Layouts tactiles (tiroirs, onglets), PWA, Capacitor si stores. | Audit PWA ; parcours complet sur 3 appareils ; 60 fps en combat avec DPR 1,5. |
 
 ## 10. Versions constatées (WebSearch, 4 sept. 2026)
@@ -183,4 +183,4 @@ Non vérifié aujourd'hui : version exacte de Biome et des runtimes Spine pour P
 
 ## Étape suivante sur validation
 
-Mettre en place la phase P0 dans `F:\Github\novafrontier` (branche `dev`) : monorepo, application web Svelte 5 + Vite 8, portage des tokens et primitives CSS de la maquette, `packages/data` et `packages/sim` vides mais typés, `SceneHost` Pixi avec détection WebGPU/WebGL2, CI. Aucun asset définitif ni backend à ce stade.
+Mettre en place la phase P0 dans `F:\Github\novafrontier` (branche de travail partie de `main`, PR vers `main`) : monorepo, application web Svelte 5 + Vite 8, portage des tokens et primitives CSS de la maquette, `packages/data` et `packages/sim` vides mais typés, `SceneHost` Pixi avec détection WebGPU/WebGL2, CI. Aucun asset définitif ni backend à ce stade.
