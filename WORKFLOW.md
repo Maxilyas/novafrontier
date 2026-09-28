@@ -266,8 +266,9 @@ merges depuis la precedente, pas seulement le dernier.
 ## 5. Prochaine etape
 
 Phase **P0** du plan : monorepo pnpm, Vite 8 + Svelte 5 + TypeScript, Biome,
-portage des tokens CSS et des primitives de la maquette, `packages/data` et
-`packages/sim` vides mais types, `SceneHost` Pixi avec detection WebGPU/WebGL2.
+portage des tokens CSS et des primitives de la maquette, `packages/data`
+(schemas zod, donnees et etat de demonstration de la maquette) et `packages/sim`
+(types seulement, sans regle), `SceneHost` Pixi avec detection WebGPU/WebGL2.
 
 Aucun asset definitif ni backend a ce stade.
 
