@@ -5,8 +5,7 @@
       "Bash(.specify/scripts/bash/check-prerequisites.sh *)",
       "Bash(.specify/scripts/bash/setup-plan.sh *)",
       "Bash(.specify/scripts/bash/setup-tasks.sh *)",
-      "Bash(.specify/scripts/bash/resolve-template.sh *)",
-      "Bash(.specify/scripts/bash/create-new-feature.sh *)"
+      "Bash(.specify/scripts/bash/resolve-template.sh *)"
     ]
   }
 }

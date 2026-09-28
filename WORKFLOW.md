@@ -38,7 +38,7 @@ de l'outillage CI et spec-kit. Le projet est avant la phase P0 du plan.
 | `.gitignore` / `.dockerignore` | Secrets, artefacts, contexte de build. |
 | `.specify/` | Spec-kit 1.0.12 : constitution (`memory/constitution.md`), templates, scripts bash, reglages (`init-options.json`). Voir §3 et pieges 8 a 11. |
 | `.claude/skills/speckit-*/` | Les skills `/speckit-*` de Claude Code, generes par spec-kit (piege 9). |
-| `.claude/settings.json` | Permissions Claude Code partagees : les scripts spec-kit se lancent sans demande de confirmation. |
+| `.claude/settings.json` | Permissions Claude Code partagees : les scripts qu'appellent les skills spec-kit se lancent sans demande de confirmation. |
 
 **Absent — a creer en P0 :** `package.json`, `pnpm-workspace.yaml`,
 `tsconfig.base.json`, `biome.json`, `apps/web`, `apps/server`, `packages/sim`,
@@ -106,8 +106,9 @@ des exigences) est optionnel.
 - Le dossier de la feature s'appelle `specs/<AAAAMMJJ-HHMMSS>-<nom>/` :
   l'horodatage evite que deux branches ouvertes en parallele prennent le meme
   numero.
-- `/speckit-plan` passe la porte "Constitution Check" : un ecart a la
-  constitution ou a `plan.md` doit y etre justifie, sinon le plan s'arrete.
+- `/speckit-plan` passe la porte "Constitution Check" : un ecart non admis
+  par la constitution l'arrete (ecarts admis : section Gouvernance de la
+  constitution).
 - La branche se cree a la main, comme ci-dessus : spec-kit ne touche pas a
   git dans ce depot.
 - Les artefacts de `specs/` sont commites dans la branche de la feature. Pour
@@ -230,13 +231,16 @@ merges depuis la precedente, pas seulement le dernier.
    `:latest` qu'apres validation, reserver build et deploiement a `main`.
 8. **La feature courante de spec-kit est un etat local.** Elle est notee dans
    `.specify/feature.json`, ignore par git, qui ne suit pas les changements de
-   branche. Dans un clone neuf ou une session Claude dans le cloud,
-   `/speckit-plan` et les suivants s'arretent sur `Feature directory not
-   found`. Apres un `git switch`, ils visent encore la feature de l'autre
-   branche, et `/speckit-plan` recree meme son dossier dans `specs/`. Dans les
-   deux cas, indiquer a Claude le dossier `specs/<feature>/` concerne, ou
-   exporter `SPECIFY_FEATURE_DIRECTORY=specs/<feature>` avant de lancer
-   Claude Code.
+   branche. Tous les skills sauf `/speckit-specify` et
+   `/speckit-constitution` en dependent. Dans un clone neuf ou une session
+   Claude dans le cloud, ils s'arretent sur `Feature directory not found`.
+   Apres un `git switch`, ils visent encore la feature de l'autre branche :
+   `/speckit-clarify` peut ecrire dans sa spec, `/speckit-plan` recree son
+   dossier. Avant de reprendre une feature, demander a Claude d'ecrire
+   `{"feature_directory": "specs/<feature>"}` dans `.specify/feature.json`.
+   Ne pas exporter `SPECIFY_FEATURE_DIRECTORY` pour toute une session : elle
+   prime sur `feature.json` et garde la meme feature meme apres un
+   `/speckit-specify`, dont le plan ecraserait alors celui de la precedente.
 9. **Les fichiers generes par spec-kit ne se modifient pas a la main.** Les
    skills `.claude/skills/speckit-*`, les scripts et les templates de
    `.specify/` sont references avec leur empreinte dans
@@ -269,6 +273,8 @@ Aucun asset definitif ni backend a ce stade.
 A faire passer par une PR vers `main` — ce sera la premiere execution reelle de
 la CI, et l'occasion de retirer le garde-fou de `tests.yml`.
 
-C'est aussi la premiere feature a faire passer par spec-kit : lancer
-`/speckit-specify` a partir de la ligne P0 de `plan.md` §9, puis suivre le
-cycle du §3.
+C'est aussi la premiere feature a faire passer par spec-kit (cycle du §3).
+Decrire a `/speckit-specify` ce que P0 rend visible : les 9 ecrans
+navigables, fideles a la maquette, et la scene qui s'affiche avec ou sans
+WebGPU. La pile et l'outillage (monorepo, Vite, Biome, CI) vont a
+`/speckit-plan`, qui les tire de `plan.md` : une spec reste sans technique.

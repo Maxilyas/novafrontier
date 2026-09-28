@@ -26,9 +26,9 @@ skills `/speckit-*` dans `.claude/skills/`, outillage dans `.specify/`, un
 dossier par feature dans `specs/`. Le deroule est dans `WORKFLOW.md`.
 
 - **Constitution** (`.specify/memory/constitution.md`) : les principes non
-  negociables de ce fichier, de `plan.md` et de `WORKFLOW.md`, condenses sous
-  une forme que spec-kit verifie. Elle ne les remplace pas : en cas de
-  contradiction avec ce fichier ou `plan.md`, c'est elle qu'on corrige.
+  negociables de ce fichier et de `plan.md`, condenses sous une forme que
+  spec-kit verifie, avec renvoi vers la source. Elle ne les remplace pas : en
+  cas de contradiction, c'est elle qu'on corrige, dans la meme PR.
 - **Deux sortes de `plan.md`** : celui de la racine est le plan
   d'architecture du projet ; `specs/<feature>/plan.md` est le plan
   d'implementation d'une feature, subordonne au premier.
