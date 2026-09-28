@@ -16,5 +16,7 @@ coverage
 .vscode
 .idea
 .claude
+.specify
+specs
 Dockerfile
 .dockerignore

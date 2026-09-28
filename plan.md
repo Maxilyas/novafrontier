@@ -119,7 +119,7 @@ Remplace la duplication actuelle entre `combatLoop` (rendu temps réel) et `auto
 
 ```
 novafrontier/
-  package.json  pnpm-workspace.yaml  tsconfig.base.json  biome.json  .github/workflows/ci.yml
+  package.json  pnpm-workspace.yaml  tsconfig.base.json  biome.json  .github/workflows/{tests,deploy}.yml
   apps/
     web/                       Vite 8 + Svelte 5 + TS (SPA)
       src/app/                 écrans : Escouades, Atlas, Base, Recherche, Carte, Briefing, Deploiement, Combat, Butin
@@ -136,6 +136,8 @@ novafrontier/
     sim/                       simulation déterministe + tests + replays dorés
     data/                      données de jeu typées + schémas zod
     assets-src/                sources d'art + assetpack.config.ts → apps/web/public/assets
+  specs/                       spec-kit : un dossier par feature (spec, plan d'implémentation, tâches)
+  .specify/                    spec-kit : constitution, templates, scripts
 ```
 
 Réutilisation depuis la maquette : les constantes `RAR`, `WEP`, `MATRIX`, `POOL`, `SQUADS`, `TREES`, `BUILDINGS`, `PLANETS`, `CRATES` deviennent `packages/data` ; les formules `dmg`, `modOf`, `wavesFor`, `diffOf`, `lootOf`, `fuelOf`, `power`, `winChance` deviennent `packages/sim` ; le bloc `:root` et les primitives CSS (lignes 17-146 de la maquette) deviennent `tokens.css` et les composants `src/ui`.
