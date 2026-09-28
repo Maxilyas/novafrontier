@@ -1,0 +1,33 @@
+/* Jetons de la maquette (nova-frontier-v2.html, lignes 17-48), a l identique. */
+:root {
+  --ink: #070a09;
+  --panel: #0f1513;
+  --panel-2: #151d1a;
+  --panel-3: #1b2421;
+  --line: #222d28;
+  --line-hi: #31403a;
+
+  --sig: #63d6bc; /* accent d'interaction */
+  --sig-hi: #9ff0dd;
+  --sig-dim: #2c6b60;
+  --sig-glow: rgba(99, 214, 188, 0.22);
+
+  --warn: #e8543f;
+  --ok: #9fd15a;
+  --gold: #f5a623; /* réservé légendaire + critique */
+
+  --r-com: #8b968f;
+  --r-rare: #4f9ad6;
+  --r-epic: #9d6ff0;
+  --r-leg: #f5a623;
+  --r-div: #ff5fc0;
+
+  --paper: #e4ded0;
+  --txt: #a9b3ab;
+  --muted: #6d7972;
+
+  --f-head: "Oswald", "Arial Narrow", Helvetica, sans-serif;
+  --f-mono: "Share Tech Mono", "Courier New", monospace;
+  --notch: 7px;
+  --gut: 16px;
+}

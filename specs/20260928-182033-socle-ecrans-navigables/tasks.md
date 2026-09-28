@@ -83,7 +83,7 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 ### `@nova/data` : schemas (data-model.md §1 et §2)
 
-- [ ] T010 Creer `packages/data/src/schemas/common.ts` : enumerations zod de data-model.md §1, avec les valeurs exactes de la maquette :
+- [X] T010 Creer `packages/data/src/schemas/common.ts` : enumerations zod de data-model.md §1, avec les valeurs exactes de la maquette :
   - `RarityId` : `'com' | 'rare' | 'epic' | 'leg' | 'div'` ;
   - `WeaponId` : `'las' | 'art' | 'nuc' | 'ion' | 'cin'` ; `ActiveWeaponId` : `'las' | 'art' | 'nuc'` ;
   - `UnitFamily` : `'cmd' | 'ship' | 'mech'` ;
@@ -94,31 +94,31 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
   - `IconId` : les 37 ids `ic-*` des lignes 632-668 ;
   - `ScreenId` : les 9 ecrans de `contracts/routes.md` ;
   - un schema de couleur `#rrggbb`.
-- [ ] T011 [P] Creer `packages/data/src/schemas/rarity.ts` et `packages/data/src/schemas/weapon.ts` :
+- [X] T011 [P] Creer `packages/data/src/schemas/rarity.ts` et `packages/data/src/schemas/weapon.ts` :
   - `raritySchema` : "`maxStars` entier 2 a 6", "`actionPoints` entier 2 a 5", `legendarySlot` booleen ;
   - `weaponSchema` : `symbol` d'un caractere, `status` `'active' | 'planned'` ;
   - `damageMatrixSchema` : "les 9 cases remplies, multiplicateurs strictement positifs" ;
   - `enemySchema` : `{ weapon, armor, siteDefense }`.
-- [ ] T012 [P] Creer `packages/data/src/schemas/unit.ts` : union discriminee `unitSchema` sur `family`.
+- [X] T012 [P] Creer `packages/data/src/schemas/unit.ts` : union discriminee `unitSchema` sur `family`.
   - Champs communs : `id`, `visual` entier >= 0, `rarity`, `name`, `role`, `code`, `level` entier >= 1, `stars` entier >= 1.
   - `commanderSchema` : `squadBonuses` (au moins 1), `skills` (1 a 5 `{ name, icon, description }`), `legendarySkill?`.
   - `combatantSchema` : `formation` `'unite' | 'escadrille'`, `count` et `maxCount` entiers >= 1, `weapon` actif, `armor`, `engine`, `tier` 1 a 4, `carrier` booleen, `stats { hp, attack, defense, range, speed }` entiers > 0.
   - Raffinements : "`unite` implique `count = maxCount = 1`", "`count <= maxCount`", "`engine` nul si et seulement si `family = 'mech'`".
-- [ ] T013 [P] Creer les schemas `packages/data/src/schemas/building.ts`, `research.ts`, `planet.ts` et `crate.ts`, d'apres data-model.md §2 :
+- [X] T013 [P] Creer les schemas `packages/data/src/schemas/building.ts`, `research.ts`, `planet.ts` et `crate.ts`, d'apres data-model.md §2 :
   - `buildingSchema` : `position { x, y, width }`, `upgrade { alloy, credits, duration, effect }` ;
   - `researchNodeSchema` : `level { current, max }` avec `current <= max` ; `cost.artefacts` present si et seulement si `legendary` ;
   - `researchTreeSchema`, `planetSchema`, `planetIncomeSchema` ;
   - `crateSchema` : `odds` de somme 100, a 0,01 pres.
-- [ ] T014 Creer `packages/data/src/schemas/squad.ts` et `packages/data/src/schemas/player.ts`, d'apres data-model.md §3 ; depend de T011 pour `enemySchema` :
+- [X] T014 Creer `packages/data/src/schemas/squad.ts` et `packages/data/src/schemas/player.ts`, d'apres data-model.md §3 ; depend de T011 pour `enemySchema` :
   - `squadSchema` : `commander` id ou `null`, `ships` tuple de 3 id ou `null`, `mechs` tuple de 2, `defaultFormation`, `lockedUntilRank?` ;
   - `demoStateSchema` : `profile`, `resources`, `pendingIncome`, 5 `squads`, `researchQueue` de 3 emplacements (2 en cours `{ label, icon, progress, remaining }` et 1 libre `{ label }`), `mission`, `defaults`.
-- [ ] T015 Creer `packages/data/src/schemas/index.ts` : re-exporter schemas et types (`z.infer`) sous les noms de `contracts/data-package.md`
-- [ ] T016 Ecrire les tests `packages/data/tests/schemas.test.ts` (chaque constante exportee passe son schema) et `packages/data/tests/invariants.test.ts` (invariants 1 a 5 de data-model.md §7). Ils doivent echouer tant que T017-T024 manquent.
+- [X] T015 Creer `packages/data/src/schemas/index.ts` : re-exporter schemas et types (`z.infer`) sous les noms de `contracts/data-package.md`
+- [X] T016 Ecrire les tests `packages/data/tests/schemas.test.ts` (chaque constante exportee passe son schema) et `packages/data/tests/invariants.test.ts` (invariants 1 a 5 de data-model.md §7). Ils doivent echouer tant que T017-T024 manquent.
 
 ### `@nova/data` : donnees portees de la maquette
 
-- [ ] T017 [P] Creer `packages/data/src/game/rarities.ts` (`RAR`, lignes 868-874) et `packages/data/src/game/weapons.ts` (`WEP` lignes 879-885, `MATRIX` ligne 887, `ENEMY` ligne 1805)
-- [ ] T018 [P] Creer `packages/data/src/game/units.ts` : les 11 unites de `POOL` (lignes 1017-1066).
+- [X] T017 [P] Creer `packages/data/src/game/rarities.ts` (`RAR`, lignes 868-874) et `packages/data/src/game/weapons.ts` (`WEP` lignes 879-885, `MATRIX` ligne 887, `ENEMY` ligne 1805)
+- [X] T018 [P] Creer `packages/data/src/game/units.ts` : les 11 unites de `POOL` (lignes 1017-1066).
   - Correspondance des champs :
     - `k`→`family`, `i`→`visual`, `r`→`rarity`, `n`→`name`, `lv`→`level`, `s`→`stars` ;
     - `bonus`→`squadBonuses`, `sk`→`skills`, `leg`→`legendarySkill` ;
@@ -126,77 +126,77 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
     - `eng`→`engine` (`'—'` devient `null`), `carrier`→booleen ;
     - `st`→`stats` (`pv`→`hp`, `atk`→`attack`, `def`→`defense`, `rng`→`range`, `spd`→`speed`).
   - Les commandants n'ont pas de `stats`.
-- [ ] T019 [P] Creer `packages/data/src/game/buildings.ts` : `BUILDINGS` (lignes 1439-1458) et `buildingSlots = { used: 9, total: 12 }`. Pour chaque rang i, `upgrade` vaut : alliage `28000 + i*4200`, credits `1800 + i*260`, duree `'04:12:30'`, effet `'+14% rendement'`.
-- [ ] T020 [P] Creer `packages/data/src/game/research.ts` : les 3 arbres de `TREES` (lignes 1523-1566).
+- [X] T019 [P] Creer `packages/data/src/game/buildings.ts` : `BUILDINGS` (lignes 1439-1458) et `buildingSlots = { used: 9, total: 12 }`. Pour chaque rang i, `upgrade` vaut : alliage `28000 + i*4200`, credits `1800 + i*260`, duree `'04:12:30'`, effet `'+14% rendement'`.
+- [X] T020 [P] Creer `packages/data/src/game/research.ts` : les 3 arbres de `TREES` (lignes 1523-1566).
   - `lv: '2/4'` devient `level: { current: 2, max: 4 }` ; `s`→`state`, `pr`→`prerequisites`, `open`→`openDecision`, `leg`→`legendary`.
   - Couts, d'apres l'abscisse x : alliage `18000 + x*22`, credits `2200 + x*3`, `artefacts: 3` si legendaire, duree `` `0${1 + (x % 5)}:24:00` ``, `labLevel = 4 + 2*prerequisites.length`, effet `'+8% rendement'`.
-- [ ] T021 [P] Creer `packages/data/src/game/planets.ts` :
+- [X] T021 [P] Creer `packages/data/src/game/planets.ts` :
   - les 16 planetes de `PLANETS` (lignes 1644-1661) ; `id` = nom en minuscules, sans accent ni apostrophe, espaces en tirets (`gemenon`, `ruines-d-erebe`, `lune-de-tauron`...) ;
   - `planetIncome` d'apres `INCOME` (lignes 1459-1463).
-- [ ] T022 Creer `packages/data/src/game/crates.ts` : `CRATES` (lignes 2380-2390) et `launchPool` (unites groupees en `com`, `rare`, `div`, plus 4 cases verrouillees : 2 `epic`, 2 `leg`) ; depend de T018
-- [ ] T023 Creer `packages/data/src/demo/state.ts` : `demoState` d'apres data-model.md §3.
+- [X] T022 Creer `packages/data/src/game/crates.ts` : `CRATES` (lignes 2380-2390) et `launchPool` (unites groupees en `com`, `rare`, `div`, plus 4 cases verrouillees : 2 `epic`, 2 `leg`) ; depend de T018
+- [X] T023 Creer `packages/data/src/demo/state.ts` : `demoState` d'apres data-model.md §3.
   - Profil (lignes 673-697) : "CDR. A. GOMÈS", "Commodore · Escadre de Caprica", badge "G4", niveau 47, progression 0.64, prochain ultime 50.
   - Ressources (lignes 699-711) et cumul : 14280 sur 27300, "3 j 16 h avant plafond", jauge 52 %.
   - Escouades : `SQUADS` (lignes 1070-1076), ids `alpha` a `echo`, "Grade 5" et "Grade 6" pour Delta et Echo.
   - File de recherche : lignes 1625-1635.
   - Mission : cible `gemenon`, `enemy`, relique 1000, portee 900, moteur `'Standard'` a 1,0 u/UA.
   - `defaults` : escouade `alpha`, filtre `cmd`, points d'action `fixe`, theatre `orbital`, Atlas `{ unit: 's1', tier: 2, weapon: 'las' }`, batiment `hq`, arbre `arm`, noeud `a2`.
-- [ ] T024 Creer `packages/data/src/lookup.ts` (`unitById`, `rarityById`, `weaponById`, `planetById`, `nodeById` : lectures pures, sans regle de jeu) et completer `packages/data/src/index.ts` avec les exports de `contracts/data-package.md`, sauf `derivedValues` (ajoute en T054). Faire passer T016.
+- [X] T024 Creer `packages/data/src/lookup.ts` (`unitById`, `rarityById`, `weaponById`, `planetById`, `nodeById` : lectures pures, sans regle de jeu) et completer `packages/data/src/index.ts` avec les exports de `contracts/data-package.md`, sauf `derivedValues` (ajoute en T054). Faire passer T016.
 
 ### `@nova/sim` : types et purete (contracts/sim-package.md)
 
-- [ ] T025 [P] Ecrire `packages/sim/tests/purity.test.ts` :
+- [X] T025 [P] Ecrire `packages/sim/tests/purity.test.ts` :
   - parcourir `packages/sim/src/**/*.ts` et echouer sur `Math.random`, `Math.sin`, `Math.cos`, `Math.atan2`, `Math.hypot`, `Date.now`, `new Date`, `performance.now`, `window`, `document` ou `navigator` ;
   - verifier que `packages/sim/tsconfig.json` n'inclut pas `DOM`.
-- [ ] T026 [P] Ecrire `packages/sim/src/index.ts` : types `Tick`, `Fixed`, `Angle`, `SimInput`, `WaveSpec`, `SimCommand`, `SimEventType`, `SimEvent`, `SimSnapshot` de `contracts/sim-package.md`, avec des `import type` depuis `@nova/data`, sans code execute
+- [X] T026 [P] Ecrire `packages/sim/src/index.ts` : types `Tick`, `Fixed`, `Angle`, `SimInput`, `WaveSpec`, `SimCommand`, `SimEventType`, `SimEvent`, `SimSnapshot` de `contracts/sim-package.md`, avec des `import type` depuis `@nova/data`, sans code execute
 
 ### `apps/web` : charte, routeur, etat, outillage
 
-- [ ] T027 [P] Creer les feuilles de style de la charte (sans `#stage` ni mise a l'echelle) :
+- [X] T027 [P] Creer les feuilles de style de la charte (sans `#stage` ni mise a l'echelle) :
   - `apps/web/src/styles/tokens.css` : bloc `:root` des lignes 17-48, a l'identique ;
   - `apps/web/src/styles/base.css` : lignes 49-58 (remise a zero, `body`, `::selection`, `button`, `:focus-visible`), primitives des lignes 74-146 et regle `prefers-reduced-motion` des lignes 622-624 ;
   - `apps/web/src/styles/overlay.css` : grain des lignes 68-72 applique a un element fixe couvrant toute la fenetre, `pointer-events: none`, au-dessus des scenes (FR-009).
-- [ ] T028 [P] Mettre en place les polices (research R13) :
+- [X] T028 [P] Mettre en place les polices (research R13) :
   - `apps/web/src/styles/fonts.css` importe `@fontsource/oswald/300.css`, `400.css`, `500.css`, `600.css` et `@fontsource/share-tech-mono/400.css` ;
   - `apps/web/index.html` precharge `oswald-latin-400-normal.woff2` et `share-tech-mono-latin-400-normal.woff2` (`<link rel="preload" as="font" type="font/woff2" crossorigin>`) ;
   - verifier dans `apps/web/dist/` que ces liens pointent vers les fichiers produits ; sinon copier les deux WOFF2 dans `apps/web/src/assets/fonts/` et y pointer ;
   - aucune reference a `fonts.googleapis.com`.
-- [ ] T029 [P] Creer `apps/web/src/ui/IconSprite.svelte` (les 37 `<symbol>` des lignes 632-668 dans un `<svg>` masque, `aria-hidden="true"`) et `apps/web/src/ui/Icon.svelte` (props `icon: IconId`, `size`, `stroke` ; `<svg aria-hidden="true"><use href="#..." /></svg>`)
-- [ ] T030 Creer le message bref :
+- [X] T029 [P] Creer `apps/web/src/ui/IconSprite.svelte` (les 37 `<symbol>` des lignes 632-668 dans un `<svg>` masque, `aria-hidden="true"`) et `apps/web/src/ui/Icon.svelte` (props `icon: IconId`, `size`, `stroke` ; `<svg aria-hidden="true"><use href="#..." /></svg>`)
+- [X] T030 Creer le message bref :
   - `apps/web/src/state/toast.svelte.ts` : `showToast(text)`, un seul message a la fois, 2,6 s ;
   - `apps/web/src/ui/Toast.svelte` : `role="status"`, `aria-live="polite"`, style de `toast()` des lignes 2430-2434 ;
   - texte des commandes d'une phase ulterieure : `'Pas encore disponible'`.
-- [ ] T031 [P] Creer les primitives de mise en forme, d'apres les lignes 74-146 :
+- [X] T031 [P] Creer les primitives de mise en forme, d'apres les lignes 74-146 :
   - `apps/web/src/ui/Panel.svelte` : `.panel.notched`, en-tete `.hd` (point, titre, texte de droite `.rt`), attribut `data-panel` ;
   - `apps/web/src/ui/Bar.svelte` : variantes `k`, `r`, `g`, largeur en % ;
   - `apps/web/src/ui/StatLine.svelte` : libelle, barre, valeur ;
   - `apps/web/src/ui/KeyValue.svelte`, `apps/web/src/ui/Pill.svelte` (variantes `s`, `g`, `w`, `k`), `apps/web/src/ui/Stars.svelte` (n sur max, couleur de rarete), `apps/web/src/ui/OpenBadge.svelte` (badge `.open`).
-- [ ] T032 Creer les primitives d'action, qui dependent de T030 :
+- [X] T032 Creer les primitives d'action, qui dependent de T030 :
   - `apps/web/src/ui/Btn.svelte` : variantes `solid`, `ghost`, `gold` ; `href` pour un lien `<a>` (commandes de parcours) ; `disabled` ; prop `laterPhase: { code, label }` qui pose `data-later-phase={code}` et affiche le message bref au clic (research R12) ;
   - `apps/web/src/ui/Seg.svelte` : boutons `aria-pressed`, `onchange` ;
   - `apps/web/src/ui/Switch.svelte` : `role="switch"`, `aria-checked`, prop `laterPhase`.
-- [ ] T033 [P] Porter les illustrations generees en composants (research R7) :
+- [X] T033 [P] Porter les illustrations generees en composants (research R7) :
   - `apps/web/src/ui/art/CommanderArt.svelte`, `ShipArt.svelte` et `MechArt.svelte` : `cmdArt`, `shipArt`, `mechArt` des lignes 897-1009 ; props `visual`, `color`, `tier`, `weapon` ;
   - `apps/web/src/ui/art/BuildingArt.svelte` : `bldgSVG`, lignes 1386-1438 ;
   - `apps/web/src/ui/art/WeaponGlyph.svelte` : `weaponGlyph`, lignes 1375-1382 ;
   - tous les identifiants de degrade sont suffixes par `$props.id()`, et tout SVG porte `aria-hidden="true"` ;
   - `apps/web/src/ui/art/registry.ts` : ensemble des cles de visuels deja rendus (famille, visuel, couleur, palier, arme, comme `art()` ligne 894) et compteur reactif.
-- [ ] T034 Creer `apps/web/src/ui/UnitCard.svelte` (depend de T033) : portage de `cardHTML` (lignes 1090-1097) et de son CSS (lignes 213-251).
+- [X] T034 Creer `apps/web/src/ui/UnitCard.svelte` (depend de T033) : portage de `cardHTML` (lignes 1090-1097) et de son CSS (lignes 213-251).
   - Tailles `mini`, `mid`, `big` ; cadre `--rc` de la rarete ; rarete, niveau, nom, etoiles, effectif ; etat `sel`.
   - La carte est un `<button>` quand elle porte une action.
   - Prop `onFiche` : bouton "Fiche" visible au survol et au focus (research R16).
-- [ ] T035 Creer le routeur `apps/web/src/state/router.svelte.ts` d'apres `contracts/routes.md`, ses tests `apps/web/tests/unit/router.test.ts` (analyse, redirections, sections) et `apps/web/vitest.config.ts` (environnement `node`, `include: ['tests/unit/**/*.test.ts']`). Le routeur porte :
+- [X] T035 Creer le routeur `apps/web/src/state/router.svelte.ts` d'apres `contracts/routes.md`, ses tests `apps/web/tests/unit/router.test.ts` (analyse, redirections, sections) et `apps/web/vitest.config.ts` (environnement `node`, `include: ['tests/unit/**/*.test.ts']`). Le routeur porte :
   - la table des 9 ecrans et le parametre d'unite de l'Atlas ;
   - la section de navigation de chaque ecran ;
   - `navigate()` ;
   - le remplacement, sans entree d'historique, des adresses vides ou inconnues et des unites inconnues ;
   - l'ecoute de `hashchange` et la lecture de `diag` et `rendu` dans `location.search`.
-- [ ] T036 Creer l'etat de consultation `apps/web/src/state/selection.svelte.ts` et ses tests `apps/web/tests/unit/selection.test.ts`, d'apres data-model.md §5 :
+- [X] T036 Creer l'etat de consultation `apps/web/src/state/selection.svelte.ts` et ses tests `apps/web/tests/unit/selection.test.ts`, d'apres data-model.md §5 :
   - valeurs initiales tirees de `demoState.defaults` ;
   - regles : "choisir une escouade verrouillee ne change rien", "choisir un emplacement vide fixe `rosterFilter` a sa famille", ouvrir l'Atlas sur un vaisseau ou un meca aligne `atlas.tier` et `atlas.weapon` sur l'unite ;
   - formation propre a chaque escouade, partagee entre les ecrans.
-- [ ] T037 Assembler la coquille : `apps/web/src/App.svelte` (sprite d'icones, emplacement du bandeau, zone d'ecran, voile de grain, message bref) et `apps/web/src/main.ts` (styles, montage). Mise en page racine (research R5) : bandeau en haut, zone d'ecran en dessous, `min-width: 1280px`, `min-height: 720px`, la page defilant en dessous de ces dimensions.
-- [ ] T038 Configurer Playwright dans `apps/web/playwright.config.ts` et ecrire les aides `apps/web/tests/e2e/helpers.ts` (`gotoScreen`, `expectScreen`, `laterPhaseControls`, journal des requetes).
+- [X] T037 Assembler la coquille : `apps/web/src/App.svelte` (sprite d'icones, emplacement du bandeau, zone d'ecran, voile de grain, message bref) et `apps/web/src/main.ts` (styles, montage). Mise en page racine (research R5) : bandeau en haut, zone d'ecran en dessous, `min-width: 1280px`, `min-height: 720px`, la page defilant en dessous de ces dimensions.
+- [X] T038 Configurer Playwright dans `apps/web/playwright.config.ts` et ecrire les aides `apps/web/tests/e2e/helpers.ts` (`gotoScreen`, `expectScreen`, `laterPhaseControls`, journal des requetes).
   - `webServer` : `pnpm build && pnpm preview` ; `baseURL` `http://localhost:4173`.
   - `launchOptions.executablePath` = `process.env.PW_CHROMIUM_EXECUTABLE` quand elle est definie.
   - Projets :
