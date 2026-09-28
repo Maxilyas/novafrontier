@@ -1,6 +1,8 @@
 name: Deploy
 
-# Un merge sur main part en prod. Rien d'autre ne declenche ce workflow.
+# Un merge sur main construit l'image puis lance le deploiement prod, qui doit
+# attendre la validation manuelle de l'environnement production (voir
+# WORKFLOW.md, pieges connus).
 on:
   push:
     branches: [main]
