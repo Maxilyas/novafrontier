@@ -17,6 +17,12 @@ Cette feature sert la phase P0 de la feuille de route. Termes employes :
 - **Commande d'une phase ulterieure** : bouton ou geste de la maquette dont l'effet depend de regles du jeu, d'une economie, d'une sauvegarde ou d'une scene qu'une phase suivante de la feuille de route introduit.
 - **Message bref** : la notification temporaire de la maquette, affichee en haut de l'ecran puis effacee.
 
+## Clarifications
+
+### Session 2026-09-28
+
+- Q: Le joueur doit-il deja pouvoir modifier la composition d'une escouade (ajouter ou retirer un commandant, un vaisseau ou un meca) en phase P0 de la feuille de route ? → A: Non. La composition reste celle de l'etat de demonstration ; ajouter ou retirer une unite affiche le message d'indisponibilite, et les chiffres restent ceux de la maquette.
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Parcourir les 9 ecrans (Priority: P1)
@@ -238,8 +244,8 @@ L'interface occupe toute la fenetre et repartit ses zones selon la place disponi
 - **Poste de reference** pour les mesures de performance et de fluidite : ordinateur courant de moins de 5 ans, a processeur graphique integre, ecran 1920x1080. Le plan peut en retenir un autre et le dire.
 - **Dimensions minimales** : 1280 px de large, fixes par `plan.md` §2 ; la hauteur minimale de 720 px est une hypothese de cette spec, `plan.md` n'en fixant pas.
 - **Commandes d'une phase ulterieure** : un message bref plutot qu'une commande grisee, pour rester fidele a la maquette sans rien laisser croire. Aucune ne simule une regle du jeu, une economie ou un tirage (principes II et IV de la constitution).
-- **Composition des escouades** : non modifiable a ce stade ; elle depend de regles du jeu et d'une sauvegarde que des phases ulterieures de la feuille de route introduisent.
-- **Valeurs calculees** : FR-013 fixe les valeurs affichees, pas la maniere de les obtenir, qui releve du plan.
+- **Composition des escouades** : figee sur l'etat de demonstration (voir Clarifications). La modifier suppose des regles du jeu et une sauvegarde que des phases ulterieures de la feuille de route introduisent.
+- **Valeurs calculees** : la composition etant figee, ces valeurs ne varient qu'avec l'escouade et le theatre choisis. FR-013 fixe les valeurs affichees, pas la maniere de les obtenir, qui releve du plan.
 - **Decisions ouvertes** : les points 2 et 3 du compte-rendu repris dans la maquette (objectif et disposition du combat, bascule spatial ou terrestre ; points d'action fixes ou achetables) ne sont pas tranches a la date de cette spec. Leurs selecteurs sont repris tant qu'ils ne le sont pas.
 - **Acces a l'Atlas** : la maquette n'y mene que par son outil de pagination ; l'acces depuis Escouades est une hypothese de cette spec, sa forme exacte relevant de la conception.
 - **Hors perimetre**, avec la phase de la feuille de route qui le prend en charge :
