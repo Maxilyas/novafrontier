@@ -53,9 +53,7 @@ test.describe('story 2 : consultations', () => {
     await expect(plateau).toContainText(
       new RegExp(`PUISSANCE ${motif(derivees.squads.bravo?.power ?? 0)}`),
     );
-    await expect(esc.locator('.sumry')).toContainText(
-      `${derivees.squads.bravo?.unitCount} UNITÉS`,
-    );
+    await expect(esc.locator('.sumry')).toContainText(`${derivees.squads.bravo?.unitCount} UNITÉS`);
     await expect(esc.locator('.roster [data-unit="c2"]')).toHaveClass(/\bsel\b/);
 
     const delta = esc.getByRole('button', { name: /Delta/ });
@@ -112,9 +110,15 @@ test.describe('story 2 : consultations', () => {
     await gotoScreen(page, 'base');
     const base = ecran(page, 'base');
     const detail = base.locator('.bdet');
-    await base.locator('.blist').getByRole('button', { name: /Laboratoire central/ }).click();
+    await base
+      .locator('.blist')
+      .getByRole('button', { name: /Laboratoire central/ })
+      .click();
     await expect(detail).toContainText('Laboratoire central');
-    await base.locator('.bfield').getByRole('button', { name: /Chantier orbital/ }).click();
+    await base
+      .locator('.bfield')
+      .getByRole('button', { name: /Chantier orbital/ })
+      .click();
     await expect(detail).toContainText('Chantier orbital');
   });
 
@@ -126,7 +130,10 @@ test.describe('story 2 : consultations', () => {
     await flotte.click();
     await expect(flotte).toHaveAttribute('aria-pressed', 'true');
     await expect(dossier).toContainText('Coque renforcée');
-    await recherche.locator('.tree').getByRole('button', { name: /Porte-nefs/ }).click();
+    await recherche
+      .locator('.tree')
+      .getByRole('button', { name: /Porte-nefs/ })
+      .click();
     await expect(dossier).toContainText('Porte-nefs');
   });
 

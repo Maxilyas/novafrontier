@@ -43,7 +43,9 @@ async function compterMessages(page: Page): Promise<() => Promise<number>> {
     }).observe(zone, { childList: true, subtree: true });
   });
   return () =>
-    page.evaluate(() => (window as unknown as { __messagesBrefs: { n: number } }).__messagesBrefs.n);
+    page.evaluate(
+      () => (window as unknown as { __messagesBrefs: { n: number } }).__messagesBrefs.n,
+    );
 }
 
 test.describe('SC-012 : commandes d une phase ulterieure', () => {
