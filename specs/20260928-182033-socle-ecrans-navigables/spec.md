@@ -25,6 +25,7 @@ Cette feature sert la phase P0 de la feuille de route. Termes employes :
 - Q: Quand le joueur active une commande qui n'existe pas encore en phase P0 de la feuille de route (Collecter, Ameliorer, Lancer la recherche, ouvrir un coffre, actions de combat...), que doit-il se passer ? → A: La commande garde l'apparence de la maquette ; l'activer affiche un message bref "pas encore disponible", sans rien modifier.
 - Q: En phase P0 de la feuille de route, que doivent montrer les zones animees des ecrans Carte, Deploiement et Combat, la ou la maquette dessine la galaxie, le plateau de deploiement et l'arene ? → A: Un fond spatial provisoire anime. Planetes, plateau et combat arrivent en phases P1 et P2 de la feuille de route ; la planete visee reste celle de la demonstration (Gemenon).
 - Q: Sur quels navigateurs l'equipe doit-elle verifier la phase P0 de la feuille de route pour la declarer terminee ? → A: Chrome, Edge, Firefox et Safari, dernieres versions ; Safari se verifie sur un Mac ou par un service de test en ligne.
+- Q: Quelle hauteur minimale de fenetre l'interface doit-elle tenir sans que la page defile ? → A: 720 px. Sur les ecrans les plus denses, quelques panneaux defilent a l'interieur ; en dessous de cette hauteur, la page defile.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -245,7 +246,7 @@ L'interface occupe toute la fenetre et repartit ses zones selon la place disponi
 - **Langue** : interface en francais uniquement, comme la maquette.
 - **Navigateurs cibles** : dernieres versions stables de Chrome, Edge, Firefox et Safari sur ordinateur. Les quatre sont exiges pour declarer la phase terminee (voir Clarifications) ; Safari se verifie sur un Mac ou par un service de test en ligne. WebGPU n'y est pas disponible partout (`plan.md` §3) ; les configurations qui ne le proposent pas (par exemple Firefox sous Linux, ou WebGPU desactive) servent a verifier le rendu de repli.
 - **Poste de reference** pour les mesures de performance et de fluidite : ordinateur courant de moins de 5 ans, a processeur graphique integre, ecran 1920x1080. Le plan peut en retenir un autre et le dire.
-- **Dimensions minimales** : 1280 px de large, fixes par `plan.md` §2 ; la hauteur minimale de 720 px est une hypothese de cette spec, `plan.md` n'en fixant pas.
+- **Dimensions minimales** : 1280 px de large, fixes par `plan.md` §2 ; 720 px de haut, decision de cette spec (voir Clarifications), `plan.md` ne fixant pas de hauteur.
 - **Commandes d'une phase ulterieure** : un message bref (voir Clarifications), pour rester fidele a la maquette sans rien laisser croire. Alternatives ecartees : la commande grisee ou masquee, qui eloigne les ecrans de la maquette, et l'effet simule, qui ferait une fausse economie locale. Aucune commande ne simule une regle du jeu, une economie ou un tirage (principes II et IV de la constitution).
 - **Zones de scene** : contenu provisoire (voir Clarifications). Alternatives ecartees : afficher des la phase P0 de la feuille de route les planetes et le trajet de la maquette, ou une reproduction figee de ses zones graphiques ; ces deux travaux seraient a refaire en phase P2 de la feuille de route.
 - **Composition des escouades** : figee sur l'etat de demonstration (voir Clarifications). La modifier suppose des regles du jeu et une sauvegarde que des phases ulterieures de la feuille de route introduisent.
