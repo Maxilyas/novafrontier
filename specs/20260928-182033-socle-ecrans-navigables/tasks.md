@@ -36,24 +36,24 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 **Purpose**: monorepo pnpm, outillage et CI qui tourne pour de vrai (research R1, R2, R14, R15)
 
-- [ ] T001 Creer `package.json` a la racine (`"name": "novafrontier"`, `"private": true`, `"type": "module"`, `"packageManager": "pnpm@10.34.6"`, `"engines": { "node": ">=22.19" }`, script `"dev": "pnpm --filter @nova/web dev"`) et `pnpm-workspace.yaml` (`packages: ['apps/*', 'packages/*']`)
-- [ ] T002 [P] Creer `tsconfig.base.json` a la racine : `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, `verbatimModuleSyntax`, `isolatedModules`, `module: "ESNext"`, `moduleResolution: "bundler"`, `target: "ES2023"`, `lib: ["ES2023"]`, `resolveJsonModule`, `skipLibCheck`, `noEmit`
-- [ ] T003 [P] Creer `biome.json` a la racine :
+- [X] T001 Creer `package.json` a la racine (`"name": "novafrontier"`, `"private": true`, `"type": "module"`, `"packageManager": "pnpm@10.34.6"`, `"engines": { "node": ">=22.19" }`, script `"dev": "pnpm --filter @nova/web dev"`) et `pnpm-workspace.yaml` (`packages: ['apps/*', 'packages/*']`)
+- [X] T002 [P] Creer `tsconfig.base.json` a la racine : `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes`, `noImplicitOverride`, `verbatimModuleSyntax`, `isolatedModules`, `module: "ESNext"`, `moduleResolution: "bundler"`, `target: "ES2023"`, `lib: ["ES2023"]`, `resolveJsonModule`, `skipLibCheck`, `noEmit`
+- [X] T003 [P] Creer `biome.json` a la racine :
   - formateur en espaces, indentation 2, largeur 100, guillemets simples en JS et TS ;
   - linter `recommended` ;
   - `"html": { "experimentalFullSupportEnabled": true }` (research R14) ;
   - `vcs.useIgnoreFile: true` ;
   - fichiers exclus : `nova-frontier-v2.html`, `**/*.generated.json`, `**/dist`, `apps/web/captures`, `**/test-results`, `**/playwright-report`.
-- [ ] T004 [P] Creer le paquet `packages/data/` :
+- [X] T004 [P] Creer le paquet `packages/data/` :
   - `package.json` : `"name": "@nova/data"`, `"type": "module"`, `"sideEffects": false`, `"exports": { ".": "./src/index.ts" }`. Dependance `zod@4.6.5` ; devDependencies `typescript@6.0.3`, `vitest@5.0.2`, `@biomejs/biome@2.5.14`. Scripts `"lint": "biome check ."`, `"typecheck": "tsc --noEmit -p tsconfig.json"`, `"test": "vitest run --passWithNoTests"` ;
   - `tsconfig.json` : etend `../../tsconfig.base.json`, `include: ["src", "tests"]` ;
   - `src/index.ts` avec `export {}`.
-- [ ] T005 [P] Creer le paquet `packages/sim/` :
+- [X] T005 [P] Creer le paquet `packages/sim/` :
   - `package.json` : `"name": "@nova/sim"`, memes scripts et devDependencies que T004, plus `"@nova/data": "workspace:*"` pour les imports de types ;
   - `tsconfig.json` : etend la base, `lib: ["ES2023"]` sans `DOM`, `types: []` ;
   - `src/index.ts` avec `export {}` ;
   - voir `contracts/sim-package.md`.
-- [ ] T006 Creer l'application `apps/web/`.
+- [X] T006 Creer l'application `apps/web/`.
   - `package.json` : `"name": "@nova/web"`, `"type": "module"`.
     - Dependances : `svelte@5.57.1`, `pixi.js@8.21.0`, `@fontsource/oswald@5.3.0`, `@fontsource/share-tech-mono@5.3.0`, `"@nova/data": "workspace:*"`.
     - devDependencies : `vite@8.3.1`, `@sveltejs/vite-plugin-svelte@7.3.1`, `svelte-check@4.7.6`, `typescript@6.0.3`, `vitest@5.0.2`, `@playwright/test@1.63.0`, `lighthouse@13.5.0`, `chrome-launcher` (version requise par lighthouse 13), `@biomejs/biome@2.5.14`.
@@ -64,9 +64,9 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
   - `src/vite-env.d.ts` : references `svelte` et `vite/client`.
   - `index.html` : `lang="fr"`, titre "NOVA FRONTIER", `<div id="app">`.
   - `src/main.ts` et `src/App.svelte` minimaux.
-- [ ] T007 Installer les dependances avec `pnpm install`, commiter `pnpm-lock.yaml` (jamais de `package-lock.json`), puis verifier que `pnpm -r lint`, `pnpm -r typecheck`, `pnpm -r test` et `pnpm -r build` passent sur ce squelette
-- [ ] T008 [P] Completer `.gitignore` avec `test-results/`, `playwright-report/`, `apps/web/captures/` et `apps/web/.lighthouse/`
-- [ ] T009 Mettre a jour `.github/workflows/tests.yml` :
+- [X] T007 Installer les dependances avec `pnpm install`, commiter `pnpm-lock.yaml` (jamais de `package-lock.json`), puis verifier que `pnpm -r lint`, `pnpm -r typecheck`, `pnpm -r test` et `pnpm -r build` passent sur ce squelette
+- [X] T008 [P] Completer `.gitignore` avec `test-results/`, `playwright-report/`, `apps/web/captures/` et `apps/web/.lighthouse/`
+- [X] T009 Mettre a jour `.github/workflows/tests.yml` :
   - supprimer l'etape "Detecte le projet" et toutes les conditions `if: steps.detect.outputs.found == 'true'` ;
   - retirer `with: version: 10` de `pnpm/action-setup`, la version venant de `packageManager` (research R15) ;
   - garder le nom du job "Tests & Lint", exige par le ruleset de `main` (piege 3 de `WORKFLOW.md`).

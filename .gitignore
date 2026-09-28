@@ -54,3 +54,9 @@ tmp/
 
 # pnpm
 .pnpm-store/
+
+# ---- Tests et mesures (apps/web) ----
+test-results/
+playwright-report/
+apps/web/captures/
+apps/web/.lighthouse/
