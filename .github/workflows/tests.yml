@@ -1,7 +1,7 @@
 name: Tests & Lint
 
-# Sur chaque PR vers main, avant le merge. La review de code se fait en local
-# avec /code-review (voir WORKFLOW.md), pas dans la CI.
+# Sur chaque PR vers main, avant le merge. La review de code se fait sur la PR,
+# par l'equipe avec Claude (voir WORKFLOW.md), pas dans la CI.
 on:
   pull_request:
     branches: [main]

@@ -8,20 +8,23 @@
 > Preseance, en cas de contradiction :
 > 1. `CLAUDE.md` — presentation du projet et commandes
 > 2. `plan.md` — architecture, pile, feuille de route P0 a P6
-> 3. ce fichier — deroule et etat des lieux
+> 3. `.specify/memory/constitution.md` — principes non negociables, verifies
+>    par spec-kit
+> 4. ce fichier — deroule et etat des lieux
+> 5. `specs/<feature>/` — artefacts spec-kit d'une feature
 >
-> Si ce fichier contredit l'un des deux autres, c'est lui qui a tort : le
+> Si ce fichier contredit l'un des trois premiers, c'est lui qui a tort : le
 > corriger ici, dans la meme PR que le changement.
 
-Derniere mise a jour : 28 septembre 2026 (abandon de la branche `dev`, `main`
-seule).
+Derniere mise a jour : 28 septembre 2026 (adoption de spec-kit ; review sur
+la PR, merge par Claude sur demande).
 
 ---
 
 ## 1. Etat du depot
 
-Le depot ne contient **aucun code applicatif**. Uniquement de la documentation
-et de l'outillage CI. Le projet est avant la phase P0 du plan.
+Le depot ne contient **aucun code applicatif**. Uniquement de la documentation,
+de l'outillage CI et spec-kit. Le projet est avant la phase P0 du plan.
 
 **Present :**
 
@@ -34,11 +37,15 @@ et de l'outillage CI. Le projet est avant la phase P0 du plan.
 | `.github/pull_request_template.md` | Checklist de PR. |
 | `.gitattributes` | LF partout, quel que soit l'OS. |
 | `.gitignore` / `.dockerignore` | Secrets, artefacts, contexte de build. |
+| `.specify/` | Spec-kit 1.0.12 : constitution (`memory/constitution.md`), templates, scripts bash, reglages (`init-options.json`). Voir §3 et pieges 8 a 11. |
+| `.claude/skills/speckit-*/` | Les skills `/speckit-*` de Claude Code, generes par spec-kit (piege 9). |
+| `.claude/settings.json` | Permissions Claude Code partagees : les scripts qu'appellent les skills spec-kit se lancent sans demande de confirmation. |
 
 **Absent — a creer en P0 :** `package.json`, `pnpm-workspace.yaml`,
 `tsconfig.base.json`, `biome.json`, `apps/web`, `apps/server`, `packages/sim`,
 `packages/data`. **Absent — a creer en P5 :** `Dockerfile`,
-`docker-compose.yml` (ce dernier vit sur le VPS).
+`docker-compose.yml` (ce dernier vit sur le VPS). **Absent — cree par la
+premiere feature spec-kit :** `specs/`.
 
 Les deux workflows contiennent un garde-fou qui les fait se sauter tant que
 ces fichiers manquent. **Ils n'ont donc jamais reellement tourne** : ils sont
@@ -52,10 +59,11 @@ celui de `deploy.yml`.
 
 | Etape | Qui | Automatique ? |
 |---|---|---|
+| Specifier, planifier, decouper une feature | humain + Claude, skills `/speckit-*` | non — chaque etape est lancee puis relue par un humain |
 | Ecrire le code | humain + Claude en session | — |
-| Review de code | Claude en local, `/code-review` | **non** — personne ne la declenche a votre place |
+| Review de code | l'equipe avec Claude, sur la PR | non |
 | Lint, typecheck, tests, build | CI (`tests.yml`) | oui, sur chaque PR |
-| Merge | humain, en squash vers `main` | non |
+| Merge | Claude, en squash vers `main` | non — uniquement quand un humain le demande |
 | Deploiement preprod | CI | oui, a chaque merge sur `main` — **pas encore en place** |
 | Mise en prod | CI (`deploy.yml`), sur feu vert humain | non — le job attend la validation de l'environnement `production` (piege 3) |
 
@@ -76,6 +84,38 @@ git switch -c feature/mon-sujet
 Jamais de commit direct sur `main`.
 Prefixes : `feature/`, `fix/`, `chore/`, `docs/`.
 
+### Specifier, planifier, implementer (feature spec-kit)
+
+Pour une phase de la feuille de route ou un changement qui touche plusieurs
+paquets (voir `CLAUDE.md`). Chaque etape est un skill a lancer dans Claude
+Code, dans cet ordre, en relisant le resultat avant de passer a la suivante :
+
+| Etape | Skill | Produit dans `specs/<feature>/` |
+|---|---|---|
+| Specifier : le quoi et le pourquoi, sans technique | `/speckit-specify <description>` | `spec.md`, `checklists/requirements.md` |
+| Lever les ambiguites (conseille) | `/speckit-clarify` | `spec.md` complete |
+| Planifier : le comment, dans le cadre de `plan.md` | `/speckit-plan <contraintes>` | `plan.md`, `research.md`, `data-model.md`, `contracts/`, `quickstart.md` |
+| Decouper en taches | `/speckit-tasks` | `tasks.md` |
+| Verifier la coherence (conseille, lecture seule) | `/speckit-analyze` | rapport dans la session |
+| Implementer | `/speckit-implement` | le code, et les taches cochees dans `tasks.md` |
+| Converger | `/speckit-converge` | de nouvelles taches dans `tasks.md` s'il reste des ecarts |
+
+Repeter implementer puis converger jusqu'a ce que `/speckit-converge` ne
+trouve plus d'ecart. `/speckit-checklist` (listes de controle de la qualite
+des exigences) est optionnel.
+
+- Le dossier de la feature s'appelle `specs/<AAAAMMJJ-HHMMSS>-<nom>/` :
+  l'horodatage evite que deux branches ouvertes en parallele prennent le meme
+  numero.
+- `/speckit-plan` passe la porte "Constitution Check" : un ecart non admis
+  par la constitution l'arrete (ecarts admis : section Gouvernance de la
+  constitution).
+- La branche se cree a la main, comme ci-dessus : spec-kit ne touche pas a
+  git dans ce depot.
+- Les artefacts de `specs/` sont commites dans la branche de la feature. Pour
+  faire relire la spec et le plan avant d'implementer, ouvrir la PR en
+  brouillon a ce stade.
+
 ### Pendant le travail
 
 Rester dans le perimetre annonce. Ne pas reformater du code non touche, ne pas
@@ -84,16 +124,7 @@ trois causes de conflit les plus couteuses a deux.
 
 ### Avant de commiter
 
-```
-/code-review
-```
-
-A lancer **avant** le dernier commit, pas apres avoir pousse : les corrections
-restent dans la branche au lieu de produire un commit "fix review". Sur une
-branche qui a vecu plusieurs jours, viser `/code-review main` pour relire tout
-l'ecart, sinon seul le dernier diff est relu.
-
-Puis verifier localement ce que la CI verifiera :
+Verifier localement ce que la CI verifiera :
 
 ```
 pnpm -r lint && pnpm -r typecheck && pnpm -r test
@@ -120,13 +151,24 @@ branche a jour) ; le bouton **Update branch** de la PR marche aussi.
 La PR vise `main`. Son titre suit le format des commits (`feat: ...`) : au
 merge en squash, c'est lui qui devient le message du commit sur `main`.
 
-Remplir le template, en particulier la section **Points laisses de cote** : la
-review ayant eu lieu dans votre session, l'autre personne n'a aucune visibilite
-sur ce qui a ete signale puis ecarte. Sans ce report, l'information est perdue.
+Remplir le template, en particulier la section **Points laisses de cote** : ce
+qui a ete signale pendant la session de travail puis ecarte, les relecteurs
+n'en ont aucune visibilite. Sans ce report, l'information est perdue.
+
+Pour une feature spec-kit, donner le chemin de `specs/<feature>/` dans la
+description : la spec et le plan sont le point d'entree de la relecture.
+
+### Relire la PR
+
+La review se fait sur la PR, par l'equipe avec Claude : commentaires sur la
+PR, corrections poussees sur la meme branche. Il n'y a pas de review locale
+obligatoire avant de pousser.
 
 ### Merger
 
-En **squash**, vers `main`, une fois la CI verte et la PR relue.
+En **squash**, vers `main`, une fois la CI verte et la PR relue. C'est Claude
+qui merge, et seulement quand un humain le lui demande explicitement : une PR
+verte et relue attend ce feu vert.
 
 Un merge sur `main` n'est **pas** une mise en production, mais tout ce qui est
 sur `main` doit rester livrable : la prochaine mise en prod embarquera tous les
@@ -176,9 +218,10 @@ merges depuis la precedente, pas seulement le dernier.
 5. **`.gitattributes` force LF.** Sous Windows, git affiche un avertissement
    `CRLF will be replaced by LF` a l'ajout d'un fichier : c'est le comportement
    attendu, pas une erreur.
-6. **Aucune cle Anthropic cote GitHub.** La review tourne en local avec
-   l'abonnement de chacun. Les seuls secrets a creer sont les `VPS_*`, et
-   seulement a partir du P5.
+6. **Aucune cle Anthropic cote GitHub.** Claude intervient depuis des
+   sessions Claude Code (en local ou dans le cloud), avec l'abonnement de
+   chacun ; rien dans la CI ne l'appelle. Les seuls secrets a creer sont les
+   `VPS_*`, et seulement a partir du P5.
 7. **`deploy.yml` ne deploie pas encore par SHA** (sans effet tant qu'il n'y a
    pas de `Dockerfile`). Le build pousse `:latest` avant toute validation, y
    compris depuis une autre branche via `workflow_dispatch`, et le deploiement
@@ -187,6 +230,36 @@ merges depuis la precedente, pas seulement le dernier.
    workflow, un run qui attend son feu vert bloque les suivants. A corriger en
    meme temps que le `Dockerfile` : deployer un SHA explicite, ne deplacer
    `:latest` qu'apres validation, reserver build et deploiement a `main`.
+8. **La feature courante de spec-kit est un etat local.** Elle est notee dans
+   `.specify/feature.json`, ignore par git, qui ne suit pas les changements de
+   branche. Tous les skills sauf `/speckit-specify` et
+   `/speckit-constitution` en dependent. Dans un clone neuf ou une session
+   Claude dans le cloud, ils s'arretent sur `Feature directory not found`.
+   Apres un `git switch`, ils visent encore la feature de l'autre branche :
+   `/speckit-clarify` peut ecrire dans sa spec, `/speckit-plan` recree son
+   dossier. Avant de reprendre une feature, demander a Claude d'ecrire
+   `{"feature_directory": "specs/<feature>"}` dans `.specify/feature.json`.
+   Ne pas exporter `SPECIFY_FEATURE_DIRECTORY` pour toute une session : elle
+   prime sur `feature.json` et garde la meme feature meme apres un
+   `/speckit-specify`, dont le plan ecraserait alors celui de la precedente.
+9. **Les fichiers generes par spec-kit ne se modifient pas a la main.** Les
+   skills `.claude/skills/speckit-*`, les scripts et les templates de
+   `.specify/` sont references avec leur empreinte dans
+   `.specify/integrations/*.manifest.json` : une mise a jour refuse d'ecraser
+   un fichier modifie. Les regles propres au depot vont dans la constitution ;
+   pour adapter un template, en deposer une copie modifiee sous le meme nom
+   dans `.specify/templates/overrides/`, qui prime sur l'original.
+   Mise a jour : `specify self upgrade`, puis `specify integration upgrade
+   claude` et `specify integration status`, dans une PR `chore:` dediee. Ne
+   pas relancer `specify init` : il remettrait `.specify/init-options.json` a
+   ses valeurs par defaut (numerotation sequentielle au lieu de l'horodatage).
+10. **Les skills lancent des scripts bash** (`.specify/scripts/bash/`). Sous
+    Windows, Claude Code doit pouvoir les executer via Git Bash ; LF est
+    indispensable (piege 5) : un script en CRLF ne s'execute pas.
+11. **Deux skills ecrivent hors de `specs/`.** `/speckit-implement` complete au
+    besoin `.gitignore` et `.dockerignore` : relire ces fichiers dans le diff.
+    `/speckit-taskstoissues` cree une issue GitHub par tache sur le depot : a
+    ne lancer que si l'on veut suivre les taches dans les issues.
 
 ---
 
@@ -200,3 +273,9 @@ Aucun asset definitif ni backend a ce stade.
 
 A faire passer par une PR vers `main` — ce sera la premiere execution reelle de
 la CI, et l'occasion de retirer le garde-fou de `tests.yml`.
+
+C'est aussi la premiere feature a faire passer par spec-kit (cycle du §3).
+Decrire a `/speckit-specify` ce que P0 rend visible : les 9 ecrans
+navigables, fideles a la maquette, et la scene qui s'affiche avec ou sans
+WebGPU. La pile et l'outillage (monorepo, Vite, Biome, CI) vont a
+`/speckit-plan`, qui les tire de `plan.md` : une spec reste sans technique.
