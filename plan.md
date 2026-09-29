@@ -175,6 +175,23 @@ Réutilisation depuis la maquette : les constantes `RAR`, `WEP`, `MATRIX`, `POOL
 
 Non vérifié aujourd'hui : version exacte de Biome et des runtimes Spine pour Pixi v8. À contrôler au moment de l'installation (P0/P3).
 
+**Versions installées en phase P0 (28 sept. 2026, npm)** : versions exactes, figées par `pnpm-lock.yaml`.
+
+| Outil | Version | Remarque |
+|---|---|---|
+| Node | ≥ 22.19 | champ `engines` |
+| pnpm | 10.34.6 | champ `packageManager`, lu par la CI |
+| TypeScript | 6.0.3 | pas la 7 : `svelte-check` 4.7 n'accepte que `^5 \|\| ^6` en dépendance pair |
+| Vite | 8.3.1 | avec `@sveltejs/vite-plugin-svelte` 7.3.1 |
+| Svelte | 5.57.1 | `svelte-check` 4.7.6 |
+| PixiJS | 8.21.0 | chargé à la première scène, en morceau séparé |
+| Biome | 2.5.14 | lint et format |
+| Vitest | 5.0.2 | |
+| Playwright | 1.63.0 | Chromium 153 en CI |
+| zod | 4.6.5 | schémas de `@nova/data`, en tests seulement |
+| Lighthouse | 13.5.0 | avec `chrome-launcher` 1.2.1 |
+| Polices | `@fontsource/oswald` et `@fontsource/share-tech-mono` 5.3.0 | servies par l'application |
+
 ## 11. Risques et points d'attention
 
 - **Déterminisme** : c'est la contrainte qui structure la sim ; toute fonction flottante non contrôlée casse la validation serveur. Tests multi-navigateurs dès P1.

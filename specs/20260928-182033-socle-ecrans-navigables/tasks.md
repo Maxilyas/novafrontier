@@ -468,14 +468,14 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
   - installation de Chromium : `pnpm --filter @nova/web exec playwright install --with-deps chromium` ;
   - `pnpm --filter @nova/web test:e2e` ;
   - `pnpm --filter @nova/web perf`.
-- [ ] T088 [P] Mettre a jour les documents de reference (research R17) :
+- [X] T088 [P] Mettre a jour les documents de reference (research R17) :
   - `plan.md` §10 : versions installees, et raison de TypeScript 6 plutot que 7 ;
   - `WORKFLOW.md` §1 : etat du depot, les fichiers de la phase P0 de la feuille de route etant crees ;
   - `WORKFLOW.md`, piege 4 : garde-fou de `tests.yml` retire, celui de `deploy.yml` maintenu ;
   - `WORKFLOW.md` §5 : prochaine etape, la phase P1 de la feuille de route ;
   - `CLAUDE.md`, section "Commandes du projet" : `test:e2e`, `perf` et `captures`.
-- [ ] T089 Derouler `quickstart.md` : les commandes, puis les scenarios automatiques 1 a 14. Reporter les resultats dans la description de la PR.
-- [ ] T090 Preparer, pour l'equipe, la validation manuelle, qu'aucun agent ne peut faire :
+- [X] T089 Derouler `quickstart.md` : les commandes, puis les scenarios automatiques 1 a 14. Reporter les resultats dans la description de la PR.
+- [X] T090 Preparer, pour l'equipe, la validation manuelle, qu'aucun agent ne peut faire :
   - captures de SC-002 ;
   - matrice des navigateurs de `quickstart.md` (SC-005, SC-006) ;
   - mesures au badge sur le poste de reference (SC-004, SC-009).

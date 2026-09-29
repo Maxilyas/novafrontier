@@ -54,7 +54,15 @@ pnpm -r lint                     # Biome, sur tout le workspace
 pnpm -r typecheck
 pnpm -r test                     # Vitest
 pnpm -r build
+pnpm --filter @nova/web test:e2e        # Playwright : parcours, scenes, mise en page
+pnpm --filter @nova/web perf            # Lighthouse sur Escouades, score > 90 exige
+pnpm --filter @nova/web captures        # application et maquette cote a cote
+pnpm --filter @nova/web mockup:extract  # regenere les valeurs derivees de la maquette
 ```
+
+Dans le conteneur de Claude Code, Playwright doit utiliser le Chromium
+preinstalle : prefixer ces quatre commandes par
+`PW_CHROMIUM_EXECUTABLE=/opt/pw-browsers/chromium`. La CI installe le sien.
 
 **pnpm, jamais npm ni yarn** : le workspace en depend, et un `package-lock.json`
 qui apparait dans un diff casse l'install de l'autre.
