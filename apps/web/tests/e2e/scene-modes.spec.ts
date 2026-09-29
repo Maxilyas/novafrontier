@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { expectScreen, gotoScreen, mainNav } from './helpers';
 import { pixelsLumineux, SCENES, zoneDeScene } from './scene.helpers';
 
@@ -13,12 +13,41 @@ const ATTENDU: Record<string, string> = {
   'sans-gpu': 'indisponible',
 };
 
+/** Journal des modes successifs des zones de scene, tenu dans la page. */
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    const journal: string[] = [];
+    Object.assign(window, { __modesDeRendu: journal });
+    new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        const mode = (mutation.target as Element).getAttribute('data-render-mode');
+        if (mode) journal.push(mode);
+      }
+    }).observe(document, {
+      attributes: true,
+      subtree: true,
+      attributeFilter: ['data-render-mode'],
+    });
+  });
+});
+
 for (const scene of SCENES) {
   test(`${scene} : mode de rendu du navigateur`, async ({ page }, info) => {
     const attendu = ATTENDU[info.project.name] ?? 'webgl2';
     await gotoScreen(page, scene);
     const zone = zoneDeScene(page, scene);
-    await expect(zone).toHaveAttribute('data-render-mode', attendu, { timeout: 15_000 });
+    // Premier mode atteint apres l'initialisation : le choix du rendu (FR-023, FR-024).
+    await expect
+      .poll(
+        () =>
+          page.evaluate(() =>
+            (window as unknown as { __modesDeRendu: string[] }).__modesDeRendu.find(
+              (mode) => mode !== 'initialisation',
+            ),
+          ),
+        { timeout: 15_000 },
+      )
+      .toBe(attendu);
 
     if (attendu === 'indisponible') {
       const message = zone.getByRole('alert');
@@ -28,15 +57,18 @@ for (const scene of SCENES) {
       // Le reste de l'ecran et la navigation restent utilisables (SC-006).
       await mainNav(page).getByRole('link', { name: 'Base', exact: true }).click();
       await expectScreen(page, 'base');
-    } else {
-      await expect(zone.locator('canvas')).toBeVisible();
-      await expect(zone.getByRole('alert')).toHaveCount(0);
     }
 
-    if (info.project.name === 'repli') {
+    if (attendu === 'webgl2') {
+      await expect(zone).toHaveAttribute('data-render-mode', 'webgl2');
+      await expect(zone.locator('canvas')).toBeVisible();
+      await expect(zone.getByRole('alert')).toHaveCount(0);
       // Le fond provisoire est dessine : des etoiles se detachent du degrade (FR-022).
       await expect.poll(() => pixelsLumineux(page, scene)).toBeGreaterThan(4);
     }
+    // En WebGPU logiciel, Chromium sans ecran perd le peripherique en quelques secondes, meme
+    // sur une page sans Pixi (research R10) : seul le choix du rendu est verifie ici ; la
+    // conduite a tenir apres une perte l'est par scene-lifecycle.spec.ts.
   });
 }
 

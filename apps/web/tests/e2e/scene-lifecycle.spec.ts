@@ -1,4 +1,5 @@
-import { expect, type Page, test } from '@playwright/test';
+import type { Page } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { expectScreen, gotoScreen, mainNav } from './helpers';
 import { zoneDeScene } from './scene.helpers';
 

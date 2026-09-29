@@ -47,3 +47,22 @@ jobs:
 
       - name: Build
         run: pnpm -r --if-present build
+
+      # Tests de bout en bout et audit de performance de l'application web (phase P0 de la
+      # feuille de route). Chromium de Playwright, avec ses dependances systeme.
+      - name: Installation de Chromium
+        run: pnpm --filter @nova/web exec playwright install --with-deps chromium
+
+      - name: Tests de bout en bout (Playwright)
+        run: pnpm --filter @nova/web test:e2e
+
+      - name: Performance (Lighthouse)
+        run: pnpm --filter @nova/web perf
+
+      - name: Rapport Playwright
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rapport-playwright
+          path: apps/web/playwright-report
+          retention-days: 7

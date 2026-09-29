@@ -1,5 +1,6 @@
 import type { ScreenId } from '@nova/data';
-import { expect, type Locator, type Page, test } from '@playwright/test';
+import type { Locator, Page } from '@playwright/test';
+import { expect, test } from './fixtures';
 import { expectScreen, mainNav, SCREENS } from './helpers';
 
 /**

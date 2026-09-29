@@ -211,8 +211,13 @@ securise) :
 | Lancement | WebGPU | WebGL | Pixi 8.21 |
 |---|---|---|---|
 | par defaut | pas d'adaptateur | WebGL2 (SwiftShader) | `webgl2`, image correcte, resolution 2 |
-| `--enable-unsafe-webgpu` | adaptateur SwiftShader | WebGL2 | `webgpu` choisi, mais aucune image lisible |
+| `--enable-unsafe-webgpu` | adaptateur SwiftShader | WebGL2 | `webgpu` choisi, mais aucune image lisible, et peripherique perdu en quelques secondes |
 | `--disable-gpu --disable-software-rasterizer` | non | non | erreur "No available renderer" |
+
+En WebGPU logiciel, la perte survient meme sur une page sans Pixi qui ne fait qu'effacer son
+canvas ("A valid external Instance reference no longer exists", raison `unknown`) : les tests
+du projet `webgpu` verifient donc le choix du rendu, pas sa tenue dans la duree. La conduite a
+tenir apres une perte (mode `perdu`, puis message) est verifiee en WebGL.
 
 **Rationale** : FR-020 a FR-028 ; `plan.md` §2 ("un canvas Pixi par scene"). Garder les
 instances evite de recreer un peripherique a chaque visite, donc aucune latence au retour et

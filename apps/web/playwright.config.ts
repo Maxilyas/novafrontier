@@ -2,9 +2,9 @@ import { defineConfig } from '@playwright/test';
 
 /**
  * Tests de bout en bout (research R15). Trois projets Chromium reproduisent les modes de rendu :
- * repli (WebGL2 logiciel par defaut), webgpu (--enable-unsafe-webgpu) et sans-gpu (aucune
- * acceleration). Dans le conteneur Claude Code, PW_CHROMIUM_EXECUTABLE designe le Chromium
- * preinstalle ; la CI utilise celui de Playwright.
+ * repli (WebGL2 logiciel, page sans WebGPU : voir tests/e2e/fixtures.ts), webgpu
+ * (--enable-unsafe-webgpu) et sans-gpu (aucune acceleration). Dans le conteneur Claude Code,
+ * PW_CHROMIUM_EXECUTABLE designe le Chromium preinstalle ; la CI utilise celui de Playwright.
  */
 const executablePath = process.env.PW_CHROMIUM_EXECUTABLE;
 const lancement = (args: string[]) => ({ ...(executablePath ? { executablePath } : {}), args });
@@ -17,6 +17,9 @@ export default defineConfig({
   retries: 0,
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
+    // Chromium complet en mode sans ecran recent, comme le Chromium preinstalle du conteneur :
+    // le "headless shell" par defaut de Playwright n'offre pas les memes rendus graphiques.
+    channel: 'chromium',
     baseURL: 'http://localhost:4173',
     viewport: { width: 1600, height: 900 },
     trace: 'retain-on-failure',
@@ -30,11 +33,8 @@ export default defineConfig({
   projects: [
     { name: 'repli', use: { launchOptions: lancement([]) } },
     {
-      // WebGPU logiciel (SwiftShader) perd son peripherique quand le processeur est sature : ce
-      // projet passe apres le projet repli, dont les scenes animees occupent les processeurs.
       name: 'webgpu',
       testMatch: 'e2e/scene-modes.spec.ts',
-      dependencies: ['repli'],
       use: { launchOptions: lancement(['--enable-unsafe-webgpu']) },
     },
     {

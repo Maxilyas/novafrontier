@@ -447,7 +447,7 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 **Purpose**: outils de validation de SC-002 a SC-004, CI complete, documents de reference
 
-- [ ] T083 [P] Ecrire `apps/web/scripts/captures.mjs` (SC-002) :
+- [X] T083 [P] Ecrire `apps/web/scripts/captures.mjs` (SC-002) :
   - serveur par l'API `preview` de Vite ;
   - pour chacun des 9 ecrans :
     - capture de l'application a 1600x900 ;
@@ -455,16 +455,16 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
     - ecran ouvert par `go()`, par `startDeploy()`, ou par `startDeploy()` puis `startCombat()` et `CB.run = false` ;
     - decoupe sur `#stage` ;
   - assemblage cote a cote dans une page, puis capture vers `apps/web/captures/NN-<ecran>.png`.
-- [ ] T084 [P] Ecrire `apps/web/scripts/lighthouse.mjs` (SC-003) :
+- [X] T084 [P] Ecrire `apps/web/scripts/lighthouse.mjs` (SC-003) :
   - serveur `preview` sur `dist/` ;
   - Chromium de Playwright (`chromium.executablePath()` ou `PW_CHROMIUM_EXECUTABLE`), lance par `chrome-launcher` avec `--headless=new --no-sandbox` ;
   - Lighthouse 13, configuration `lighthouse/core/config/desktop-config.js`, categorie performance seule, sur `/#/escouades` ;
   - affiche les metriques, et sort en erreur si le score n'est pas superieur a 0,90.
-- [ ] T085 [P] Ecrire `apps/web/tests/e2e/performance.spec.ts` (SC-004, partie automatique) :
+- [X] T085 [P] Ecrire `apps/web/tests/e2e/performance.spec.ts` (SC-004, partie automatique) :
   - avec `reducedMotion: 'reduce'`, chaque changement d'ecran se termine en moins de 300 ms ;
   - a la premiere ouverture de la Carte, `data-render-mode` atteint son mode final en moins d'une seconde.
-- [ ] T086 Verifier dans `apps/web/dist/` que `pixi.js` forme un morceau separe, absent du HTML d'entree et charge seulement a l'ouverture d'un ecran a scene (research R10). Ajuster `apps/web/vite.config.ts` si besoin.
-- [ ] T087 Completer `.github/workflows/tests.yml` apres le build, avec trois etapes :
+- [X] T086 Verifier dans `apps/web/dist/` que `pixi.js` forme un morceau separe, absent du HTML d'entree et charge seulement a l'ouverture d'un ecran a scene (research R10). Ajuster `apps/web/vite.config.ts` si besoin.
+- [X] T087 Completer `.github/workflows/tests.yml` apres le build, avec trois etapes :
   - installation de Chromium : `pnpm --filter @nova/web exec playwright install --with-deps chromium` ;
   - `pnpm --filter @nova/web test:e2e` ;
   - `pnpm --filter @nova/web perf`.
