@@ -27,6 +27,8 @@ interface Scene {
   perdue: boolean;
   /** Images rendues, pour la cadence du badge de diagnostic. */
   images: number;
+  /** Taille CSS et densite appliquees au canvas, pour ne pas le redimensionner a l'identique. */
+  taille: { largeur: number; hauteur: number; densite: number } | undefined;
 }
 
 const scenes = new Map<SceneId, Scene>();
@@ -48,15 +50,29 @@ function modeDe(app: Application): RenderMode {
   return renderModeOf(rendu.name, version);
 }
 
-/** La scene occupe toute sa zone, a la densite de l'ecran, et une image est rendue aussitot. */
-function redimensionner(scene: Scene): void {
-  const { app, hote, instance } = scene;
-  if (!app || !hote || scene.mode === 'perdu') return;
+/**
+ * La scene occupe toute sa zone, a la densite de l'ecran. Rien n'est fait si ni l'une ni l'autre
+ * n'ont change : c'est le cas a chaque retour sur l'ecran, et la scene repeindrait son fond pour
+ * rien (SC-004). Renvoie vrai si la scene a ete redimensionnee.
+ */
+function redimensionner(scene: Scene): boolean {
+  const { app, hote, instance, taille } = scene;
+  if (!app || !hote || scene.mode === 'perdu') return false;
   const { width, height } = hote.getBoundingClientRect();
-  if (width === 0 || height === 0) return;
-  app.renderer.resize(width, height, resolution());
+  const densite = resolution();
+  if (width === 0 || height === 0) return false;
+  if (taille?.largeur === width && taille.hauteur === height && taille.densite === densite) {
+    return false;
+  }
+  scene.taille = { largeur: width, hauteur: height, densite };
+  app.renderer.resize(width, height, densite);
   instance?.resize(width, height);
-  app.render();
+  return true;
+}
+
+/** Un canvas redimensionne est vide : l'image est rendue aussitot, sans attendre la suivante. */
+function suivreLaZone(scene: Scene): void {
+  if (redimensionner(scene)) scene.app?.render();
 }
 
 /** Anime seulement si la scene est affichee, l'onglet visible et les animations permises. */
@@ -79,14 +95,18 @@ function animer(scene: Scene): void {
   }
 }
 
+/**
+ * Rattache le canvas a sa zone. Une seule image est rendue : par le ticker a l'image suivante
+ * quand la scene s'anime, sinon par `animer`.
+ */
 function attacher(scene: Scene): void {
   const { app, hote } = scene;
   if (!app || !hote || scene.perdue) return;
   if (app.canvas.parentElement !== hote) hote.prepend(app.canvas);
-  scene.observateur?.disconnect();
-  scene.observateur = new ResizeObserver(() => redimensionner(scene));
-  scene.observateur.observe(hote);
   redimensionner(scene);
+  scene.observateur?.disconnect();
+  scene.observateur = new ResizeObserver(() => suivreLaZone(scene));
+  scene.observateur.observe(hote);
   animer(scene);
 }
 
@@ -182,6 +202,7 @@ function detruire(scene: Scene): void {
   scene.instance = undefined;
   scene.creation = undefined;
   scene.perdue = false;
+  scene.taille = undefined;
 }
 
 function poignee(scene: Scene): SceneHandle {
@@ -211,7 +232,7 @@ function ecouterLeNavigateur(): void {
     matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`).addEventListener(
       'change',
       () => {
-        toutes(redimensionner)();
+        toutes(suivreLaZone)();
         suivreDensite();
       },
       { once: true },
@@ -238,6 +259,7 @@ export async function acquireScene(id: SceneId, host: HTMLElement): Promise<Scen
       minuteurPerte: undefined,
       perdue: false,
       images: 0,
+      taille: undefined,
     };
     scenes.set(id, scene);
   }

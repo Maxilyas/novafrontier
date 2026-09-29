@@ -72,8 +72,8 @@ maquette et environ 300 etoiles placees par un generateur a graine, qui derivent
 | Retour | `acquireScene` sur une scene existante rattache le canvas et reprend l'animation en moins de 300 ms | FR-027 |
 | Premiere ouverture | scene visible en moins d'une seconde sur le poste de reference | SC-004 |
 | Densite | `resolution` = min(densite de l'ecran, 2), `autoDensity` ; changement de densite suivi par `matchMedia` | FR-025, SC-008 |
-| Taille | `ResizeObserver` sur la zone, puis `renderer.resize(largeur, hauteur, resolution)` : le canvas occupe toute la zone, sans deformation | FR-026, SC-008 |
-| Animation | seulement si l'ecran est affiche et l'onglet visible ; une image fixe si les animations sont reduites | FR-027, FR-035 |
+| Taille | `ResizeObserver` sur la zone, puis `renderer.resize(largeur, hauteur, resolution)` : le canvas occupe toute la zone, sans deformation. Rien n'est refait si la taille et la densite n'ont pas change, comme a chaque retour sur l'ecran | FR-026, SC-008 |
+| Animation | seulement si l'ecran est affiche et l'onglet visible ; une image fixe si les animations sont reduites. Au rattachement, une seule image est rendue : par le ticker, ou l'image fixe | FR-027, FR-035 |
 | Perte du contexte | mode `perdu` a la perte du contexte WebGL ou du peripherique WebGPU. Retour au mode precedent quand Pixi le retablit. Mode `indisponible` si rien n'est retabli en 3 s | FR-024 |
 | Polices | `document.fonts.ready` attendu avant la creation | `plan.md` §2 |
 
