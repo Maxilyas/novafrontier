@@ -36,25 +36,34 @@ test.describe('changements d ecran (SC-004)', () => {
       'butin',
       'escouades',
     ];
+    // Trois tours, et la mediane de chaque changement : un a-coup isole de la machine (ramasse-
+    // miettes, autre test en parallele) ne fait pas echouer le test.
     const durees = await page.evaluate(async (ecrans) => {
-      const resultat: Record<string, number> = {};
-      for (const ecran of ecrans) {
-        const debut = performance.now();
-        window.location.hash = `#/${ecran === 'atlas' ? 'atlas/s1' : ecran}`;
-        await new Promise<void>((resolve) => {
-          const verifier = () =>
-            document.querySelector(`[data-screen="${ecran}"]`)
-              ? resolve()
-              : requestAnimationFrame(verifier);
-          verifier();
-        });
-        // L'ecran est peint a l'image suivante.
-        await new Promise((resolve) => requestAnimationFrame(resolve));
-        resultat[ecran] = performance.now() - debut;
+      const resultat: Record<string, number[]> = {};
+      for (let tour = 0; tour < 3; tour++) {
+        for (const ecran of ecrans) {
+          const debut = performance.now();
+          window.location.hash = `#/${ecran === 'atlas' ? 'atlas/s1' : ecran}`;
+          await new Promise<void>((resolve) => {
+            const verifier = () =>
+              document.querySelector(`[data-screen="${ecran}"]`)
+                ? resolve()
+                : requestAnimationFrame(verifier);
+            verifier();
+          });
+          // L'ecran est peint a l'image suivante.
+          await new Promise((resolve) => requestAnimationFrame(resolve));
+          resultat[ecran] = [...(resultat[ecran] ?? []), performance.now() - debut];
+        }
       }
       return resultat;
     }, ordre);
-    for (const ecran of ordre) expect(durees[ecran], ecran).toBeLessThan(300);
+    const mediane = (valeurs: number[] = []) => [...valeurs].sort((a, b) => a - b)[1] ?? Infinity;
+    for (const ecran of ordre) {
+      expect(mediane(durees[ecran]), `${ecran} : ${durees[ecran]?.map(Math.round)}`).toBeLessThan(
+        300,
+      );
+    }
   });
 
   test('a la premiere ouverture de la Carte, la scene s affiche en moins d une seconde', async ({

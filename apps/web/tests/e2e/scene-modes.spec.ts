@@ -13,6 +13,9 @@ const ATTENDU: Record<string, string> = {
   'sans-gpu': 'indisponible',
 };
 
+// Jusqu'a 15 s pour le choix du rendu, puis 20 s pour les etoiles.
+test.describe.configure({ timeout: 60_000 });
+
 /** Journal des modes successifs des zones de scene, tenu dans la page. */
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {
@@ -63,8 +66,9 @@ for (const scene of SCENES) {
       await expect(zone).toHaveAttribute('data-render-mode', 'webgl2');
       await expect(zone.locator('canvas')).toBeVisible();
       await expect(zone.getByRole('alert')).toHaveCount(0);
-      // Le fond provisoire est dessine : des etoiles se detachent du degrade (FR-022).
-      await expect.poll(() => pixelsLumineux(page, scene)).toBeGreaterThan(4);
+      // Le fond provisoire est dessine : des etoiles se detachent du degrade (FR-022). Une
+      // capture de la scene animee peut prendre plusieurs secondes en rendu logiciel.
+      await expect.poll(() => pixelsLumineux(page, scene), { timeout: 20_000 }).toBeGreaterThan(20);
     }
     // En WebGPU logiciel, Chromium sans ecran perd le peripherique en quelques secondes, meme
     // sur une page sans Pixi (research R10) : seul le choix du rendu est verifie ici ; la

@@ -50,6 +50,11 @@ async function compterMessages(page: Page): Promise<() => Promise<number>> {
 }
 
 test.describe('SC-012 : commandes d une phase ulterieure', () => {
+  // Scenes immobiles (FR-035) : le test porte sur les messages et les valeurs. En rendu logiciel,
+  // une scene animee ralentit chaque clic, jusqu'a depasser le delai sur la CI.
+  test.use({ reducedMotion: 'reduce' });
+  test.describe.configure({ timeout: 60_000 });
+
   for (const ecran of SCREENS) {
     test(`${ecran} : message bref, aucune valeur modifiee`, async ({ page }) => {
       await gotoScreen(page, ecran);

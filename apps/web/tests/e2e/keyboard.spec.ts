@@ -102,7 +102,8 @@ const PARCOURS: Record<ScreenId, Etape[]> = {
 
 /**
  * Le test verifie le contour lui-meme, pas son apparition : les transitions de la maquette (0,14 s
- * sur les boutons et la navigation) sont coupees, sinon chaque tabulation attendrait leur fin.
+ * sur les boutons et la navigation) sont coupees, sinon chaque tabulation attendrait leur fin. Les
+ * scenes sont immobiles (voir plus bas) pour la meme raison.
  */
 async function ouvrir(page: Page, adresse: string): Promise<void> {
   await page.goto(adresse);
@@ -112,6 +113,9 @@ async function ouvrir(page: Page, adresse: string): Promise<void> {
 }
 
 test.describe('SC-013 : les 9 ecrans au clavier seul', () => {
+  // Scenes immobiles (FR-035) : en rendu logiciel, une scene animee retarde chaque tabulation
+  // d'une image ou deux, soit des dizaines de secondes par parcours sur la CI.
+  test.use({ reducedMotion: 'reduce' });
   test.describe.configure({ timeout: 60_000 });
 
   for (const ecran of SCREENS) {

@@ -9,22 +9,19 @@ export const zoneDeScene = (page: Page, scene: Scene): Locator =>
   page.locator(`[data-scene-host="${scene}"]`);
 
 /**
- * Pixels lumineux (etoiles) dans un carre de 240 px au centre de la zone, hors panneaux. Le voile
- * de grain est masque le temps de la capture : il ajouterait son propre bruit.
+ * Pixels lumineux (etoiles) de toute la zone de scene. Le temps de la capture, seul le canvas
+ * reste peint : les panneaux poses sur la zone, leurs textes et le voile de grain ajouteraient
+ * leurs propres pixels clairs, ou masqueraient des etoiles. Environ 230 pour les 300 etoiles.
  */
 export async function pixelsLumineux(page: Page, scene: Scene): Promise<number> {
+  // Capture de la page, decoupee a la zone : celle d'un element attendrait qu'il soit visible.
   const boite = await zoneDeScene(page, scene).boundingBox();
   if (!boite) throw new Error(`zone de scene ${scene} invisible`);
-  const cote = 240;
-  const style = await page.addStyleTag({ content: '.grain{display:none}' });
-  const image = await page.screenshot({
-    clip: {
-      x: boite.x + boite.width / 2 - cote / 2,
-      y: boite.y + boite.height / 2 - cote / 2,
-      width: cote,
-      height: cote,
-    },
+  const style = await page.addStyleTag({
+    content:
+      'body *{visibility:hidden!important} [data-scene-host] canvas{visibility:visible!important}',
   });
+  const image = await page.screenshot({ clip: boite });
   await style.evaluate((el) => (el as Element).remove());
   return page.evaluate(async (base64) => {
     const img = new Image();
