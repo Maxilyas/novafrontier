@@ -214,6 +214,11 @@ h4 {
   --notch: 5px;
   transition: 0.14s;
 }
+/* Commande de parcours : un lien qui a l'apparence d'un bouton de la maquette, libelle centre. */
+a.btn {
+  display: inline-block;
+  text-align: center;
+}
 .btn:hover {
   background: rgba(99, 214, 188, 0.18);
   border-color: var(--sig);

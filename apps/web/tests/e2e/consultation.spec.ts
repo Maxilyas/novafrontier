@@ -93,7 +93,9 @@ test.describe('story 2 : consultations', () => {
     await expect(palier).toHaveAttribute('aria-pressed', 'true');
     await expect.poll(() => grande.innerHTML()).not.toBe(illustration);
 
-    const arme = atlas.getByRole('button', { name: /Nucléaire/ });
+    // Un armement autre que celui de l'unite (chaque unite ouvre l'Atlas sur son propre armement).
+    const nomArme = await atlas.locator('.skin[aria-pressed="false"] .sn').first().innerText();
+    const arme = atlas.getByRole('button', { name: new RegExp(nomArme, 'i') });
     const avantArme = await grande.innerHTML();
     await arme.click();
     await expect(arme).toHaveAttribute('aria-pressed', 'true');

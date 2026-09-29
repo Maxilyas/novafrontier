@@ -2,17 +2,33 @@
   import { demoState, planetById } from '@nova/data';
   import { toHash } from '../../state/router.svelte';
   import Btn from '../../ui/Btn.svelte';
+  import Composition from './Composition.svelte';
+  import DeployPrefs from './DeployPrefs.svelte';
+  import Objectives from './Objectives.svelte';
+  import Simulation from './Simulation.svelte';
+  import SpyReport from './SpyReport.svelte';
+  import TheatrePanel from './TheatrePanel.svelte';
 
   /**
    * Ecran 06 · Briefing (maquette, lignes 797-803 et 1821-1934, CSS 467-502), pour la planete
-   * visee (FR-005).
+   * visee et l'escouade choisie (FR-005, FR-017).
    */
   const cible = planetById(demoState.mission.target);
 </script>
 
 <section class="screen briefing" data-screen="briefing" aria-label="Briefing" tabindex="-1">
   <h1 class="tag">// 06 · <b>BRIEFING</b> — ASSAUT SUR {cible?.name.toUpperCase()}</h1>
+  <div class="bcol bc1">
+    <SpyReport />
+  </div>
+  <div class="bcol bc2">
+    <TheatrePanel />
+    <Composition />
+    <Objectives />
+  </div>
   <div class="bcol bc3">
+    <Simulation />
+    <DeployPrefs />
     <div class="suite">
       <Btn variant="solid" href={toHash({ screen: 'deploiement' })} style="flex:1;padding:13px">
         Passer au déploiement
@@ -39,8 +55,22 @@
     flex-direction: column;
     gap: 12px;
   }
+  .bc1 {
+    grid-area: bc1;
+  }
+  .bc2 {
+    grid-area: bc2;
+  }
   .bc3 {
     grid-area: bc3;
+  }
+  .bcol :global(.panel.espionnage),
+  .bcol :global(.panel.composition) {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
   .suite {
     display: flex;

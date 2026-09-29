@@ -264,13 +264,13 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 ### Tests for User Story 2 ⚠️
 
 - [X] T047 [P] [US2] Ecrire l'oracle `apps/web/tests/oracle/derived-values.spec.ts` (FR-013) : importer `extractDerivedValues` de `apps/web/scripts/mockup-oracle.mjs` (T053), ouvrir la maquette et comparer l'extraction au contenu de `packages/data/src/demo/derived.generated.json`, lu par `fs`
-- [ ] T048 [P] [US2] Ecrire `apps/web/tests/e2e/consultation.spec.ts` :
+- [X] T048 [P] [US2] Ecrire `apps/web/tests/e2e/consultation.spec.ts` :
   - scenarios 2 a 4 et 7 a 9 de la story 2 ;
   - valeurs affichees egales a `derivedValues` : "PUISSANCE 2 566 · ARMEMENT DOMINANT LASER" sur Escouades, 38 % au Briefing, 681 UA sur la Carte ;
   - consultations au clavier (SC-013).
-- [ ] T049 [P] [US2] Ecrire `apps/web/tests/e2e/later-phase.spec.ts` (SC-012) : sur chaque ecran, chaque element `[data-later-phase]` affiche "Pas encore disponible" et le texte de l'ecran reste identique ; tous les codes de `contracts/ui-testing.md` sont presents
-- [ ] T050 [P] [US2] Ecrire `apps/web/tests/e2e/requests.spec.ts` (SC-010) : aucune requete hors de `localhost` pendant le parcours des 9 ecrans
-- [ ] T051 [P] [US2] Ecrire `apps/web/tests/unit/no-hardcoded-data.test.ts` (SC-011) : aucun nom d'unite, de batiment, de planete ni de noeud de recherche de `@nova/data` dans `apps/web/src/**/*.{svelte,ts}`
+- [X] T049 [P] [US2] Ecrire `apps/web/tests/e2e/later-phase.spec.ts` (SC-012) : sur chaque ecran, chaque element `[data-later-phase]` affiche "Pas encore disponible" et le texte de l'ecran reste identique ; tous les codes de `contracts/ui-testing.md` sont presents
+- [X] T050 [P] [US2] Ecrire `apps/web/tests/e2e/requests.spec.ts` (SC-010) : aucune requete hors de `localhost` pendant le parcours des 9 ecrans
+- [X] T051 [P] [US2] Ecrire `apps/web/tests/unit/no-hardcoded-data.test.ts` (SC-011) : aucun nom d'unite, de batiment, de planete ni de noeud de recherche de `@nova/data` dans `apps/web/src/**/*.{svelte,ts}`
 
 ### Implementation for User Story 2
 
@@ -285,10 +285,10 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
     - lit dans le DOM la synthese (`#sumry`), la contrainte (`#bc2`) et le trajet (`#holo`).
   - `apps/web/scripts/extract-mockup.mjs` : lance Chromium (`executablePath` depuis `PW_CHROMIUM_EXECUTABLE` si definie) et ecrit `packages/data/src/demo/derived.generated.json`, en JSON indente de 2 espaces.
 - [X] T054 [US2] Generer `packages/data/src/demo/derived.generated.json` (`pnpm --filter @nova/web mockup:extract`) et l'exposer par `packages/data/src/demo/derived.ts` (`derivedValues`, type `DerivedValues`) et par `packages/data/src/index.ts`. Ajouter sa validation a `packages/data/tests/schemas.test.ts`. Faire passer T047.
-- [ ] T055 [P] [US2] Creer `apps/web/src/app/escouades/SquadTabs.svelte` (lignes 1102-1111, CSS lignes 252-301) :
+- [X] T055 [P] [US2] Creer `apps/web/src/app/escouades/SquadTabs.svelte` (lignes 1102-1111, CSS lignes 252-301) :
   - numero, nom, puis "n/6 · puissance PUISS.", ou "Verrouillé" et le grade ;
   - clic : `selection.selectSquad`, sans effet sur une escouade verrouillee.
-- [ ] T056 [P] [US2] Creer `apps/web/src/app/escouades/Board.svelte` (lignes 1117-1161) :
+- [X] T056 [P] [US2] Creer `apps/web/src/app/escouades/Board.svelte` (lignes 1117-1161) :
   - en-tete : puissance et armement dominant ;
   - rangee Commandant :
     - 6 points d'action, carte ou emplacement vide ;
@@ -296,28 +296,28 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
     - texte de l'escouade sans commandant ;
   - rangees Flotte (3) et Force meca (2) ;
   - carte : `laterPhase` `unassign-unit` ; emplacement vide : filtre des effectifs sur sa famille.
-- [ ] T057 [P] [US2] Creer `apps/web/src/app/escouades/Summary.svelte` et `apps/web/src/app/escouades/MiniFormation.svelte` (lignes 1180-1259) :
+- [X] T057 [P] [US2] Creer `apps/web/src/app/escouades/Summary.svelte` et `apps/web/src/app/escouades/MiniFormation.svelte` (lignes 1180-1259) :
   - PV totaux, attaque et defense moyenne, avec les echelles de barre de la maquette : `min(100, pv/90)`, `min(100, atk/16)`, `def` % ;
   - composition d'armement en %, dominante et profil ;
   - points d'action "Fixes"/"Achetables", avec leurs textes et le badge "À trancher · point 3 du CR" ;
   - apercu de formation en SVG (portage de `drawMiniForm`, lignes 1236-1258) et selecteur 360 degres/Arc ;
   - texte final.
-- [ ] T058 [US2] Assembler la grille de `apps/web/src/app/escouades/Escouades.svelte` (depend de T055-T057) : zones titre, onglets, plateau, effectifs, synthese et pied, colonnes en `rem` (research R5)
-- [ ] T059 [P] [US2] Creer les colonnes gauche et centrale de l'Atlas : `apps/web/src/app/atlas/AtlasRoster.svelte`, `Characteristics.svelte` et `Tiers.svelte` (lignes 1269-1323, CSS lignes 302-332) :
+- [X] T058 [US2] Assembler la grille de `apps/web/src/app/escouades/Escouades.svelte` (depend de T055-T057) : zones titre, onglets, plateau, effectifs, synthese et pied, colonnes en `rem` (research R5)
+- [X] T059 [P] [US2] Creer les colonnes gauche et centrale de l'Atlas : `apps/web/src/app/atlas/AtlasRoster.svelte`, `Characteristics.svelte` et `Tiers.svelte` (lignes 1269-1323, CSS lignes 302-332) :
   - 11 cartes ;
   - caracteristiques d'un commandant ou d'un combattant, note de progression visuelle, note du porte-nefs ;
   - grande carte ; paliers 1 a 4, masques pour un commandant ;
   - pastille "ATLAS — N VISUELS EN CACHE", alimentee par le registre de T033.
-- [ ] T060 [US2] Creer la colonne droite de l'Atlas (depend de T059) : `apps/web/src/app/atlas/WeaponSkins.svelte`, `DamageMatrix.svelte` et `Engines.svelte` (lignes 1325-1373) :
+- [X] T060 [US2] Creer la colonne droite de l'Atlas (depend de T059) : `apps/web/src/app/atlas/WeaponSkins.svelte`, `DamageMatrix.svelte` et `Engines.svelte` (lignes 1325-1373) :
   - 3 armements actifs selectionnables, 2 prevus grises, case "extension trinité → 5" ;
   - matrice de degrats et son texte ;
   - motorisations. Assembler `Atlas.svelte`.
-- [ ] T061 [P] [US2] Creer la Base : `apps/web/src/app/base/BuildingField.svelte`, `BuildingList.svelte`, `BuildingDetail.svelte` et `Income.svelte` (lignes 748-760 et 1465-1512, CSS lignes 333-369) :
+- [X] T061 [P] [US2] Creer la Base : `apps/web/src/app/base/BuildingField.svelte`, `BuildingList.svelte`, `BuildingDetail.svelte` et `Income.svelte` (lignes 748-760 et 1465-1512, CSS lignes 333-369) :
   - terrain et grille iso ; 9 batiments places selon `position`, etiquettes "nom · NIV n", selection ;
   - liste "Bâtiments 9 / 12" ;
   - detail : couts, duree, effet, "Améliorer" et "File" en `laterPhase` `upgrade-building` et `queue-building` ;
   - revenu : 3 planetes, total, cumul a 52 %, "Tout collecter — 14 280 crédits" en `laterPhase` `collect-all`.
-- [ ] T062 [P] [US2] Creer la Recherche : `apps/web/src/app/recherche/TreeTabs.svelte`, `Tree.svelte`, `NodeDossier.svelte` et `ResearchQueue.svelte` (lignes 762-775 et 1569-1635, CSS lignes 370-413) :
+- [X] T062 [P] [US2] Creer la Recherche : `apps/web/src/app/recherche/TreeTabs.svelte`, `Tree.svelte`, `NodeDossier.svelte` et `ResearchQueue.svelte` (lignes 762-775 et 1569-1635, CSS lignes 370-413) :
   - 3 onglets ; noeuds positionnes, etats `done`, `active` et `lock`, noeuds legendaires, selection ;
   - liaisons en SVG, en portage du canvas : trait plein phosphore vers un noeud non verrouille, pointille gris sinon, trace en coude ;
   - dossier :
@@ -325,12 +325,12 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
     - prerequis et niveau de laboratoire, couts, duree, effet ;
     - bouton selon l'etat, en `laterPhase` `start-research`, legende ;
   - file de recherche.
-- [ ] T063 [P] [US2] Creer la Carte : `apps/web/src/app/carte/MapInfo.svelte`, `NavPad.svelte`, `Zoomer.svelte` et le contenu de `Holo.svelte` (lignes 777-795 et 1682-1788, CSS lignes 414-466) :
+- [X] T063 [P] [US2] Creer la Carte : `apps/web/src/app/carte/MapInfo.svelte`, `NavPad.svelte`, `Zoomer.svelte` et le contenu de `Holo.svelte` (lignes 777-795 et 1682-1788, CSS lignes 414-466) :
   - titre "BRAS DE CYRANNUS · SECTEUR 04-07" ; puces echelle, flotte et carburant ;
   - fleches et coordonnees "X:24 Y:12" en `laterPhase` `map-move` ; niveaux de zoom en `laterPhase` `map-zoom` ;
   - hologramme de la planete visee, alimente par `derivedValues.route` ;
   - zone de scene laissee vide (fond `--ink`) pour la story 3.
-- [ ] T064 [P] [US2] Creer le Briefing : `apps/web/src/app/briefing/SpyReport.svelte`, `TheatrePanel.svelte`, `Composition.svelte`, `Objectives.svelte`, `Simulation.svelte` et `DeployPrefs.svelte` (lignes 797-803 et 1821-1934, CSS lignes 467-502) :
+- [X] T064 [P] [US2] Creer le Briefing : `apps/web/src/app/briefing/SpyReport.svelte`, `TheatrePanel.svelte`, `Composition.svelte`, `Objectives.svelte`, `Simulation.svelte` et `DeployPrefs.svelte` (lignes 797-803 et 1821-1934, CSS lignes 467-502) :
   - titre "ASSAUT SUR <planete>" ;
   - rapport non effectue, avec "Espionner la planète" en `laterPhase` `spy-planet` ;
   - selecteur du theatre et ses textes ;
@@ -338,14 +338,14 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
   - objectifs ;
   - jauge de simulation : `--ok` au-dessus de 60, `--gold` au-dessus de 35, `--warn` sinon ; "Résoudre automatiquement" en `laterPhase` `auto-resolve` ;
   - interrupteur en `laterPhase` `auto-deploy-toggle`, formation, badge "Objectif et disposition à trancher — point 2 du CR".
-- [ ] T065 [P] [US2] Creer le Deploiement : `apps/web/src/app/deploiement/UnitPool.svelte`, `Disposition.svelte`, `ObjectivePanel.svelte` et `Assistance.svelte` (lignes 805-811 et 2072-2144, CSS lignes 503-528) :
+- [X] T065 [P] [US2] Creer le Deploiement : `apps/web/src/app/deploiement/UnitPool.svelte`, `Disposition.svelte`, `ObjectivePanel.svelte` et `Assistance.svelte` (lignes 805-811 et 2072-2144, CSS lignes 503-528) :
   - unites de `derivedValues.deployment[escouade][theatre]`, toutes placees ; clic en `laterPhase` `pick-unit` ;
   - legende ; disposition et son badge ;
   - objectif : relique, 1 000 PV, vagues, condition ;
   - "Déploiement automatique" et "Tout retirer" en `laterPhase` ;
   - "Lancer le combat" inactif si aucune unite n'est engagee (FR-019) ;
   - zone centrale laissee vide pour la story 3.
-- [ ] T066 [P] [US2] Creer le Combat : `apps/web/src/app/combat/WaveBar.svelte`, `Forces.svelte`, `Trinity.svelte`, `CombatLog.svelte` et `ActionBar.svelte` (lignes 813-828 et 2299-2335, CSS lignes 529-573), a partir de `derivedValues.combatStart[escouade][theatre]` :
+- [X] T066 [P] [US2] Creer le Combat : `apps/web/src/app/combat/WaveBar.svelte`, `Forces.svelte`, `Trinity.svelte`, `CombatLog.svelte` et `ActionBar.svelte` (lignes 813-828 et 2299-2335, CSS lignes 529-573), a partir de `derivedValues.combatStart[escouade][theatre]` :
   - intitule ; vague 01 sur le nombre de vagues, relique a 100 % ;
   - forces a pleine sante ;
   - trinite, avec les multiplicateurs lus dans `damageMatrix` contre l'arme adverse ;
@@ -353,10 +353,10 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
   - competences limitees aux points d'action, en `laterPhase` `commander-action` ;
   - ultime verrouille "NIV 50", en `laterPhase` `ultimate` ;
   - arene laissee vide pour la story 3.
-- [ ] T067 [P] [US2] Creer le Butin : `apps/web/src/app/butin/Crate.svelte` et `LaunchPool.svelte` (lignes 830-839 et 2391-2422, CSS lignes 574-603) :
+- [X] T067 [P] [US2] Creer le Butin : `apps/web/src/app/butin/Crate.svelte` et `LaunchPool.svelte` (lignes 830-839 et 2391-2422, CSS lignes 574-603) :
   - 3 coffres : couleurs par type, taux par rarete, delai, appel a l'action en `laterPhase` `open-crate` ;
   - pool de lancement : groupes et compteurs, cartes `mini`, 4 cases "?".
-- [ ] T068 [US2] Verifier le contexte de mission dans `apps/web/src/app/briefing/Briefing.svelte`, `apps/web/src/app/deploiement/Deploiement.svelte` et `apps/web/src/app/combat/Combat.svelte` : ils lisent `selection.squad`, `selection.theatre` et `selection.formation` (story 2, scenarios 7 a 9). Faire passer T047-T051.
+- [X] T068 [US2] Verifier le contexte de mission dans `apps/web/src/app/briefing/Briefing.svelte`, `apps/web/src/app/deploiement/Deploiement.svelte` et `apps/web/src/app/combat/Combat.svelte` : ils lisent `selection.squad`, `selection.theatre` et `selection.formation` (story 2, scenarios 7 a 9). Faire passer T047-T051.
 
 **Checkpoint**: les stories 1 et 2 sont completes ; les 9 ecrans sont fideles a 1600x900
 
