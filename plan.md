@@ -34,7 +34,8 @@ Assemblage :
 - État : modules `.svelte.ts` avec runes. La scène Pixi lit un instantané de la sim à chaque frame (interpolation entre deux ticks) et émet des événements (tir, impact, mort, compétence) vers les effets et le journal.
 - Résolution : `resolution` = min(devicePixelRatio, 2) sur desktop, 1,5 sur mobile ; `autoDensity`, `ResizeObserver`.
 - Polices : Oswald et Share Tech Mono auto-hébergées en WOFF2 (préchargées, `document.fonts.ready` avant l'init Pixi). Texte dans la scène en `BitmapText` MSDF généré depuis les mêmes polices ; tout le reste en DOM.
-- Responsive : abandon du stage 1600×900 scalé. Grille CSS fluide (`grid-template-areas`), scène en `flex:1`, unités `rem`/`clamp()`, largeur mini 1280 px sur desktop. Sur mobile (P6), les panneaux latéraux deviennent des tiroirs et onglets.
+- Responsive : abandon du stage 1600×900 scalé. Grille CSS fluide (`grid-template-areas`), scène en `flex:1`, unités `rem`/`clamp()`, largeur mini 1280 px et hauteur mini 720 px sur desktop (en dessous, la page défile). Sur mobile (P6), les panneaux latéraux deviennent des tiroirs et onglets.
+- Navigation : une adresse par écran, dans le fragment de l'URL (`#/escouades`, `#/atlas/<unité>`…). Précédent et le rechargement fonctionnent sans réécriture d'URL chez l'hébergeur.
 
 ## 3. Comparatif des candidats pour la couche scène
 
@@ -174,6 +175,23 @@ Réutilisation depuis la maquette : les constantes `RAR`, `WEP`, `MATRIX`, `POOL
 
 Non vérifié aujourd'hui : version exacte de Biome et des runtimes Spine pour Pixi v8. À contrôler au moment de l'installation (P0/P3).
 
+**Versions installées en phase P0 (28 sept. 2026, npm)** : versions exactes, figées par `pnpm-lock.yaml`.
+
+| Outil | Version | Remarque |
+|---|---|---|
+| Node | ≥ 22.19 | champ `engines` |
+| pnpm | 10.34.6 | champ `packageManager`, lu par la CI |
+| TypeScript | 6.0.3 | pas la 7 : `svelte-check` 4.7 n'accepte que `^5 \|\| ^6` en dépendance pair |
+| Vite | 8.3.1 | avec `@sveltejs/vite-plugin-svelte` 7.3.1 |
+| Svelte | 5.57.1 | `svelte-check` 4.7.6 |
+| PixiJS | 8.21.0 | chargé à la première scène, en morceau séparé |
+| Biome | 2.5.14 | lint et format |
+| Vitest | 5.0.2 | |
+| Playwright | 1.63.0 | Chromium 153 en CI |
+| zod | 4.6.5 | schémas de `@nova/data`, en tests seulement |
+| Lighthouse | 13.5.0 | avec `chrome-launcher` 1.2.1 |
+| Polices | `@fontsource/oswald` et `@fontsource/share-tech-mono` 5.3.0 | servies par l'application |
+
 ## 11. Risques et points d'attention
 
 - **Déterminisme** : c'est la contrainte qui structure la sim ; toute fonction flottante non contrôlée casse la validation serveur. Tests multi-navigateurs dès P1.
@@ -185,4 +203,4 @@ Non vérifié aujourd'hui : version exacte de Biome et des runtimes Spine pour P
 
 ## Étape suivante sur validation
 
-Mettre en place la phase P0 dans `F:\Github\novafrontier` (branche de travail partie de `main`, PR vers `main`) : monorepo, application web Svelte 5 + Vite 8, portage des tokens et primitives CSS de la maquette, `packages/data` et `packages/sim` vides mais typés, `SceneHost` Pixi avec détection WebGPU/WebGL2, CI. Aucun asset définitif ni backend à ce stade.
+Mettre en place la phase P0 dans `F:\Github\novafrontier` (branche de travail partie de `main`, PR vers `main`) : monorepo, application web Svelte 5 + Vite 8, portage des tokens et primitives CSS de la maquette, `packages/data` (schémas zod, données et état de démonstration de la maquette) et `packages/sim` (types seulement, sans règle), `SceneHost` Pixi avec détection WebGPU/WebGL2, CI. Aucun asset définitif ni backend à ce stade.

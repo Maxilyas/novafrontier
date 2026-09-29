@@ -23,16 +23,24 @@ la PR, merge par Claude sur demande).
 
 ## 1. Etat du depot
 
-Le depot ne contient **aucun code applicatif**. Uniquement de la documentation,
-de l'outillage CI et spec-kit. Le projet est avant la phase P0 du plan.
+La phase **P0** de la feuille de route est livree par la feature spec-kit
+`specs/20260928-182033-socle-ecrans-navigables/` : monorepo pnpm, les 9 ecrans
+de la maquette en Svelte, alimentes par `packages/data`, et la scene Pixi qui
+s'affiche avec ou sans WebGPU. Aucun backend ni asset definitif a ce stade.
 
 **Present :**
 
 | Fichier | Role |
 |---|---|
-| `plan.md` | Architecture, comparatif des moteurs, feuille de route P0-P6. Fait autorite. |
+| `plan.md` | Architecture, comparatif des moteurs, feuille de route P0-P6, versions installees (§10). Fait autorite. |
 | `CLAUDE.md` | Presentation du projet et commandes, lu automatiquement par Claude Code. |
-| `.github/workflows/tests.yml` | Lint / typecheck / tests / build pnpm sur les PR vers `main`. |
+| `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml` | Monorepo pnpm (`apps/*`, `packages/*`), version de pnpm dans `packageManager`. |
+| `tsconfig.base.json`, `biome.json` | TypeScript strict et lint/format Biome, communs a tous les paquets. |
+| `apps/web` | Client Svelte 5 + Vite 8 : les 9 ecrans (`src/app`), le design system (`src/ui`), la scene Pixi (`src/scene`), les tests Vitest et Playwright, les scripts de captures, de Lighthouse et d'extraction de la maquette. |
+| `packages/data` | Schemas zod, donnees de jeu et etat de demonstration portes de la maquette, valeurs derivees extraites de la maquette (`demo/derived.generated.json`). |
+| `packages/sim` | Types de la simulation seulement, sans regle (principe II de la constitution). |
+| `specs/` | Une feature spec-kit par dossier (§3). |
+| `.github/workflows/tests.yml` | Lint, typecheck, tests Vitest, build, puis tests Playwright et Lighthouse, sur les PR vers `main`. |
 | `.github/workflows/deploy.yml` | Build image GHCR + deploiement prod par SSH sur le VPS, sur push vers `main`, derriere la validation de l'environnement `production` (pieges 3 et 7). Pas encore de preprod. |
 | `.github/pull_request_template.md` | Checklist de PR. |
 | `.gitattributes` | LF partout, quel que soit l'OS. |
@@ -41,17 +49,12 @@ de l'outillage CI et spec-kit. Le projet est avant la phase P0 du plan.
 | `.claude/skills/speckit-*/` | Les skills `/speckit-*` de Claude Code, generes par spec-kit (piege 9). |
 | `.claude/settings.json` | Permissions Claude Code partagees : les scripts qu'appellent les skills spec-kit se lancent sans demande de confirmation. |
 
-**Absent — a creer en P0 :** `package.json`, `pnpm-workspace.yaml`,
-`tsconfig.base.json`, `biome.json`, `apps/web`, `apps/server`, `packages/sim`,
-`packages/data`. **Absent — a creer en P5 :** `Dockerfile`,
-`docker-compose.yml` (ce dernier vit sur le VPS). **Absent — cree par la
-premiere feature spec-kit :** `specs/`.
+**Absent — a creer en P5 :** `apps/server`, `Dockerfile`,
+`docker-compose.yml` (ce dernier vit sur le VPS).
 
-Les deux workflows contiennent un garde-fou qui les fait se sauter tant que
-ces fichiers manquent. **Ils n'ont donc jamais reellement tourne** : ils sont
-valides syntaxiquement, pas verifies a l'usage. La PR du P0 vers `main` sera
-le premier vrai test de `tests.yml` ; celle qui ajoutera le `Dockerfile`,
-celui de `deploy.yml`.
+`tests.yml` tourne reellement depuis la PR de la phase P0 : son garde-fou est
+retire. `deploy.yml` garde le sien et se saute tant que le `Dockerfile` manque
+(piege 4) : il n'a donc jamais reellement tourne.
 
 ---
 
@@ -211,10 +214,11 @@ merges depuis la precedente, pas seulement le dernier.
    protections sont gratuites parce que le depot est public : en prive, les
    Required reviewers demandent GitHub Enterprise, et sur un compte gratuit le
    ruleset n'est plus applique non plus.
-4. **Les garde-fous de CI sont temporaires.** `tests.yml` teste la presence de
-   `package.json`, `deploy.yml` celle de `Dockerfile`. Les deux etapes sont a
-   supprimer une fois le socle en place, sinon un jour la CI se sautera en
-   silence au lieu d'echouer.
+4. **Le garde-fou de `deploy.yml` est temporaire.** `deploy.yml` teste la
+   presence de `Dockerfile` et se saute tant qu'il manque. Cette etape est a
+   supprimer quand le `Dockerfile` arrivera (phase P5 de la feuille de route),
+   sinon un jour le deploiement se sautera en silence au lieu d'echouer. Celui
+   de `tests.yml` a ete retire en phase P0 : la CI tourne sur chaque PR.
 5. **`.gitattributes` force LF.** Sous Windows, git affiche un avertissement
    `CRLF will be replaced by LF` a l'ajout d'un fichier : c'est le comportement
    attendu, pas une erreur.
@@ -265,17 +269,20 @@ merges depuis la precedente, pas seulement le dernier.
 
 ## 5. Prochaine etape
 
-Phase **P0** du plan : monorepo pnpm, Vite 8 + Svelte 5 + TypeScript, Biome,
-portage des tokens CSS et des primitives de la maquette, `packages/data` et
-`packages/sim` vides mais types, `SceneHost` Pixi avec detection WebGPU/WebGL2.
+Phase **P1** de la feuille de route (`plan.md` §9) : `packages/sim`, avec les
+regles du combat portees de `combatLoop` (vagues, competences, degats), en
+virgule fixe et deterministes, sans rendu, et leurs tests ; puis la scene de
+combat Pixi avec des formes provisoires et le HUD DOM branche sur le store.
 
-Aucun asset definitif ni backend a ce stade.
+Verification attendue : meme graine, meme empreinte sur Chrome, Firefox, Safari
+et Node ; 60 images par seconde avec 60 entites ; un replay se rejoue a
+l'identique.
 
-A faire passer par une PR vers `main` — ce sera la premiere execution reelle de
-la CI, et l'occasion de retirer le garde-fou de `tests.yml`.
+Les valeurs que la maquette calcule et que la phase P0 a figees dans
+`packages/data/src/demo/derived.generated.json` (puissance, chances de
+victoire, vagues...) seront alors produites par `packages/sim` : le test oracle
+(`apps/web/tests/oracle/`) sert de reference pour verifier le portage.
 
-C'est aussi la premiere feature a faire passer par spec-kit (cycle du §3).
-Decrire a `/speckit-specify` ce que P0 rend visible : les 9 ecrans
-navigables, fideles a la maquette, et la scene qui s'affiche avec ou sans
-WebGPU. La pile et l'outillage (monorepo, Vite, Biome, CI) vont a
-`/speckit-plan`, qui les tire de `plan.md` : une spec reste sans technique.
+A faire passer par spec-kit (cycle du §3) : decrire a `/speckit-specify` ce que
+la phase P1 rend visible, un combat qui se deroule a l'ecran et se rejoue a
+l'identique.

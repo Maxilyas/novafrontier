@@ -1,0 +1,13 @@
+/*
+ * Voile de grain de la maquette (lignes 67-72), etendu a toute la fenetre : il couvre l'interface
+ * et les zones de scene, sans jamais intercepter un clic (FR-009).
+ */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 900;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='140' height='140' filter='url(%23n)' opacity='.3'/></svg>");
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+}

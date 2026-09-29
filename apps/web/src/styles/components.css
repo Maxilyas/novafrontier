@@ -1,0 +1,336 @@
+/* Classes globales du design system, reprises de la maquette : cartes et emplacements (lignes 213-251), interrupteurs (495-501). */
+.card {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  flex: 0 0 auto;
+  background: linear-gradient(180deg, #16201d, #0a100e);
+  border: 1px solid var(--rc, #3a4741);
+  transition:
+    transform 0.16s,
+    box-shadow 0.16s,
+    border-color 0.16s;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.6),
+    0 0 0 1px var(--rc);
+}
+.card .art {
+  position: absolute;
+  inset: 0;
+}
+.card .art svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.card .shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(8, 12, 11, 0) 38%, rgba(6, 10, 9, 0.93) 88%);
+}
+.card .rr {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 7.5px;
+  letter-spacing: 0.2em;
+  padding: 2px 6px;
+  text-transform: uppercase;
+  background: var(--rc);
+  color: #080c0b;
+  font-weight: 500;
+}
+.card .lv {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+  font-family: var(--f-mono);
+  font-size: 9px;
+  color: var(--paper);
+  background: rgba(6, 10, 9, 0.8);
+  border: 1px solid var(--line-hi);
+  padding: 1px 4px;
+}
+.card .nm {
+  position: absolute;
+  left: 7px;
+  right: 7px;
+  bottom: 18px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--paper);
+  text-transform: uppercase;
+  line-height: 1.1;
+  z-index: 2;
+}
+.card .st {
+  position: absolute;
+  left: 7px;
+  bottom: 5px;
+  z-index: 2;
+}
+.card .qty {
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
+  z-index: 2;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  color: var(--sig);
+}
+.card.lock {
+  filter: grayscale(1) brightness(0.42);
+}
+.card.sel {
+  box-shadow:
+    0 0 0 2px var(--rc),
+    0 0 26px -4px var(--rc);
+}
+.card.big {
+  width: 246px;
+  height: 344px;
+}
+.card.big .nm {
+  font-size: 15px;
+  bottom: 30px;
+}
+.card.big .st i {
+  width: 12px;
+  height: 12px;
+}
+.card.big .st {
+  bottom: 9px;
+}
+.card.mid {
+  width: 116px;
+  height: 158px;
+}
+.card.mini {
+  width: 74px;
+  height: 102px;
+}
+.card.mini .nm {
+  font-size: 7.5px;
+  bottom: 14px;
+}
+.card.mini .st i {
+  width: 6px;
+  height: 6px;
+}
+
+/* emplacement vide */
+.slot {
+  border: 1px dashed var(--line-hi);
+  background: rgba(255, 255, 255, 0.015);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: 0.14s;
+  position: relative;
+}
+.slot:hover {
+  border-color: var(--sig-dim);
+  background: rgba(99, 214, 188, 0.05);
+}
+.slot .plus {
+  font-size: 20px;
+  color: var(--line-hi);
+  line-height: 1;
+}
+.slot .sl {
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0 6px;
+}
+.slot.mid {
+  width: 116px;
+  height: 158px;
+}
+.slot.leg {
+  border-color: rgba(245, 166, 35, 0.5);
+  background: rgba(245, 166, 35, 0.04);
+}
+/* Emplacement cliquable : un bouton qui garde l'apparence de la maquette. */
+button.slot {
+  font: inherit;
+  color: inherit;
+  padding: 0;
+}
+
+/* composition d'armement (lignes 283-289) ; la couleur de chaque armement vient des donnees */
+.trin {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+}
+.trin .ic {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  font-family: var(--f-mono);
+  font-size: 10px;
+  flex: 0 0 auto;
+}
+.trin .nb {
+  margin-left: auto;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  color: var(--paper);
+}
+
+.slot.leg .plus,
+.slot.leg .sl {
+  color: var(--gold);
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+}
+.toggle .tt {
+  font-size: 10.5px;
+  color: var(--paper);
+  letter-spacing: 0.04em;
+}
+.toggle .td {
+  font-size: 8.5px;
+  color: var(--muted);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+.sw {
+  margin-left: auto;
+  width: 40px;
+  height: 20px;
+  border: 1px solid var(--line-hi);
+  background: #0a0f0e;
+  position: relative;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+.sw i {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 16px;
+  height: 16px;
+  background: var(--muted);
+  transition: 0.16s;
+}
+.sw.on {
+  border-color: var(--sig);
+  background: rgba(99, 214, 188, 0.16);
+}
+.sw.on i {
+  left: 21px;
+  background: var(--sig);
+}
+
+/* Message bref (toast() de la maquette, lignes 2430-2434), fixe dans la fenetre. */
+.toast {
+  position: fixed;
+  left: 50%;
+  top: 120px;
+  transform: translateX(-50%);
+  z-index: 300;
+  padding: 11px 20px;
+  background: rgba(8, 14, 12, 0.96);
+  border: 1px solid var(--sig-dim);
+  color: var(--sig-hi);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+/*
+ * Etoiles des cartes. Dans la maquette, les <i> de .card .st restent en ligne, a 0x0 pixel : les
+ * etoiles sont invisibles alors que stars() et les tailles big et mini les prevoient. Elles
+ * reprennent ici la forme de .stars i (ligne 133) ; ecart admis par FR-011.
+ */
+.card .st {
+  display: inline-flex;
+  gap: 2px;
+}
+.card .st i {
+  width: 9px;
+  height: 9px;
+  display: block;
+  background: currentColor;
+  clip-path: polygon(
+    50% 0,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+}
+.card.big .st i {
+  width: 12px;
+  height: 12px;
+}
+.card.mini .st i {
+  width: 6px;
+  height: 6px;
+}
+
+/* Les cartes et interrupteurs sont des <button> : on neutralise le style natif. */
+button.card {
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+}
+.sw {
+  padding: 0;
+}
+
+/* Bouton "Fiche" des cartes d'Escouades : visible au survol et au focus (research R16). */
+.card-wrap {
+  position: relative;
+  flex: 0 0 auto;
+}
+.card-wrap .fiche {
+  position: absolute;
+  right: 4px;
+  top: 22px;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 2px 5px;
+  cursor: pointer;
+  border: 1px solid var(--sig-dim);
+  background: rgba(6, 10, 9, 0.92);
+  color: var(--sig-hi);
+  transition: 0.14s;
+}
+.card-wrap:hover .fiche,
+.card-wrap:focus-within .fiche {
+  opacity: 1;
+  pointer-events: auto;
+}

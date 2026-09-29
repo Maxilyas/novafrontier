@@ -1,0 +1,36 @@
+{
+  "name": "@nova/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "lint": "biome check .",
+    "typecheck": "svelte-check --fail-on-warnings --tsconfig ./tsconfig.json",
+    "test": "vitest run --passWithNoTests",
+    "test:e2e": "playwright test",
+    "perf": "node scripts/lighthouse.mjs",
+    "captures": "node scripts/captures.mjs",
+    "mockup:extract": "node scripts/extract-mockup.mjs"
+  },
+  "dependencies": {
+    "@fontsource/oswald": "5.3.0",
+    "@fontsource/share-tech-mono": "5.3.0",
+    "@nova/data": "workspace:*",
+    "pixi.js": "8.21.0",
+    "svelte": "5.57.1"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.14",
+    "@playwright/test": "1.63.0",
+    "@sveltejs/vite-plugin-svelte": "7.3.1",
+    "@types/node": "22.20.4",
+    "chrome-launcher": "1.2.1",
+    "lighthouse": "13.5.0",
+    "svelte-check": "4.7.6",
+    "typescript": "6.0.3",
+    "vite": "8.3.1",
+    "vitest": "5.0.2"
+  }
+}
