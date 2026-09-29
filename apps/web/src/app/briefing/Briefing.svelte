@@ -42,7 +42,9 @@
   .briefing {
     display: grid;
     padding: 2.75rem 1.25rem 1.25rem;
-    grid-template-columns: 25rem 0.75rem minmax(0, 1fr) 0.75rem 25rem;
+    grid-template-columns:
+      var(--colonne) 0.75rem minmax(0, 1fr) 0.75rem var(--colonne);
+    --colonne: clamp(21rem, calc(21rem + (100vw - 80rem) * 0.2), 25rem);
     grid-template-rows: minmax(0, 1fr);
     grid-template-areas: 'bc1 . bc2 . bc3';
     background:
@@ -54,6 +56,9 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-hi) transparent;
   }
   .bc1 {
     grid-area: bc1;
@@ -66,11 +71,9 @@
   }
   .bcol :global(.panel.espionnage),
   .bcol :global(.panel.composition) {
-    flex: 1;
-    min-height: 0;
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
   }
   .suite {
     display: flex;

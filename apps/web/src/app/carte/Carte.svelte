@@ -26,7 +26,8 @@
   .carte {
     display: grid;
     padding: 2.75rem 1.25rem 1.25rem;
-    grid-template-columns: minmax(0, 1fr) 21.375rem;
+    grid-template-columns:
+      minmax(0, 1fr) clamp(19.5rem, calc(19.5rem + (100vw - 80rem) * 0.09375), 21.375rem);
     grid-template-rows: minmax(0, 1fr);
     grid-template-areas: '. holo';
     background: #020304;

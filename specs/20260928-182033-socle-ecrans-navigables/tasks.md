@@ -426,7 +426,7 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 ### Tests for User Story 4 ⚠️
 
-- [ ] T079 [P] [US4] Ecrire `apps/web/tests/e2e/layout.spec.ts` (SC-007) :
+- [X] T079 [P] [US4] Ecrire `apps/web/tests/e2e/layout.spec.ts` (SC-007) :
   - pour chacun des 9 ecrans, a 1280x720, 1600x900, 1920x1080 et 2560x1440 :
     - pas de defilement horizontal ni vertical de la page ;
     - aucun chevauchement entre elements `[data-panel]` pris deux a deux ;
@@ -435,9 +435,9 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 ### Implementation for User Story 4
 
-- [ ] T080 [P] [US4] Ajuster les grilles de `apps/web/src/app/escouades/Escouades.svelte`, `apps/web/src/app/atlas/Atlas.svelte` et `apps/web/src/app/base/Base.svelte` : colonnes en `clamp()` de 1280 a 2560 px, defilement interne des listes, plan de la base a proportions constantes
-- [ ] T081 [P] [US4] Ajuster les grilles de `apps/web/src/app/recherche/Recherche.svelte`, `apps/web/src/app/carte/Carte.svelte` et `apps/web/src/app/briefing/Briefing.svelte` : arbre defilable dans son panneau a 1280x720 ; hologramme et colonnes du Briefing
-- [ ] T082 [US4] Ajuster les grilles de `apps/web/src/app/deploiement/Deploiement.svelte`, `apps/web/src/app/combat/Combat.svelte`, `apps/web/src/app/butin/Butin.svelte`, et le bandeau `apps/web/src/app/TopBar.svelte` a 1280 px. Faire passer T079, une fois T080 et T081 faits.
+- [X] T080 [P] [US4] Ajuster les grilles de `apps/web/src/app/escouades/Escouades.svelte`, `apps/web/src/app/atlas/Atlas.svelte` et `apps/web/src/app/base/Base.svelte` : colonnes en `clamp()` de 1280 a 2560 px, defilement interne des listes, plan de la base a proportions constantes
+- [X] T081 [P] [US4] Ajuster les grilles de `apps/web/src/app/recherche/Recherche.svelte`, `apps/web/src/app/carte/Carte.svelte` et `apps/web/src/app/briefing/Briefing.svelte` : arbre defilable dans son panneau a 1280x720 ; hologramme et colonnes du Briefing
+- [X] T082 [US4] Ajuster les grilles de `apps/web/src/app/deploiement/Deploiement.svelte`, `apps/web/src/app/combat/Combat.svelte`, `apps/web/src/app/butin/Butin.svelte`, et le bandeau `apps/web/src/app/TopBar.svelte` a 1280 px. Faire passer T079, une fois T080 et T081 faits.
 
 **Checkpoint**: les quatre stories sont completes
 

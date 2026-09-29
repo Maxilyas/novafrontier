@@ -68,7 +68,10 @@
   .atlas {
     display: grid;
     padding: 2.75rem 1.25rem 1.25rem;
-    grid-template-columns: 18.75rem 0.75rem minmax(0, 1fr) 0.875rem 19.875rem;
+    grid-template-columns:
+      clamp(17rem, calc(17rem + (100vw - 80rem) * 0.0875), 18.75rem)
+      0.75rem minmax(0, 1fr) 0.875rem
+      clamp(18rem, calc(18rem + (100vw - 80rem) * 0.09375), 19.875rem);
     grid-template-rows: minmax(0, 1fr);
     grid-template-areas: 'left . mid . right';
     background: linear-gradient(180deg, #080d0c, #050807);
@@ -79,6 +82,9 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-hi) transparent;
   }
   .atl-left {
     grid-area: left;

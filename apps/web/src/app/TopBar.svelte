@@ -88,13 +88,15 @@
     background: linear-gradient(180deg, #141c19, #0a100e);
     border-bottom: 1px solid var(--line-hi);
   }
+  /* Largeurs de la maquette a partir de 1600 px, resserrees jusqu'a 1280 px (research R5). */
   .profile {
     display: flex;
     align-items: center;
     gap: 12px;
     padding: 0 20px;
     border-right: 1px solid var(--line);
-    min-width: 318px;
+    min-width: clamp(17.5rem, calc(17.5rem + (100vw - 80rem) * 0.11875), 19.875rem);
+    --xp: clamp(10rem, calc(10rem + (100vw - 80rem) * 0.1125), 12.25rem);
   }
   .avatar {
     width: 54px;
@@ -135,7 +137,7 @@
     margin: 2px 0 5px;
   }
   .xp {
-    width: 196px;
+    width: var(--xp);
     height: 7px;
     background: #0a0f0e;
     border: 1px solid var(--line-hi);
@@ -150,7 +152,7 @@
   .xpl {
     display: flex;
     justify-content: space-between;
-    width: 196px;
+    width: var(--xp);
     margin-top: 3px;
     font-family: var(--f-mono);
     font-size: 8.5px;
@@ -173,7 +175,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    padding: 0 15px;
+    padding: 0 clamp(0.5rem, calc(0.5rem + (100vw - 80rem) * 0.021875), 0.9375rem);
     border-left: 1px solid var(--line);
     height: 100%;
   }

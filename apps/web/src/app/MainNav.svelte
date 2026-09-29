@@ -35,9 +35,10 @@
     display: flex;
     align-items: stretch;
   }
+  /* 118 px de la maquette a partir de 1600 px de large, 80 px a 1280 px (research R5). */
   .mainnav a {
     position: relative;
-    width: 118px;
+    width: clamp(5rem, calc(5rem + (100vw - 80rem) * 0.11875), 7.375rem);
     border-right: 1px solid var(--line);
     cursor: pointer;
     background: transparent;

@@ -61,7 +61,10 @@
   .deploiement {
     display: grid;
     padding: 2.75rem 1.25rem 1.25rem;
-    grid-template-columns: 16.5rem 0.75rem minmax(0, 1fr) 0.75rem 17.75rem;
+    grid-template-columns:
+      clamp(15rem, calc(15rem + (100vw - 80rem) * 0.075), 16.5rem)
+      0.75rem minmax(0, 1fr) 0.75rem
+      clamp(16rem, calc(16rem + (100vw - 80rem) * 0.0875), 17.75rem);
     grid-template-rows: minmax(0, 1fr);
     grid-template-areas: 'dleft . deploy . dright';
     background: #040706;
@@ -72,6 +75,9 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-hi) transparent;
   }
   .dleft {
     grid-area: dleft;

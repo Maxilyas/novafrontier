@@ -22,7 +22,8 @@
   .recherche {
     display: grid;
     padding: 3.25rem 1.25rem 1.25rem;
-    grid-template-columns: minmax(0, 1fr) 0.875rem 19.875rem;
+    grid-template-columns:
+      minmax(0, 1fr) 0.875rem clamp(18rem, calc(18rem + (100vw - 80rem) * 0.09375), 19.875rem);
     grid-template-rows: minmax(0, 1fr) 0.75rem 5rem;
     grid-template-areas:
       'tree . rdet'

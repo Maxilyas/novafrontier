@@ -17,8 +17,10 @@
   </h1>
   <BuildingField />
   <BuildingList />
-  <BuildingDetail />
-  <Income />
+  <div class="cote">
+    <BuildingDetail />
+    <Income />
+  </div>
   <div class="foot">
     Revenu quotidien par planète · plafond de cumul sur 7 jours · collecte globale depuis le
     bandeau
@@ -26,16 +28,19 @@
 </section>
 
 <style>
-  /* Liste de 286 px a gauche, detail et revenu de 340 px a droite, plan au centre. */
+  /*
+   * Liste de 286 px a gauche, plan au centre ; a droite, le detail en haut et le revenu en bas
+   * (340 px), qui defilent si la hauteur ne suffit pas.
+   */
   .base {
     display: grid;
     padding: 2.75rem 1.25rem 1.25rem;
-    grid-template-columns: 17.875rem minmax(0, 1fr) 21.25rem;
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    grid-template-areas:
-      'list field detail'
-      'list field .'
-      'list field income';
+    grid-template-columns:
+      clamp(16rem, calc(16rem + (100vw - 80rem) * 0.09375), 17.875rem)
+      minmax(0, 1fr)
+      clamp(19rem, calc(19rem + (100vw - 80rem) * 0.1125), 21.25rem);
+    grid-template-rows: minmax(0, 1fr);
+    grid-template-areas: 'list field cote';
     background:
       radial-gradient(ellipse at 62% 14%, rgba(90, 140, 190, 0.07), transparent 52%),
       linear-gradient(180deg, #09100f 0%, #101713 48%, #161810 100%);
@@ -65,10 +70,18 @@
     flex-direction: column;
     overflow: hidden;
   }
-  .base :global(.panel.bdet) {
-    grid-area: detail;
+  .cote {
+    grid-area: cote;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 12px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line-hi) transparent;
   }
-  .base :global(.panel.income) {
-    grid-area: income;
+  .cote :global(.panel) {
+    flex: 0 0 auto;
   }
 </style>

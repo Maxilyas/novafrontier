@@ -24,7 +24,10 @@
   .escouades {
     display: grid;
     padding: 2.75rem 1.25rem 1.25rem;
-    grid-template-columns: 11.625rem 1.125rem minmax(0, 1fr) 0.875rem 19.875rem;
+    grid-template-columns:
+      clamp(10.5rem, calc(10.5rem + (100vw - 80rem) * 0.05625), 11.625rem)
+      1.125rem minmax(0, 1fr) 0.875rem
+      clamp(18rem, calc(18rem + (100vw - 80rem) * 0.09375), 19.875rem);
     grid-template-rows: minmax(0, 1fr) 0.75rem 9.875rem;
     grid-template-areas:
       'tabs . board . sumry'

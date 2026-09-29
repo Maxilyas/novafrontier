@@ -31,3 +31,10 @@
   --notch: 7px;
   --gut: 16px;
 }
+
+/*
+ * Colonnes fluides (research R5) : une colonne laterale vaut sa largeur de la maquette a partir de
+ * 1600 px de large et se resserre lineairement jusqu'a son minimum a 1280 px :
+ *   clamp(min, calc(min + (100vw - 80rem) * (max - min) / 20rem), max), rem de 16 px.
+ * Le coefficient (max - min) / 20 est ecrit en nombre dans chaque ecran.
+ */
