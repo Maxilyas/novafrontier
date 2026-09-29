@@ -3,7 +3,7 @@
   import type { Component } from 'svelte';
   import { prefersReducedMotion } from 'svelte/motion';
   import { fade } from 'svelte/transition';
-  import { router } from '../state/router.svelte';
+  import { router, screenMounted } from '../state/router.svelte';
   import Atlas from './atlas/Atlas.svelte';
   import Base from './base/Base.svelte';
   import Briefing from './briefing/Briefing.svelte';
@@ -38,6 +38,7 @@
   // que de retomber au debut du document (SC-013).
   $effect(() => {
     const ecran = router.route.screen;
+    screenMounted();
     if (precedent !== undefined && precedent !== ecran) {
       const actif = document.activeElement;
       if (actif === null || actif === document.body) {

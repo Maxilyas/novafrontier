@@ -45,7 +45,6 @@ async function activerAuClavier(page: Page, cible: Locator): Promise<void> {
     await page.keyboard.press('Tab');
     const etat = await etatFocus(page);
     if (etat.vide) continue;
-    // Le contour s'installe avec la transition de 0,14 s de la maquette (.btn, navigation).
     await expect
       .poll(async () => (await etatFocus(page)).visible, {
         message: `contour de focus invisible sur ${etat.description}`,
@@ -60,55 +59,77 @@ async function activerAuClavier(page: Page, cible: Locator): Promise<void> {
   throw new Error(`cible non atteinte en ${TABULATIONS_MAX} tabulations`);
 }
 
-type Etape = (page: Page) => Locator;
+/** Une commande a atteindre au clavier, et l'ecran qu'elle ouvre. */
+interface Etape {
+  cible: (page: Page) => Locator;
+  ecran: ScreenId;
+}
 
-const nav =
-  (libelle: string): Etape =>
-  (page) =>
-    mainNav(page).getByRole('link', { name: libelle, exact: true });
+const nav = (libelle: string, ecran: ScreenId): Etape => ({
+  cible: (page) => mainNav(page).getByRole('link', { name: libelle, exact: true }),
+  ecran,
+});
 
-const lien =
-  (libelle: string): Etape =>
-  (page) =>
-    page.getByRole('link', { name: libelle, exact: true });
+const lien = (libelle: string, ecran: ScreenId): Etape => ({
+  cible: (page) => page.getByRole('link', { name: libelle, exact: true }),
+  ecran,
+});
+
+const VERS_BRIEFING = [nav('Carte', 'carte'), lien("Préparer l'assaut", 'briefing')];
+const VERS_DEPLOIEMENT = [...VERS_BRIEFING, lien('Passer au déploiement', 'deploiement')];
 
 const PARCOURS: Record<ScreenId, Etape[]> = {
-  escouades: [nav('Base'), nav('Escouades')],
+  escouades: [nav('Base', 'base'), nav('Escouades', 'escouades')],
   atlas: [
-    (page) =>
-      page
-        .locator('[data-screen="escouades"] .card-wrap')
-        .first()
-        .getByRole('button', { name: /^Fiche/ }),
+    {
+      cible: (page) =>
+        page
+          .locator('[data-screen="escouades"] .card-wrap')
+          .first()
+          .getByRole('button', { name: /^Fiche/ }),
+      ecran: 'atlas',
+    },
   ],
-  base: [nav('Base')],
-  recherche: [nav('Recherche')],
-  carte: [nav('Carte')],
-  briefing: [nav('Carte'), lien("Préparer l'assaut")],
-  deploiement: [nav('Carte'), lien("Préparer l'assaut"), lien('Passer au déploiement')],
-  combat: [
-    nav('Carte'),
-    lien("Préparer l'assaut"),
-    lien('Passer au déploiement'),
-    lien('Lancer le combat'),
-  ],
-  butin: [nav('Butin')],
+  base: [nav('Base', 'base')],
+  recherche: [nav('Recherche', 'recherche')],
+  carte: [nav('Carte', 'carte')],
+  briefing: VERS_BRIEFING,
+  deploiement: VERS_DEPLOIEMENT,
+  combat: [...VERS_DEPLOIEMENT, lien('Lancer le combat', 'combat')],
+  butin: [nav('Butin', 'butin')],
 };
 
+/**
+ * Le test verifie le contour lui-meme, pas son apparition : les transitions de la maquette (0,14 s
+ * sur les boutons et la navigation) sont coupees, sinon chaque tabulation attendrait leur fin.
+ */
+async function ouvrir(page: Page, adresse: string): Promise<void> {
+  await page.goto(adresse);
+  await page.addStyleTag({
+    content: '*, *::before, *::after { transition: none !important; }',
+  });
+}
+
 test.describe('SC-013 : les 9 ecrans au clavier seul', () => {
+  test.describe.configure({ timeout: 60_000 });
+
   for (const ecran of SCREENS) {
     test(`${ecran} atteint par Tab et Entree`, async ({ page }) => {
-      await page.goto('/');
+      await ouvrir(page, '/');
       await expectScreen(page, 'escouades');
-      for (const etape of PARCOURS[ecran]) await activerAuClavier(page, etape(page));
+      for (const etape of PARCOURS[ecran]) {
+        await activerAuClavier(page, etape.cible(page));
+        // Attendre le nouvel ecran avant de tabuler de nouveau.
+        await expectScreen(page, etape.ecran);
+      }
       await expectScreen(page, ecran);
     });
   }
 
   test('le focus passe au nouvel ecran quand la commande activee disparait', async ({ page }) => {
-    await page.goto('/#/carte');
+    await ouvrir(page, '/#/carte');
     await expectScreen(page, 'carte');
-    await activerAuClavier(page, lien("Préparer l'assaut")(page));
+    await activerAuClavier(page, lien("Préparer l'assaut", 'briefing').cible(page));
     await expectScreen(page, 'briefing');
     await expect(page.locator('[data-screen="briefing"]')).toBeFocused();
   });

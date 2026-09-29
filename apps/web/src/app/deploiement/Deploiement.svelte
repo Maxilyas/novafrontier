@@ -1,5 +1,6 @@
 <script lang="ts">
   import { derivedValues } from '@nova/data';
+  import SceneHost from '../../scene/SceneHost.svelte';
   import { toHash } from '../../state/router.svelte';
   import { selection } from '../../state/selection.svelte';
   import Btn from '../../ui/Btn.svelte';
@@ -10,9 +11,9 @@
   import UnitPool from './UnitPool.svelte';
 
   /**
-   * Ecran 07 · Deploiement (maquette, lignes 805-811 et 2072-2144, CSS 503-528). La zone centrale
-   * accueillera la scene (story 3). "Lancer le combat" est inactif quand l'escouade n'engage aucune
-   * unite (FR-019).
+   * Ecran 07 · Deploiement (maquette, lignes 805-811 et 2072-2144, CSS 503-528). La scene occupe la
+   * zone centrale, a la place du plateau (FR-020, FR-022). "Lancer le combat" est inactif quand
+   * l'escouade n'engage aucune unite (FR-019).
    */
   const engagees = $derived(
     derivedValues.deployment[selection.current.squad][selection.current.theatre].units,
@@ -39,7 +40,7 @@
     </Panel>
     <UnitPool />
   </div>
-  <div class="deploy"></div>
+  <div class="deploy"><SceneHost scene="deploiement" /></div>
   <div class="dright">
     <Disposition />
     <ObjectivePanel />

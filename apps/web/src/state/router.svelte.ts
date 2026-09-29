@@ -6,6 +6,9 @@ import { NAV_SECTION, parseHash, type Route, readParams, toHash } from './routes
 const lire = () => parseHash(window.location.hash, (id) => unitById(id) !== undefined);
 
 let courante = $state<Route>(lire().route);
+/** Debut du changement d'ecran en cours et duree du dernier, pour le badge de diagnostic. */
+let debutChangement: number | undefined;
+let derniereDuree = $state<number | undefined>(undefined);
 
 export const router = {
   get route(): Route {
@@ -14,7 +17,18 @@ export const router = {
   get section() {
     return NAV_SECTION[courante.screen];
   },
+  /** Duree du dernier changement d'ecran, de l'adresse au montage du nouvel ecran (SC-004). */
+  get lastTransitionMs(): number | undefined {
+    return derniereDuree;
+  },
 };
+
+/** Appele par la zone des ecrans une fois le nouvel ecran monte. */
+export function screenMounted(): void {
+  if (debutChangement === undefined) return;
+  derniereDuree = performance.now() - debutChangement;
+  debutChangement = undefined;
+}
 
 /** Parametres de diagnostic, fixes pour la session. */
 export const urlParams = readParams(window.location.search);
@@ -25,6 +39,7 @@ function synchroniser(): void {
     // Adresse vide ou inconnue : remplacee sans nouvelle entree d'historique.
     history.replaceState(history.state, '', canonical);
   }
+  if (route.screen !== courante.screen) debutChangement = performance.now();
   courante = route;
 }
 

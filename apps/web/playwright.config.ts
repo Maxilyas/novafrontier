@@ -30,8 +30,11 @@ export default defineConfig({
   projects: [
     { name: 'repli', use: { launchOptions: lancement([]) } },
     {
+      // WebGPU logiciel (SwiftShader) perd son peripherique quand le processeur est sature : ce
+      // projet passe apres le projet repli, dont les scenes animees occupent les processeurs.
       name: 'webgpu',
       testMatch: 'e2e/scene-modes.spec.ts',
+      dependencies: ['repli'],
       use: { launchOptions: lancement(['--enable-unsafe-webgpu']) },
     },
     {

@@ -370,46 +370,46 @@ Arborescence de `plan.md` (section Project Structure) : `apps/web/`, `packages/d
 
 ### Tests for User Story 3 ⚠️
 
-- [ ] T069 [P] [US3] Ecrire `apps/web/tests/unit/render-mode.test.ts` : correspondance du type de rendu vers le mode (`webgpu`, `webgl2`, `webgl1`) ; lecture de `?rendu=webgl`, seule valeur acceptee
-- [ ] T070 [P] [US3] Ecrire `apps/web/tests/e2e/scene-modes.spec.ts`, joue dans les projets `repli`, `webgpu` et `sans-gpu`, sur la Carte, le Deploiement et le Combat :
+- [X] T069 [P] [US3] Ecrire `apps/web/tests/unit/render-mode.test.ts` : correspondance du type de rendu vers le mode (`webgpu`, `webgl2`, `webgl1`) ; lecture de `?rendu=webgl`, seule valeur acceptee
+- [X] T070 [P] [US3] Ecrire `apps/web/tests/e2e/scene-modes.spec.ts`, joue dans les projets `repli`, `webgpu` et `sans-gpu`, sur la Carte, le Deploiement et le Combat :
   - `data-render-mode` vaut `webgl2`, `webgpu` ou `indisponible` selon le projet ;
   - en `sans-gpu`, message `role="alert"` visible et navigation intacte (SC-006) ;
   - en `repli`, la capture de la zone n'est pas uniforme (etoiles) ;
   - dans le projet `webgpu`, `?rendu=webgl` donne `webgl2`.
-- [ ] T071 [P] [US3] Ecrire `apps/web/tests/e2e/scene-lifecycle.spec.ts`, projet `repli` :
+- [X] T071 [P] [US3] Ecrire `apps/web/tests/e2e/scene-lifecycle.spec.ts`, projet `repli` :
   - 50 allers-retours Carte et Escouades avec `?diag=1` : le badge compte toujours une application par scene ouverte, et le tas JavaScript, apres `gc()`, ne croit pas de plus de 10 % (SC-009) ;
   - retour sur la Carte en moins de 300 ms (FR-027) ;
   - perte puis restauration du contexte par `WEBGL_lose_context` : `perdu` puis `webgl2` ;
   - perte sans restauration : `indisponible` apres 3 s (FR-024) ;
   - avec `reducedMotion: 'reduce'`, deux captures successives identiques (FR-035).
-- [ ] T072 [P] [US3] Ecrire `apps/web/tests/e2e/scene-resize.spec.ts` (SC-008) :
+- [X] T072 [P] [US3] Ecrire `apps/web/tests/e2e/scene-resize.spec.ts` (SC-008) :
   - avec `deviceScaleFactor` 2, la taille du canvas vaut celle de la zone fois 2, avant et apres redimensionnement de la fenetre ;
   - avec `deviceScaleFactor` 3, le facteur est plafonne a 2 ;
   - la taille CSS du canvas vaut celle de la zone.
 
 ### Implementation for User Story 3
 
-- [ ] T073 [US3] Creer `apps/web/src/scene/types.ts` (types `SceneId`, `RenderMode`, `SceneHandle`, `SceneModule` et `SceneInstance` de `contracts/scene-host.md`) et `apps/web/src/scene/render-mode.ts` (correspondance de `renderer.type` vers le mode ; preference `['webgl']` si `?rendu=webgl`, `['webgpu', 'webgl']` sinon)
-- [ ] T074 [P] [US3] Creer `apps/web/src/scene/scenes/placeholder.ts`, qui implemente `SceneModule` de `apps/web/src/scene/types.ts` (T073) :
+- [X] T073 [US3] Creer `apps/web/src/scene/types.ts` (types `SceneId`, `RenderMode`, `SceneHandle`, `SceneModule` et `SceneInstance` de `contracts/scene-host.md`) et `apps/web/src/scene/render-mode.ts` (correspondance de `renderer.type` vers le mode ; preference `['webgl']` si `?rendu=webgl`, `['webgpu', 'webgl']` sinon)
+- [X] T074 [P] [US3] Creer `apps/web/src/scene/scenes/placeholder.ts`, qui implemente `SceneModule` de `apps/web/src/scene/types.ts` (T073) :
   - degrade du fond `#0a1720`, `#050b10`, `#020405` (lignes 1997-1999) ;
   - environ 300 etoiles `rgba(200,220,255,a)`, placees par un generateur mulberry32 a graine, en derive lente ;
   - `resize` repartit les etoiles sur la nouvelle surface.
-- [ ] T075 [US3] Creer `apps/web/src/scene/renderer.ts`, avec `acquireScene`, `releaseScene` et `SceneHandle` de `contracts/scene-host.md` :
+- [X] T075 [US3] Creer `apps/web/src/scene/renderer.ts`, avec `acquireScene`, `releaseScene` et `SceneHandle` de `contracts/scene-host.md` :
   - import dynamique de `pixi.js`, apres `document.fonts.ready` ;
-  - `Application.init({ preference, resolution: Math.min(devicePixelRatio, 2), autoDensity: true, antialias: true })` ; l'erreur "No available renderer" donne le mode `indisponible` ;
+  - `Application.init({ preference, resolution: Math.min(devicePixelRatio, 2), autoDensity: true, antialias: false })` (sans multi-echantillonnage, voir `research.md` R10) ; l'erreur "No available renderer" donne le mode `indisponible` ;
   - une application par scene, gardee dans un registre ;
   - `ResizeObserver` et `matchMedia` de la densite, qui appellent `renderer.resize` ;
   - `visibilitychange`, et une image fixe si les animations sont reduites ;
   - pertes de contexte : WebGL par `webglcontextlost` et `webglcontextrestored`, WebGPU par `device.lost` et `runners.contextChange`, avec un delai de 3 s.
-- [ ] T076 [US3] Creer `apps/web/src/scene/SceneHost.svelte` :
+- [X] T076 [US3] Creer `apps/web/src/scene/SceneHost.svelte` :
   - `data-scene-host` et `data-render-mode` ;
   - `acquireScene` au montage, `releaseScene` au demontage ;
   - dans le mode `indisponible`, message dans un panneau de la charte, `role="alert"`, avec les textes de `contracts/scene-host.md`.
-- [ ] T077 [US3] Brancher `SceneHost`, les panneaux restant au-dessus et cliquables (FR-021). Depend de T063, T065 et T066.
+- [X] T077 [US3] Brancher `SceneHost`, les panneaux restant au-dessus et cliquables (FR-021). Depend de T063, T065 et T066.
   - Dans `apps/web/src/app/carte/Carte.svelte` : zone de la galaxie, sous les panneaux.
   - Dans `apps/web/src/app/deploiement/Deploiement.svelte` : zone centrale.
   - Dans `apps/web/src/app/combat/Combat.svelte` : arene, sous le HUD.
-- [ ] T078 [US3] Creer le diagnostic `apps/web/src/app/DiagBadge.svelte`, affiche seulement avec `?diag=1` :
+- [X] T078 [US3] Creer le diagnostic `apps/web/src/app/DiagBadge.svelte`, affiche seulement avec `?diag=1` :
   - mode de chaque scene ouverte, nombre d'applications, cadence de la scene visible sur 1 s ;
   - duree du dernier changement d'ecran, mesuree dans `apps/web/src/state/router.svelte.ts` entre `navigate` et le montage de l'ecran ;
   - branche dans `apps/web/src/App.svelte`.

@@ -1,12 +1,16 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import DiagBadge from './app/DiagBadge.svelte';
   import ScreenView from './app/ScreenView.svelte';
   import TopBar from './app/TopBar.svelte';
-  import { startRouter } from './state/router.svelte';
+  import { startRouter, urlParams } from './state/router.svelte';
   import IconSprite from './ui/IconSprite.svelte';
   import Toast from './ui/Toast.svelte';
 
-  /** Bandeau superieur, ecran courant, voile de grain et message bref (plan, structure). */
+  /**
+   * Bandeau superieur, ecran courant, voile de grain, message bref et, avec `?diag=1`, badge de
+   * diagnostic (plan, structure).
+   */
   onMount(() => startRouter());
 </script>
 
@@ -17,6 +21,7 @@
 </div>
 <div class="grain" aria-hidden="true"></div>
 <Toast />
+{#if urlParams.diag}<DiagBadge />{/if}
 
 <style>
   /* Mise en page fluide (research R5) : en dessous de 1280x720, la page defile. */

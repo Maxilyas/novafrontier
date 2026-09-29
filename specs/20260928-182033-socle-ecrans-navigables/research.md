@@ -200,6 +200,10 @@ la maquette).
 - **Polices** : `document.fonts.ready` est attendu avant l'initialisation (`plan.md` §2).
 - **Contenu provisoire** : degrade du fond de la maquette et environ 300 etoiles placees par
   un generateur pseudo-aleatoire a graine, qui derivent lentement (FR-022).
+- **Sans multi-echantillonnage** (`antialias: false`) : le fond provisoire n'a aucun bord a
+  lisser. Mesure dans Chromium sans ecran (rendu logiciel, comme en CI) : la Carte en plein
+  ecran passe de 15 a 21 images par seconde, le Deploiement de 27 a 41. Les scenes des phases
+  P1 et P2 de la feuille de route reconsidereront ce choix.
 
 Essais dans Chromium 141 sans ecran, page servie en `localhost` (WebGPU exige un contexte
 securise) :
