@@ -162,7 +162,7 @@ packages/data/src/
 packages/sim/
 ├── package.json             # dependance @nova/data ; scripts test:browsers, golden:update, trig:generate
 ├── vitest.config.ts         # projets node et navigateurs (Chromium, Firefox, WebKit)
-├── scripts/                 # trig-table.mjs, golden-update.ts
+├── scripts/                 # trig-table.mjs, golden-update.test.ts (lance par golden:update)
 ├── src/
 │   ├── index.ts
 │   ├── fixed.ts             # 16.16, fmul, fdiv, isqrt, distances au 1/256
