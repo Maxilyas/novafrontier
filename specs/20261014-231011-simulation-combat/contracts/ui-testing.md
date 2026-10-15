@@ -40,3 +40,8 @@ parcours de la phase P0 le cherchent comme lien ou comme bouton.
 Les tests Playwright du combat installent l'horloge de la page (`page.clock.install()`) avant le
 chargement, puis l'avancent (`runFor`) : un combat de deux minutes se verifie en quelques secondes,
 sans parametre d'acceleration dans l'application (`research.md` R14).
+
+Les tests qui avancent l'horloge de plus de quelques centaines de millisecondes
+(`combat-clock.spec.ts`, `combat-end.spec.ts`) tournent dans le projet `sans-gpu` : chaque image
+avancee y est sans rendu, alors que le rendu logiciel de la scene, sur les 2 coeurs de la CI, leur
+faisait depasser le delai de 30 s (premier passage de la CI sur la PR 7).

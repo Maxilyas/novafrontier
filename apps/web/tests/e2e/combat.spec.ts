@@ -1,9 +1,10 @@
-import { attribut, avancer, ecranCombat, lancerCombat } from './combat.helpers';
+import { avancer, ecranCombat, lancerCombat } from './combat.helpers';
 import { expect, test } from './fixtures';
 
 /**
  * Story 1 : un combat se deroule a l'ecran (FR-001 a FR-015, FR-027 a FR-029, SC-001). Rendu de
- * repli ; les combats complets, plus longs, sont dans combat-end.spec.ts.
+ * repli, horloge avancee de quelques centaines de millisecondes au plus ; ce qui demande plusieurs
+ * secondes de combat est dans combat-clock.spec.ts et combat-end.spec.ts (projet sans-gpu).
  */
 
 test.describe('combat a l ecran', () => {
@@ -18,22 +19,6 @@ test.describe('combat a l ecran', () => {
     const journal = ecranCombat(page).locator('.clog .ll');
     await expect(journal.first()).toHaveText('Vague 01 — Intercepteurs ×12');
     await expect(journal.nth(2)).toHaveText('Escouade déployée — 3 unités en position');
-  });
-
-  test('le combat avance : minuteur, tirs et PV', async ({ page }) => {
-    await lancerCombat(page);
-    const pv = async () =>
-      (
-        await ecranCombat(page)
-          .locator('[data-hp]')
-          .evaluateAll((els) => els.map((e) => Number(e.getAttribute('data-hp'))))
-      ).reduce((a, b) => a + b, 0);
-    const avant = await pv();
-    await avancer(page, 9000);
-    expect(
-      Number(await attribut(page, '[data-next-wave-seconds]', 'data-next-wave-seconds')),
-    ).toBeLessThan(5);
-    await expect.poll(pv).toBeLessThan(avant);
   });
 
   test('une competence non ciblee coute un point et devient inactive', async ({ page }) => {
