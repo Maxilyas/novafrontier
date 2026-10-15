@@ -1,6 +1,6 @@
 import type { Application, WebGLRenderer, WebGPURenderer } from 'pixi.js';
 import { rendererPreference, renderModeOf } from './render-mode';
-import type { RenderMode, SceneHandle, SceneId, SceneInstance } from './types';
+import type { RenderMode, SceneHandle, SceneId, SceneInstance, SceneModule } from './types';
 
 /**
  * Moteur des zones de scene (contracts/scene-host.md, research R10). Une application Pixi par
@@ -18,6 +18,7 @@ interface Scene {
   modeAvantPerte: RenderMode;
   app: Application | undefined;
   instance: SceneInstance | undefined;
+  module: SceneModule | undefined;
   creation: Promise<void> | undefined;
   hote: HTMLElement | undefined;
   observateur: ResizeObserver | undefined;
@@ -32,6 +33,16 @@ interface Scene {
 }
 
 const scenes = new Map<SceneId, Scene>();
+
+/**
+ * Contenu de chaque scene, importe a la premiere ouverture (contracts/scenes.md). La Carte garde le
+ * fond provisoire jusqu'a la phase P2 de la feuille de route.
+ */
+const MODULES: Readonly<Record<SceneId, () => Promise<SceneModule>>> = {
+  carte: () => import('./scenes/placeholder').then((m) => m.placeholder),
+  deploiement: () => import('./scenes/deploy').then((m) => m.deployScene),
+  combat: () => import('./scenes/combat').then((m) => m.combatScene),
+};
 
 /** Densite de l'ecran, plafonnee a 2 (plan.md §5, FR-025). */
 const resolution = () => Math.min(window.devicePixelRatio || 1, 2);
@@ -75,7 +86,10 @@ function suivreLaZone(scene: Scene): void {
   if (redimensionner(scene)) scene.app?.render();
 }
 
-/** Anime seulement si la scene est affichee, l'onglet visible et les animations permises. */
+/**
+ * Anime seulement si la scene est affichee, l'onglet visible et les animations permises, sauf pour
+ * une scene qui doit rester animee (le combat, dont les deplacements portent l'information).
+ */
 function animer(scene: Scene): void {
   const { app, instance, hote } = scene;
   if (!app || !instance) return;
@@ -83,7 +97,7 @@ function animer(scene: Scene): void {
     hote !== undefined &&
     scene.mode !== 'perdu' &&
     document.visibilityState === 'visible' &&
-    !animationsReduites();
+    (!animationsReduites() || scene.module?.animateWhenReducedMotion === true);
   if (actif) {
     instance.start();
     app.start();
@@ -158,19 +172,16 @@ function surveillerPertes(scene: Scene, app: Application): void {
 async function creer(scene: Scene): Promise<void> {
   try {
     await document.fonts.ready;
-    const [{ Application }, { placeholder }] = await Promise.all([
-      import('pixi.js'),
-      import('./scenes/placeholder'),
-    ]);
+    const [{ Application }, module] = await Promise.all([import('pixi.js'), MODULES[scene.id]()]);
     const app = new Application();
     await app.init({
       preference: rendererPreference(window.location.search),
       resolution: resolution(),
       autoDensity: true,
-      // Sans multi-echantillonnage : le fond provisoire n'a aucun bord a lisser, et le MSAA
-      // multiplie le cout du rendu logiciel (navigateurs sans acceleration, CI). Les scenes des
-      // phases P1 et P2 de la feuille de route reconsidereront ce choix.
-      antialias: false,
+      // Sans multi-echantillonnage par defaut : le fond provisoire n'a aucun bord a lisser, et le
+      // MSAA multiplie le cout du rendu logiciel (navigateurs sans acceleration, CI). Une scene aux
+      // formes nettes (combat) le demande dans ses options.
+      antialias: module.init?.antialias ?? false,
       roundPixels: true,
       autoStart: false,
       background: '#020405',
@@ -181,7 +192,8 @@ async function creer(scene: Scene): Promise<void> {
       scene.images += 1;
     });
     scene.app = app;
-    scene.instance = placeholder.create(app);
+    scene.module = module;
+    scene.instance = module.create(app);
     surveillerPertes(scene, app);
     changerMode(scene, modeDe(app));
   } catch {
@@ -252,6 +264,7 @@ export async function acquireScene(id: SceneId, host: HTMLElement): Promise<Scen
       modeAvantPerte: 'initialisation',
       app: undefined,
       instance: undefined,
+      module: undefined,
       creation: undefined,
       hote: undefined,
       observateur: undefined,

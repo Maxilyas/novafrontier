@@ -31,7 +31,20 @@ export default defineConfig({
     timeout: 180_000,
   },
   projects: [
-    { name: 'repli', use: { launchOptions: lancement([]) } },
+    {
+      name: 'repli',
+      // Combats dans la duree : sans rendu, bien plus rapides (projet sans-gpu ci-dessous). Sur la
+      // CI, le rendu logiciel de la scene ferait depasser le delai des tests qui avancent l'horloge
+      // de plusieurs secondes.
+      testIgnore: [
+        'e2e/combat-clock.spec.ts',
+        'e2e/combat-end.spec.ts',
+        'e2e/replay.spec.ts',
+        'e2e/auto-resolve.spec.ts',
+        'e2e/load.spec.ts',
+      ],
+      use: { launchOptions: lancement([]) },
+    },
     {
       name: 'webgpu',
       testMatch: 'e2e/scene-modes.spec.ts',
@@ -39,7 +52,16 @@ export default defineConfig({
     },
     {
       name: 'sans-gpu',
-      testMatch: 'e2e/scene-modes.spec.ts',
+      // Le combat avance sans acceleration graphique (cas limite de la spec P1).
+      testMatch: [
+        'e2e/scene-modes.spec.ts',
+        'e2e/combat-clock.spec.ts',
+        'e2e/combat-end.spec.ts',
+        'e2e/replay.spec.ts',
+        'e2e/auto-resolve.spec.ts',
+        'e2e/determinism.spec.ts',
+        'e2e/load.spec.ts',
+      ],
       use: { launchOptions: lancement(['--disable-gpu', '--disable-software-rasterizer']) },
     },
   ],

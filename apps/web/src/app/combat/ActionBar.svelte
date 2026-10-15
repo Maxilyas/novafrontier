@@ -1,15 +1,18 @@
 <script lang="ts">
-  import { demoState, derivedValues, rarityById, unitById } from '@nova/data';
+  import { demoState, rarityById, unitById } from '@nova/data';
+  import { ultimate } from '../../state/briefing';
+  import { combatHud } from '../../state/combat.svelte';
+  import { combatRuntime } from '../../state/combat-runtime';
   import { selection } from '../../state/selection.svelte';
-  import { LATER_PHASE_MESSAGE, showToast } from '../../state/toast.svelte';
+  import { showToast } from '../../state/toast.svelte';
   import Icon from '../../ui/Icon.svelte';
 
   /**
-   * Points d'action et barre d'actions (renderCombatPanels, lignes 2321-2333 ; CSS 554-573). Les
-   * competences, limitees aux points d'action du commandant, et l'ultime relevent de la phase P1
-   * de la feuille de route (FR-018).
+   * Points d'action et barre d'actions (renderCombatPanels et useAction, lignes 2321-2357 ; CSS
+   * 554-573). Une competence active coute un point et devient inactive (FR-012, FR-013) ; une
+   * competence ciblee ouvre la designation dans la scene. L'ultime reste verrouille (FR-015).
    */
-  const { ultimate } = derivedValues.combat;
+  const ULTIME_VERROUILLE = 'Capacité ultime — débloquée au niveau 50, réservée aux boss';
 
   const commandant = $derived.by(() => {
     const escouade = demoState.squads.find((s) => s.id === selection.current.squad);
@@ -17,28 +20,41 @@
     return unite?.family === 'cmd' ? unite : undefined;
   });
   const rarete = $derived(commandant ? rarityById(commandant.rarity) : undefined);
-  const points = $derived(rarete?.actionPoints ?? 0);
-  const competences = $derived(commandant?.skills.slice(0, points) ?? []);
+  const combat = $derived(combatHud.combat);
+  const maximum = $derived(rarete?.actionPoints ?? 0);
+  const competences = $derived(combat?.bar ?? commandant?.skills.slice(0, maximum) ?? []);
+  const restants = $derived(combatHud.hud?.actionPoints ?? maximum);
+  const depensees = $derived(combatHud.hud?.spentSkills ?? 0);
+  const enDesignation = $derived(combatHud.designation?.skill);
+  const actif = $derived(combatHud.phase === 'running' && !combatHud.replay);
+  const inactive = (rang: number) => !actif || (depensees & (1 << rang)) !== 0 || restants <= 0;
 </script>
 
-<div class="apts">
+<div class="apts" data-action-points={restants}>
   <span class="pl">Points d'action</span>
   <span class="pts">
-    {#each Array.from({ length: points }, (_, i) => i) as i (i)}<i class="f"></i>{/each}
+    {#each Array.from({ length: maximum }, (_, i) => i) as i (i)}<i class:f={i < restants}></i>{/each}
   </span>
   <span class="tiny" style="letter-spacing:.1em">
-    {commandant ? `${rarete?.label} — ${points} actions` : ''}
+    {commandant ? `${rarete?.label} — ${maximum} actions` : ''}
   </span>
 </div>
 
 <div class="actbar">
-  {#each competences as competence (competence.name)}
+  {#each competences as competence, rang (competence.name)}
     <button
       type="button"
       class="act notched"
+      class:spent={(depensees & (1 << rang)) !== 0}
+      class:visee={enDesignation === rang}
       style="--notch:6px"
-      data-later-phase="commander-action"
-      onclick={() => showToast(LATER_PHASE_MESSAGE)}
+      data-skill={rang}
+      aria-disabled={inactive(rang)}
+      aria-pressed={enDesignation === rang}
+      title={competence.description}
+      onclick={() => {
+        if (!inactive(rang)) combatRuntime.activateSkill(rang);
+      }}
     >
       <Icon icon={competence.icon} size={25} strokeWidth={1.4} />
       <span class="an">{competence.name}</span>
@@ -50,8 +66,8 @@
     class="act ult notched"
     class:locked={!ultimate.ready}
     style="--notch:6px"
-    data-later-phase="ultimate"
-    onclick={() => showToast(LATER_PHASE_MESSAGE)}
+    data-ultimate
+    onclick={() => showToast(ULTIME_VERROUILLE)}
   >
     <Icon icon="ic-ult" size={25} strokeWidth={1.4} />
     <span class="an">Ultime de palier</span>
@@ -119,6 +135,18 @@
     padding: 0;
     color: inherit;
     font: inherit;
+  }
+  .act.spent,
+  .act[aria-disabled='true'] {
+    opacity: 0.3;
+    filter: grayscale(1);
+    cursor: default;
+  }
+  .act.visee {
+    border-color: var(--gold);
+    box-shadow:
+      0 0 0 1px var(--gold),
+      0 0 18px rgba(245, 166, 35, 0.45);
   }
   .act:hover {
     border-color: var(--gold);

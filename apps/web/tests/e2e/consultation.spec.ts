@@ -28,8 +28,12 @@ const motif = (n: number): string => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, 
 
 const ecran = (page: Page, id: string): Locator => page.locator(`[data-screen="${id}"]`);
 
+/** Commande de parcours : un lien, ou un bouton comme "Lancer le combat" (phase P1). */
 const lien = (page: Page, libelle: string) =>
-  page.getByRole('link', { name: libelle, exact: true }).click();
+  page
+    .getByRole('link', { name: libelle, exact: true })
+    .or(page.getByRole('button', { name: libelle, exact: true }))
+    .click();
 
 async function versBriefing(page: Page): Promise<void> {
   await mainNav(page).getByRole('link', { name: 'Carte', exact: true }).click();

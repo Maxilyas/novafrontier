@@ -71,8 +71,12 @@ const nav = (libelle: string, ecran: ScreenId): Etape => ({
   ecran,
 });
 
+/** Commande de parcours : un lien, ou un bouton comme "Lancer le combat" (phase P1). */
 const lien = (libelle: string, ecran: ScreenId): Etape => ({
-  cible: (page) => page.getByRole('link', { name: libelle, exact: true }),
+  cible: (page) =>
+    page
+      .getByRole('link', { name: libelle, exact: true })
+      .or(page.getByRole('button', { name: libelle, exact: true })),
   ecran,
 });
 

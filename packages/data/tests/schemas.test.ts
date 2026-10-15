@@ -4,6 +4,8 @@ import {
   buildingSlots,
   buildingSlotsSchema,
   buildings,
+  combatTuning,
+  combatTuningSchema,
   crateSchema,
   crates,
   damageMatrix,
@@ -13,6 +15,8 @@ import {
   derivedValues,
   derivedValuesSchema,
   enemy,
+  enemyArchetypeSchema,
+  enemyArchetypes,
   enemySchema,
   engineSpecSchema,
   engines,
@@ -49,6 +53,12 @@ describe('chaque donnee passe son schema', () => {
     ['pool de lancement', launchPoolSchema, launchPool],
     ['etat de demonstration', demoStateSchema, demoState],
     ['valeurs derivees de la maquette', derivedValuesSchema, derivedValues],
+    ['reglages du combat', combatTuningSchema, combatTuning],
+    [
+      'archetypes d ennemis',
+      enemyArchetypeSchema.array().length(4),
+      Object.values(enemyArchetypes),
+    ],
   ] as const)('%s', (_nom, schema, valeur) => {
     const resultat = schema.safeParse(valeur);
     expect(resultat.error?.issues ?? []).toEqual([]);

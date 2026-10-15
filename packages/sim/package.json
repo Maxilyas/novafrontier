@@ -9,11 +9,18 @@
   "scripts": {
     "lint": "biome check .",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --project node --passWithNoTests",
+    "test:browsers": "vitest run --project navigateurs --passWithNoTests",
+    "golden:update": "vitest run --project golden",
+    "trig:generate": "node scripts/trig-table.mjs"
+  },
+  "dependencies": {
+    "@nova/data": "workspace:*"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.14",
-    "@nova/data": "workspace:*",
+    "@vitest/browser-playwright": "5.0.2",
+    "playwright": "1.63.0",
     "typescript": "6.0.3",
     "vitest": "5.0.2"
   }

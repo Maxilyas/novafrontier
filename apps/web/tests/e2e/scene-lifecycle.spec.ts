@@ -131,7 +131,9 @@ test.describe('animations reduites (FR-035)', () => {
     await gotoScreen(page, 'deploiement');
     const zone = zoneDeScene(page, 'deploiement');
     await expect(zone).toHaveAttribute('data-render-mode', 'webgl2', { timeout: 15_000 });
-    await page.addStyleTag({ content: '.grain{display:none}' });
+    // Le voile de grain et, au Deploiement, les boutons d'emplacements (DOM pose sur la scene, phase
+    // P1) ne sont pas la scene : le texte HTML sur le canvas peut varier de quelques pixels.
+    await page.addStyleTag({ content: '.grain{display:none} .slots{visibility:hidden}' });
     await page.waitForTimeout(300);
     const avant = await zone.screenshot();
     await page.waitForTimeout(700);

@@ -1,23 +1,48 @@
 <script lang="ts">
-  import { derivedValues } from '@nova/data';
   import SceneHost from '../../scene/SceneHost.svelte';
-  import { toHash } from '../../state/router.svelte';
+  import { setBoard } from '../../scene/scenes/deploy/board';
+  import { combatChoices, launchCombat } from '../../state/combat.svelte';
+  import { deployment } from '../../state/deployment.svelte';
+  import { navigate } from '../../state/router.svelte';
   import { selection } from '../../state/selection.svelte';
   import Btn from '../../ui/Btn.svelte';
   import Panel from '../../ui/Panel.svelte';
   import Assistance from './Assistance.svelte';
   import Disposition from './Disposition.svelte';
   import ObjectivePanel from './ObjectivePanel.svelte';
+  import SlotButtons from './SlotButtons.svelte';
   import UnitPool from './UnitPool.svelte';
 
   /**
-   * Ecran 07 · Deploiement (maquette, lignes 805-811 et 2072-2144, CSS 503-528). La scene occupe la
-   * zone centrale, a la place du plateau (FR-020, FR-022). "Lancer le combat" est inactif quand
-   * l'escouade n'engage aucune unite (FR-019).
+   * Ecran 07 · Deploiement (maquette, lignes 805-811 et 2072-2156, CSS 503-528). La zone centrale est
+   * le plateau : la scene dessine le fond, les lignes et la relique, les emplacements sont des
+   * boutons par-dessus (FR-037 a FR-043). "Lancer le combat" est inactif tant qu'aucune unite n'est
+   * placee (FR-042) ; sinon il lance un nouveau combat avec ce placement, qui remplace tout combat en
+   * cours, puis ouvre l'ecran Combat (FR-031).
    */
-  const engagees = $derived(
-    derivedValues.deployment[selection.current.squad][selection.current.theatre].units,
+  const formation = $derived(selection.current.formation[selection.current.squad]);
+
+  // A l'arrivee, et a chaque changement d'escouade, de theatre ou de formation : le plateau montre
+  // la combinaison choisie, et son placement initial est memorise s'il n'existe pas (FR-041).
+  $effect(() => {
+    setBoard(formation, selection.current.theatre);
+    deployment.ensure();
+  });
+
+  const choix = $derived(
+    combatChoices(
+      selection.current.squad,
+      selection.current.theatre,
+      formation,
+      deployment.current,
+    ),
   );
+
+  function lancer() {
+    if (!choix) return;
+    launchCombat(choix);
+    navigate({ screen: 'combat' });
+  }
   const spatial = $derived(selection.current.theatre === 'orbital');
 </script>
 
@@ -40,17 +65,15 @@
     </Panel>
     <UnitPool />
   </div>
-  <div class="deploy"><SceneHost scene="deploiement" /></div>
+  <div class="deploy">
+    <SceneHost scene="deploiement" />
+    <SlotButtons />
+  </div>
   <div class="dright">
     <Disposition />
     <ObjectivePanel />
     <Assistance />
-    <Btn
-      variant="solid"
-      href={engagees.length > 0 ? toHash({ screen: 'combat' }) : undefined}
-      disabled={engagees.length === 0}
-      style="width:100%;padding:13px"
-    >
+    <Btn variant="solid" disabled={!choix} onclick={lancer} style="width:100%;padding:13px">
       Lancer le combat
     </Btn>
   </div>

@@ -22,6 +22,10 @@
   --r-leg: #f5a623;
   --r-div: #ff5fc0;
 
+  /* Emplacements libres du plateau de deploiement (phase P1, provisoires jusqu'aux visuels P3) */
+  --slot-ship: #4aa3ff;
+  --slot-mech: #6fd36a;
+
   --paper: #e4ded0;
   --txt: #a9b3ab;
   --muted: #6d7972;

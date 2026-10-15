@@ -2,12 +2,12 @@
   import {
     type Combatant,
     demoState,
-    derivedValues,
     rarityById,
     type UnitFamily,
     unitById,
     weaponById,
   } from '@nova/data';
+  import { summaryOf } from '../../state/briefing';
   import { selection } from '../../state/selection.svelte';
   import { nombre } from '../../ui/format';
   import Icon from '../../ui/Icon.svelte';
@@ -20,7 +20,7 @@
    * d'une phase ulterieure (FR-018) ; un emplacement vide filtre les effectifs sur sa famille.
    */
   const escouade = $derived(demoState.squads.find((s) => s.id === selection.current.squad));
-  const valeurs = $derived(derivedValues.squads[selection.current.squad]);
+  const valeurs = $derived(summaryOf(selection.current.squad));
   const commandant = $derived.by(() => {
     const unite = escouade?.commander ? unitById(escouade.commander) : undefined;
     return unite?.family === 'cmd' ? unite : undefined;

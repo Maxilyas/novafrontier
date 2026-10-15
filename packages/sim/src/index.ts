@@ -1,56 +1,14 @@
-import type { ActiveWeaponId, Formation, Squad, Theatre } from '@nova/data';
-
 /**
- * @nova/sim : types seulement en phase P0 de la feuille de route (contracts/sim-package.md).
- * Ils sont provisoires ; la phase P1 les precisera en portant les regles (plan.md §6).
+ * @nova/sim : regles du jeu, deterministes, sans rendu (plan.md §6, contracts/sim-package.md). Le
+ * meme code sert le client et, en phase P5 de la feuille de route, le serveur.
  */
 
-/** Pas fixe de 50 ms, soit 20 ticks par seconde (plan.md §6). */
-export type Tick = number;
-
-/** Nombre en virgule fixe 16.16 (plan.md §6). */
-export type Fixed = number & { readonly __unit: 'fixed16.16' };
-
-/** Angle en 1/1024 de tour (plan.md §6). */
-export type Angle = number & { readonly __unit: 'turn/1024' };
-
-export interface WaveSpec {
-  index: number;
-  boss: boolean;
-  weapon: ActiveWeaponId;
-}
-
-export interface SimCommand {
-  tick: Tick;
-  /** Precise en phase P1 de la feuille de route. */
-  action: string;
-}
-
-export interface SimInput {
-  seed: number;
-  squad: Squad;
-  formation: Formation;
-  theatre: Theatre;
-  waves: readonly WaveSpec[];
-  commands: readonly SimCommand[];
-}
-
-export type SimEventType =
-  | 'wave'
-  | 'spawn'
-  | 'shot'
-  | 'hit'
-  | 'death'
-  | 'skill'
-  | 'objective'
-  | 'end';
-
-export interface SimEvent {
-  type: SimEventType;
-  tick: Tick;
-}
-
-export interface SimSnapshot {
-  tick: Tick;
-  objective: { hp: number; max: number };
-}
+export { briefing, route, squadSummary, ultimateStatus } from './briefing';
+export { type Combat, createCombat, loadScenario, runCombat } from './combat';
+export * from './events';
+export { FIXED_ONE, type Fixed, fromFixed, toFixed } from './fixed';
+export { autoPlacement, engagedUnits, formationSlots, validatePlacement } from './formation';
+export { difficulty, fuelOf, lootOf, planetDistance, territoryGain, travel } from './planet';
+export type { Angle } from './trig';
+export * from './types';
+export { wavesFor } from './waves';

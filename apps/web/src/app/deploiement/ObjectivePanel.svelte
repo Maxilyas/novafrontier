@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { demoState, derivedValues } from '@nova/data';
+  import { demoState } from '@nova/data';
+  import { mission } from '../../state/briefing';
   import { selection } from '../../state/selection.svelte';
   import { nombre } from '../../ui/format';
   import KeyValue from '../../ui/KeyValue.svelte';
@@ -13,7 +14,7 @@
   <div class="bd">
     <KeyValue label="Type" value="Relique" valueClass="gold" />
     <KeyValue label="Intégrité" value="{nombre(demoState.mission.relicHp)} PV" />
-    <KeyValue label="Vagues" value={derivedValues.mission.waves.length} />
+    <KeyValue label="Vagues" value={mission.waves.length} />
     <KeyValue label="Condition de victoire" value="Relique > 0" />
   </div>
 </Panel>

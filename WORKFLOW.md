@@ -16,8 +16,8 @@
 > Si ce fichier contredit l'un des trois premiers, c'est lui qui a tort : le
 > corriger ici, dans la meme PR que le changement.
 
-Derniere mise a jour : 28 septembre 2026 (adoption de spec-kit ; review sur
-la PR, merge par Claude sur demande).
+Derniere mise a jour : 15 octobre 2026 (phase P1 : simulation du combat,
+plateau de deploiement et scene de combat).
 
 ---
 
@@ -26,7 +26,14 @@ la PR, merge par Claude sur demande).
 La phase **P0** de la feuille de route est livree par la feature spec-kit
 `specs/20260928-182033-socle-ecrans-navigables/` : monorepo pnpm, les 9 ecrans
 de la maquette en Svelte, alimentes par `packages/data`, et la scene Pixi qui
-s'affiche avec ou sans WebGPU. Aucun backend ni asset definitif a ce stade.
+s'affiche avec ou sans WebGPU.
+
+La phase **P1** l'est par `specs/20261014-231011-simulation-combat/` :
+`packages/sim` contient les regles du combat, deterministes (entiers, graine,
+pas fixe de 50 ms), et les valeurs de briefing ; le plateau de deploiement
+(emplacements vaisseau et meca, placement automatique ou manuel) et le combat
+sont jouables, avec replay, resolution automatique et scenario de charge.
+Aucun backend ni asset definitif a ce stade.
 
 **Present :**
 
@@ -36,11 +43,11 @@ s'affiche avec ou sans WebGPU. Aucun backend ni asset definitif a ce stade.
 | `CLAUDE.md` | Presentation du projet et commandes, lu automatiquement par Claude Code. |
 | `package.json`, `pnpm-workspace.yaml`, `pnpm-lock.yaml` | Monorepo pnpm (`apps/*`, `packages/*`), version de pnpm dans `packageManager`. |
 | `tsconfig.base.json`, `biome.json` | TypeScript strict et lint/format Biome, communs a tous les paquets. |
-| `apps/web` | Client Svelte 5 + Vite 8 : les 9 ecrans (`src/app`), le design system (`src/ui`), la scene Pixi (`src/scene`), les tests Vitest et Playwright, les scripts de captures, de Lighthouse et d'extraction de la maquette. |
-| `packages/data` | Schemas zod, donnees de jeu et etat de demonstration portes de la maquette, valeurs derivees extraites de la maquette (`demo/derived.generated.json`). |
-| `packages/sim` | Types de la simulation seulement, sans regle (principe II de la constitution). |
+| `apps/web` | Client Svelte 5 + Vite 8 : les 9 ecrans (`src/app`), le design system (`src/ui`), les scenes Pixi (`src/scene` : carte, plateau de deploiement, combat), le moteur du combat cote client et le HUD (`src/state`), les tests Vitest et Playwright, les scripts de captures, de Lighthouse et d'extraction de la maquette. |
+| `packages/data` | Schemas zod, donnees de jeu et etat de demonstration portes de la maquette, reglages du combat. `demo/derived.generated.json` : valeurs extraites de la maquette, qui ne servent plus qu'aux tests (les ecrans les lisent dans la sim). |
+| `packages/sim` | Regles du combat en TypeScript pur, deterministes, sans rendu ; valeurs de briefing ; combats de reference (`tests/golden/combats.json`, regeneres par `golden:update`) verifies sous Node et dans Chromium, Firefox et WebKit (`test:browsers`). |
 | `specs/` | Une feature spec-kit par dossier (§3). |
-| `.github/workflows/tests.yml` | Lint, typecheck, tests Vitest, build, puis tests Playwright et Lighthouse, sur les PR vers `main`. |
+| `.github/workflows/tests.yml` | Lint, typecheck, tests Vitest, build, determinisme dans les navigateurs (`@nova/sim test:browsers`), puis tests Playwright et Lighthouse, sur les PR vers `main`. |
 | `.github/workflows/deploy.yml` | Build image GHCR + deploiement prod par SSH sur le VPS, sur push vers `main`, derriere la validation de l'environnement `production` (pieges 3 et 7). Pas encore de preprod. |
 | `.github/pull_request_template.md` | Checklist de PR. |
 | `.gitattributes` | LF partout, quel que soit l'OS. |
@@ -269,20 +276,20 @@ merges depuis la precedente, pas seulement le dernier.
 
 ## 5. Prochaine etape
 
-Phase **P1** de la feuille de route (`plan.md` §9) : `packages/sim`, avec les
-regles du combat portees de `combatLoop` (vagues, competences, degats), en
-virgule fixe et deterministes, sans rendu, et leurs tests ; puis la scene de
-combat Pixi avec des formes provisoires et le HUD DOM branche sur le store.
+Phase **P2** de la feuille de route (`plan.md` §9), sans le plateau de
+deploiement, livre en P1 : champ d'etoiles en parallaxe et planetes en shader,
+routes, pan et zoom fluides (molette, pincement) sur la carte, base en
+isometrie Pixi ou en DOM/SVG, et plateau de deploiement adapte au tactile.
 
-Verification attendue : meme graine, meme empreinte sur Chrome, Firefox, Safari
-et Node ; 60 images par seconde avec 60 entites ; un replay se rejoue a
-l'identique.
+Verification attendue : pan et zoom a 60 images par seconde ; interactions
+tactiles verifiees sur tablette, plateau compris ; aucune regression des tests
+de la phase P1 (combats de reference compris).
 
-Les valeurs que la maquette calcule et que la phase P0 a figees dans
-`packages/data/src/demo/derived.generated.json` (puissance, chances de
-victoire, vagues...) seront alors produites par `packages/sim` : le test oracle
-(`apps/web/tests/oracle/`) sert de reference pour verifier le portage.
+Points laisses ouverts par la phase P1, a trancher avec l'equipe (voir la PR de
+la phase P1) : description de Charge lourde (elle frappe sans deplacement),
+chances de victoire du Briefing (formule de la maquette, alors que la
+resolution automatique joue le vrai combat), couleurs provisoires des
+emplacements (jusqu'aux visuels de la phase P3).
 
 A faire passer par spec-kit (cycle du §3) : decrire a `/speckit-specify` ce que
-la phase P1 rend visible, un combat qui se deroule a l'ecran et se rejoue a
-l'identique.
+la phase P2 rend visible, une carte qu'on parcourt du doigt et de la souris.

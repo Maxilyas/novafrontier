@@ -4,12 +4,14 @@ import {
   crates,
   demoState,
   derivedValues,
+  enemyArchetypes,
   engines,
   launchPool,
   planetIncome,
   planets,
   rarities,
   researchTrees,
+  TARGET_OF_EFFECT,
   units,
   unlockedSquadIdSchema,
   weapons,
@@ -150,5 +152,40 @@ describe('6. valeurs derivees', () => {
 
   it('le trajet mene a la cible de la mission', () => {
     expect(derivedValues.route.target).toBe(demoState.mission.target);
+  });
+});
+
+describe('7. combat (data-model.md §6)', () => {
+  const competences = units.flatMap((u) => (u.family === 'cmd' ? u.skills : []));
+
+  it('15 competences, chacune avec la cible attendue par son effet', () => {
+    expect(competences).toHaveLength(15);
+    for (const c of competences) {
+      expect(c.target, c.name).toBe(TARGET_OF_EFFECT[c.effect.kind]);
+    }
+  });
+
+  it('les descriptions decrivent l effet retenu (FR-014a)', () => {
+    const description = (nom: string) => competences.find((c) => c.name === nom)?.description;
+    expect(description('Bouclier de flotte')).toBe('+70% DÉF pendant 7 s');
+    expect(description('Abordage éclair')).toBe(
+      "Dégâts directs sur l'ennemi le plus proche de la relique",
+    );
+    expect(description('Charge lourde')).toBe('Une unité frappe en zone, sans se déplacer');
+  });
+
+  it('un archetype par menace, cle et menace concordent, valeurs strictement positives', () => {
+    for (const [cle, a] of Object.entries(enemyArchetypes)) {
+      expect(a.threat).toBe(cle);
+      for (const v of [a.count, a.hp, a.attack, a.defense, a.range, a.speed, a.size]) {
+        expect(v).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('chaque libelle de composition annonce l effectif qui apparait (FR-004)', () => {
+    for (const a of Object.values(enemyArchetypes)) {
+      if (a.count > 1) expect(a.composition).toContain(`×${a.count}`);
+    }
   });
 });

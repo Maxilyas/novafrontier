@@ -1,28 +1,37 @@
 <script lang="ts">
-  import { derivedValues, unitById, weaponById } from '@nova/data';
-  import { selection } from '../../state/selection.svelte';
+  import { combatHud } from '../../state/combat.svelte';
   import Panel from '../../ui/Panel.svelte';
 
-  /** Force engagee, a pleine sante (renderForce, lignes 2299-2307 ; CSS 543-548). */
-  const engagees = $derived(
-    derivedValues.combatStart[selection.current.squad][selection.current.theatre].units,
-  );
+  /**
+   * Force engagee (renderForce, lignes 2299-2307 ; CSS 543-548), mise a jour au moins deux fois par
+   * seconde (FR-027, FR-028) : unites vivantes sur engagees, et par unite son armement, son nom et
+   * ses PV, estompee une fois detruite.
+   */
+  const lignes = $derived(combatHud.forces);
+  const vivantes = $derived(lignes.filter((l) => !l.destroyed).length);
 </script>
 
-<Panel title="Force engagée" right="{engagees.length}/{engagees.length}" class="cforce">
-  {#each engagees as engagee, i (i)}
-    {@const unite = unitById(engagee.unit)}
-    {@const arme = unite && unite.family !== 'cmd' ? weaponById(unite.weapon) : undefined}
-    <div class="frow" data-unit={engagee.unit}>
-      <span class="pip" style:background={arme?.color}></span>
-      <span class="fn">{unite?.name}</span>
-      <span class="fb"><i style="width:100%"></i></span>
-      <span class="fq">{engagee.maxHp}</span>
+<Panel title="Force engagée" right="{vivantes}/{lignes.length}" class="cforce">
+  {#each lignes as ligne (ligne.id)}
+    <div
+      class="frow"
+      class:detruite={ligne.destroyed}
+      data-unit={ligne.unitId}
+      data-hp={ligne.hp}
+      data-destroyed={ligne.destroyed}
+    >
+      <span class="pip" style:background={ligne.weaponColor}></span>
+      <span class="fn">{ligne.name}</span>
+      <span class="fb"><i style:width="{(ligne.hp / ligne.maxHp) * 100}%"></i></span>
+      <span class="fq">{ligne.hp}</span>
     </div>
   {/each}
 </Panel>
 
 <style>
+  .frow.detruite {
+    opacity: 0.3;
+  }
   .frow {
     display: flex;
     align-items: center;

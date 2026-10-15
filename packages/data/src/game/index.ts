@@ -1,6 +1,7 @@
 /** Donnees de jeu portees de la maquette (lecture seule). */
 
 export * from './buildings';
+export * from './combat';
 export * from './crates';
 export * from './engines';
 export * from './planets';

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { demoState, derivedValues, type Squad } from '@nova/data';
+  import { demoState, type Squad } from '@nova/data';
+  import { squadSummary } from '@nova/sim';
   import { selection } from '../../state/selection.svelte';
   import { isUnlockedSquad } from '../../state/selection-rules';
   import { nombre } from '../../ui/format';
@@ -10,7 +11,7 @@
    */
   function resume(escouade: Squad): string {
     if (!isUnlockedSquad(escouade.id, demoState)) return 'Verrouillé';
-    const valeurs = derivedValues.squads[escouade.id];
+    const valeurs = squadSummary(escouade);
     return `${valeurs.filled}/6 · ${nombre(valeurs.power)} PUISS.`;
   }
 </script>

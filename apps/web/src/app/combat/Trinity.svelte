@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { type ActiveWeaponId, damageMatrix, demoState, derivedValues, weaponById } from '@nova/data';
+  import { type ActiveWeaponId, damageMatrix, demoState, weaponById } from '@nova/data';
+  import { mission, summaryOf } from '../../state/briefing';
   import { selection } from '../../state/selection.svelte';
   import Panel from '../../ui/Panel.svelte';
 
@@ -11,12 +12,12 @@
   const adverse = demoState.mission.enemy.weapon;
   const couleur = (m: number) => (m > 1 ? 'var(--ok)' : m < 1 ? '#ff9c8f' : 'var(--muted)');
 
-  const dominante = $derived(derivedValues.squads[selection.current.squad].dominantWeapon);
+  const dominante = $derived(summaryOf(selection.current.squad).dominantWeapon);
 </script>
 
 <Panel
   title="Trinité d'armement"
-  right="{derivedValues.mission.waves.length} VAGUES"
+  right="{mission.waves.length} VAGUES"
   class="ctrin"
 >
   <div class="bd" style="padding:9px 11px">

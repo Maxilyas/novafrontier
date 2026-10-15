@@ -1,4 +1,5 @@
 export * from './building';
+export * from './combat';
 export * from './common';
 export * from './crate';
 export * from './derived';

@@ -9,7 +9,11 @@ test('aucune requete hors de localhost pendant le parcours des 9 ecrans', async 
   const hotes = recordHosts(page);
   const nav = (libelle: string) =>
     mainNav(page).getByRole('link', { name: libelle, exact: true }).click();
-  const lien = (libelle: string) => page.getByRole('link', { name: libelle, exact: true }).click();
+  const lien = (libelle: string) =>
+    page
+      .getByRole('link', { name: libelle, exact: true })
+      .or(page.getByRole('button', { name: libelle, exact: true }))
+      .click();
 
   await page.goto('/');
   await expectScreen(page, 'escouades');
