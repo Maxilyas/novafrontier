@@ -1,0 +1,4670 @@
+[
+  {
+    "name": "alpha-orbital-arc-1",
+    "setup": {
+      "seed": 1,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2060,
+      "fingerprint": "2bfab7815f30d459"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-10",
+    "setup": {
+      "seed": 10,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2636,
+      "fingerprint": "0298f744918b7559"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-11-commandes",
+    "setup": {
+      "seed": 11,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 65536000,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 170,
+          "skill": 1
+        },
+        {
+          "tick": 280,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 320,
+          "skill": 3
+        },
+        {
+          "tick": 500,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2756,
+      "fingerprint": "6dae677752ae0fec"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-12-placement",
+    "setup": {
+      "seed": 12,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 971,
+      "fingerprint": "d0858e785e7044d5"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-13",
+    "setup": {
+      "seed": 13,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2296,
+      "fingerprint": "a45d317ba6434bdf"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-14-commandes",
+    "setup": {
+      "seed": 14,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 61603840,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 230,
+          "skill": 1
+        },
+        {
+          "tick": 340,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 380,
+          "skill": 3
+        },
+        {
+          "tick": 560,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2546,
+      "fingerprint": "7ea36403dbac459e"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-15-placement",
+    "setup": {
+      "seed": 15,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 902,
+      "fingerprint": "687ec622c2c94048"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-16",
+    "setup": {
+      "seed": 16,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1799,
+      "fingerprint": "4e18b153728d1546"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-17-commandes",
+    "setup": {
+      "seed": 17,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 64225280,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2500,
+      "fingerprint": "e4059f76714cafbe"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-18-placement",
+    "setup": {
+      "seed": 18,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1060,
+      "fingerprint": "862dbc11a6e4e5d0"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-19",
+    "setup": {
+      "seed": 19,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2296,
+      "fingerprint": "37e74dc1e0010032"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 64225280,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2461,
+      "fingerprint": "04f10f01008464a2"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-20-commandes",
+    "setup": {
+      "seed": 20,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 66846720,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2273,
+      "fingerprint": "ed3ad767017bede3"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1119,
+      "fingerprint": "c92dde736a4f680a"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-4",
+    "setup": {
+      "seed": 4,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1446,
+      "fingerprint": "2020a770315c19f3"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 66846720,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2116,
+      "fingerprint": "2b0770a2a573de43"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1028,
+      "fingerprint": "f422b535de15601e"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-7",
+    "setup": {
+      "seed": 7,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2324,
+      "fingerprint": "db3ad54e9d075d7f"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 62914560,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 210,
+          "skill": 1
+        },
+        {
+          "tick": 320,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 360,
+          "skill": 3
+        },
+        {
+          "tick": 540,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2370,
+      "fingerprint": "eaad3c8d277b0a8c"
+    }
+  },
+  {
+    "name": "alpha-orbital-arc-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1073,
+      "fingerprint": "2b4e26f5b2dc265a"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-1",
+    "setup": {
+      "seed": 1,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1786,
+      "fingerprint": "6c39033621172843"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-10",
+    "setup": {
+      "seed": 10,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2071,
+      "fingerprint": "deebfbeb60258ee0"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-11-commandes",
+    "setup": {
+      "seed": 11,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 39321600,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 170,
+          "skill": 1
+        },
+        {
+          "tick": 280,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 320,
+          "skill": 3
+        },
+        {
+          "tick": 500,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2085,
+      "fingerprint": "20a76688eb7965da"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-12-placement",
+    "setup": {
+      "seed": 12,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1043,
+      "fingerprint": "31342ac82c11d487"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-13",
+    "setup": {
+      "seed": 13,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1791,
+      "fingerprint": "ec1df2a8dad8cd42"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-14-commandes",
+    "setup": {
+      "seed": 14,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 35389440,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 230,
+          "skill": 1
+        },
+        {
+          "tick": 340,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 380,
+          "skill": 3
+        },
+        {
+          "tick": 560,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2025,
+      "fingerprint": "4adbda7ffb7d9c87"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-15-placement",
+    "setup": {
+      "seed": 15,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1050,
+      "fingerprint": "1b56f0e6b04a6d48"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-16",
+    "setup": {
+      "seed": 16,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2157,
+      "fingerprint": "d6c5b4243e98079f"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-17-commandes",
+    "setup": {
+      "seed": 17,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 38010880,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1528,
+      "fingerprint": "cc3949252d3f2112"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-18-placement",
+    "setup": {
+      "seed": 18,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1064,
+      "fingerprint": "54c0384a874b3f62"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-19",
+    "setup": {
+      "seed": 19,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2150,
+      "fingerprint": "996f4e427bedcd40"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 38010880,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1987,
+      "fingerprint": "30d80a30a5eb7414"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-20-commandes",
+    "setup": {
+      "seed": 20,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 40632320,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1959,
+      "fingerprint": "8df86983e2b6954e"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 962,
+      "fingerprint": "f734789811e22dcb"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-4",
+    "setup": {
+      "seed": 4,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1797,
+      "fingerprint": "c482829b682f1a89"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 40632320,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2197,
+      "fingerprint": "fe5ceceb08f297c6"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1121,
+      "fingerprint": "798aab3b1341e5d2"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-7",
+    "setup": {
+      "seed": 7,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1891,
+      "fingerprint": "387d1f13624c4637"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 36700160,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 210,
+          "skill": 1
+        },
+        {
+          "tick": 320,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 360,
+          "skill": 3
+        },
+        {
+          "tick": 540,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1984,
+      "fingerprint": "012137b8e7dd99b7"
+    }
+  },
+  {
+    "name": "alpha-orbital-ring-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "alpha",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1094,
+      "fingerprint": "a7bed7d9f4e9d720"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-1",
+    "setup": {
+      "seed": 1,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 3014,
+      "fingerprint": "0e64936ae824656d"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-10",
+    "setup": {
+      "seed": 10,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3542,
+      "fingerprint": "0cbb77d256cfaf0b"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-11-commandes",
+    "setup": {
+      "seed": 11,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 65536000,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 170,
+          "skill": 1
+        },
+        {
+          "tick": 280,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 320,
+          "skill": 3
+        },
+        {
+          "tick": 500,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3809,
+      "fingerprint": "98d3a44e9033d0d0"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-12-placement",
+    "setup": {
+      "seed": 12,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        },
+        {
+          "unit": "m1",
+          "slot": 12
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2841,
+      "fingerprint": "2e3c7d07e9119497"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-13",
+    "setup": {
+      "seed": 13,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3641,
+      "fingerprint": "b6890f35b3cffe42"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-14-commandes",
+    "setup": {
+      "seed": 14,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 61603840,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 230,
+          "skill": 1
+        },
+        {
+          "tick": 340,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 380,
+          "skill": 3
+        },
+        {
+          "tick": 560,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3389,
+      "fingerprint": "40e9d86c90b82c2b"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-15-placement",
+    "setup": {
+      "seed": 15,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        },
+        {
+          "unit": "m1",
+          "slot": 12
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1882,
+      "fingerprint": "25232d960a733dda"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-16",
+    "setup": {
+      "seed": 16,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3498,
+      "fingerprint": "3100d510a0fe8877"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-17-commandes",
+    "setup": {
+      "seed": 17,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 64225280,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3711,
+      "fingerprint": "23221dc7a136d11c"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-18-placement",
+    "setup": {
+      "seed": 18,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        },
+        {
+          "unit": "m1",
+          "slot": 12
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2248,
+      "fingerprint": "7e0494c5cce897bf"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-19",
+    "setup": {
+      "seed": 19,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3804,
+      "fingerprint": "b7b609e3a4826046"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 64225280,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2922,
+      "fingerprint": "1e3d171f692b48be"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-20-commandes",
+    "setup": {
+      "seed": 20,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 66846720,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 3076,
+      "fingerprint": "a24b853ede9851f6"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        },
+        {
+          "unit": "m1",
+          "slot": 12
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2426,
+      "fingerprint": "e7bfb43e201f3c0d"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-4",
+    "setup": {
+      "seed": 4,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 3017,
+      "fingerprint": "9f16a32f1071bc5e"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 66846720,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3766,
+      "fingerprint": "441a4c9a5aa12181"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        },
+        {
+          "unit": "m1",
+          "slot": 12
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1872,
+      "fingerprint": "e63b28096f71fe7d"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-7",
+    "setup": {
+      "seed": 7,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3739,
+      "fingerprint": "8881f72b4aaba8fc"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 62914560,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 210,
+          "skill": 1
+        },
+        {
+          "tick": 320,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 360,
+          "skill": 3
+        },
+        {
+          "tick": 540,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 3663,
+      "fingerprint": "74eb2943f1f85fcb"
+    }
+  },
+  {
+    "name": "alpha-sol-arc-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 7
+        },
+        {
+          "unit": "s2",
+          "slot": 9
+        },
+        {
+          "unit": "s4",
+          "slot": 11
+        },
+        {
+          "unit": "m1",
+          "slot": 12
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 2465,
+      "fingerprint": "6696a934bc5f6af9"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-1",
+    "setup": {
+      "seed": 1,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1786,
+      "fingerprint": "1243f77423fe7b4e"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-10",
+    "setup": {
+      "seed": 10,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2540,
+      "fingerprint": "ad574e66e0628d66"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-11-commandes",
+    "setup": {
+      "seed": 11,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 39321600,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 170,
+          "skill": 1
+        },
+        {
+          "tick": 280,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 320,
+          "skill": 3
+        },
+        {
+          "tick": 500,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2667,
+      "fingerprint": "6296069d8ad71543"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-12-placement",
+    "setup": {
+      "seed": 12,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 10
+        },
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        },
+        {
+          "unit": "m1",
+          "slot": 15
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2124,
+      "fingerprint": "61fc58875341fc71"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-13",
+    "setup": {
+      "seed": 13,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2497,
+      "fingerprint": "acc8eaff145bbade"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-14-commandes",
+    "setup": {
+      "seed": 14,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 35389440,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 230,
+          "skill": 1
+        },
+        {
+          "tick": 340,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 380,
+          "skill": 3
+        },
+        {
+          "tick": 560,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2025,
+      "fingerprint": "a1e71d160ce7d1d8"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-15-placement",
+    "setup": {
+      "seed": 15,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 10
+        },
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        },
+        {
+          "unit": "m1",
+          "slot": 15
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1861,
+      "fingerprint": "1f26eeb6fdb4376f"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-16",
+    "setup": {
+      "seed": 16,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2755,
+      "fingerprint": "b68bb7867aa99b27"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-17-commandes",
+    "setup": {
+      "seed": 17,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 38010880,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1821,
+      "fingerprint": "02c021e33d8bda42"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-18-placement",
+    "setup": {
+      "seed": 18,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 10
+        },
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        },
+        {
+          "unit": "m1",
+          "slot": 15
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2022,
+      "fingerprint": "2e6dcf3056664bd6"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-19",
+    "setup": {
+      "seed": 19,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2760,
+      "fingerprint": "de808776ecf31017"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 130,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 38010880,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 190,
+          "skill": 1
+        },
+        {
+          "tick": 300,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 340,
+          "skill": 3
+        },
+        {
+          "tick": 520,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1783,
+      "fingerprint": "8ce482c7d26bae61"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-20-commandes",
+    "setup": {
+      "seed": 20,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 40632320,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2073,
+      "fingerprint": "aaa1daa7e3aee43d"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 10
+        },
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        },
+        {
+          "unit": "m1",
+          "slot": 15
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1981,
+      "fingerprint": "98cfdda435a9d353"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-4",
+    "setup": {
+      "seed": 4,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1797,
+      "fingerprint": "92c6aff50ca46b3e"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 90,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 40632320,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 150,
+          "skill": 1
+        },
+        {
+          "tick": 260,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 300,
+          "skill": 3
+        },
+        {
+          "tick": 480,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2913,
+      "fingerprint": "9c823842ebbfd0fb"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 10
+        },
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        },
+        {
+          "unit": "m1",
+          "slot": 15
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2104,
+      "fingerprint": "e7a66be907f38afe"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-7",
+    "setup": {
+      "seed": 7,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2603,
+      "fingerprint": "7f8b405c0608d251"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s4",
+          "slot": 0
+        },
+        {
+          "unit": "m1",
+          "slot": 1
+        },
+        {
+          "unit": "s2",
+          "slot": 2
+        },
+        {
+          "unit": "s1",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0,
+          "target": {
+            "kind": "point",
+            "x": 36700160,
+            "y": 24117248
+          }
+        },
+        {
+          "tick": 210,
+          "skill": 1
+        },
+        {
+          "tick": 320,
+          "skill": 2,
+          "target": {
+            "kind": "unit",
+            "id": 1
+          }
+        },
+        {
+          "tick": 360,
+          "skill": 3
+        },
+        {
+          "tick": 540,
+          "skill": 4,
+          "target": {
+            "kind": "unit",
+            "id": 2
+          }
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 2732,
+      "fingerprint": "7c7291f87670de9c"
+    }
+  },
+  {
+    "name": "alpha-sol-ring-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "alpha",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s1",
+          "slot": 10
+        },
+        {
+          "unit": "s2",
+          "slot": 12
+        },
+        {
+          "unit": "s4",
+          "slot": 14
+        },
+        {
+          "unit": "m1",
+          "slot": 15
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "victory",
+      "ticks": 1883,
+      "fingerprint": "765c13d7cf3aaf3f"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-1",
+    "setup": {
+      "seed": 1,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 711,
+      "fingerprint": "5bb3ccc509ee6c1a"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-10",
+    "setup": {
+      "seed": 10,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 695,
+      "fingerprint": "b06a32f219ac4bac"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0
+        },
+        {
+          "tick": 180,
+          "skill": 1
+        },
+        {
+          "tick": 290,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 757,
+      "fingerprint": "f458687e0e36a56a"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 647,
+      "fingerprint": "efdd40e76d65d663"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-4",
+    "setup": {
+      "seed": 4,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 725,
+      "fingerprint": "5c80516368ca033a"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0
+        },
+        {
+          "tick": 140,
+          "skill": 1
+        },
+        {
+          "tick": 250,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 786,
+      "fingerprint": "487ee18d0ce10289"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 670,
+      "fingerprint": "d9513e1a5097a84d"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-7",
+    "setup": {
+      "seed": 7,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 702,
+      "fingerprint": "248a20ae47f5bb9d"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0
+        },
+        {
+          "tick": 200,
+          "skill": 1
+        },
+        {
+          "tick": 310,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 753,
+      "fingerprint": "87b620fc5e6728a6"
+    }
+  },
+  {
+    "name": "bravo-orbital-arc-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 620,
+      "fingerprint": "4b849144b09f02c0"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-1",
+    "setup": {
+      "seed": 1,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 742,
+      "fingerprint": "cf68be0838dc10d6"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-10",
+    "setup": {
+      "seed": 10,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 752,
+      "fingerprint": "5b534405d752cf9a"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0
+        },
+        {
+          "tick": 180,
+          "skill": 1
+        },
+        {
+          "tick": 290,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 743,
+      "fingerprint": "a59d99c9e68480cf"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 739,
+      "fingerprint": "c794df1328d1fb1f"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-4",
+    "setup": {
+      "seed": 4,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 789,
+      "fingerprint": "e2f906c08fcd59bf"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0
+        },
+        {
+          "tick": 140,
+          "skill": 1
+        },
+        {
+          "tick": 250,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 824,
+      "fingerprint": "154decd1b9280dba"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 768,
+      "fingerprint": "ab6f92807a084b56"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-7",
+    "setup": {
+      "seed": 7,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 700,
+      "fingerprint": "28c5bcdb0699f6e6"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0
+        },
+        {
+          "tick": 200,
+          "skill": 1
+        },
+        {
+          "tick": 310,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 813,
+      "fingerprint": "cb33d10c6b669828"
+    }
+  },
+  {
+    "name": "bravo-orbital-ring-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "bravo",
+      "theatre": "orbital",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 712,
+      "fingerprint": "6ea8267fddf6346a"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-1",
+    "setup": {
+      "seed": 1,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 913,
+      "fingerprint": "2da14f036ed7837a"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-10",
+    "setup": {
+      "seed": 10,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1072,
+      "fingerprint": "87e2aa32cd9db451"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0
+        },
+        {
+          "tick": 180,
+          "skill": 1
+        },
+        {
+          "tick": 290,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1059,
+      "fingerprint": "dd5c7cf67089dfe7"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 647,
+      "fingerprint": "efdd40e76d65d663"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-4",
+    "setup": {
+      "seed": 4,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 957,
+      "fingerprint": "238d4d7c70fb89fc"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0
+        },
+        {
+          "tick": 140,
+          "skill": 1
+        },
+        {
+          "tick": 250,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1071,
+      "fingerprint": "905dddf71fbd4887"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 670,
+      "fingerprint": "d9513e1a5097a84d"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-7",
+    "setup": {
+      "seed": 7,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1095,
+      "fingerprint": "5d801f911ed3d4ee"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 7
+        },
+        {
+          "unit": "m2",
+          "slot": 8
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0
+        },
+        {
+          "tick": 200,
+          "skill": 1
+        },
+        {
+          "tick": 310,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 999,
+      "fingerprint": "f6a9a9e3b4133662"
+    }
+  },
+  {
+    "name": "bravo-sol-arc-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "arc",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 11
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 620,
+      "fingerprint": "4b849144b09f02c0"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-1",
+    "setup": {
+      "seed": 1,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1124,
+      "fingerprint": "6371a750bd4b3bda"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-10",
+    "setup": {
+      "seed": 10,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1198,
+      "fingerprint": "cb77e92fc28f45bd"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-2-commandes",
+    "setup": {
+      "seed": 2,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 150,
+          "skill": 0
+        },
+        {
+          "tick": 180,
+          "skill": 1
+        },
+        {
+          "tick": 290,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1144,
+      "fingerprint": "9c325d89fac219cb"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-3-placement",
+    "setup": {
+      "seed": 3,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 739,
+      "fingerprint": "c794df1328d1fb1f"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-4",
+    "setup": {
+      "seed": 4,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1166,
+      "fingerprint": "85daa6b7632e2301"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-5-commandes",
+    "setup": {
+      "seed": 5,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 110,
+          "skill": 0
+        },
+        {
+          "tick": 140,
+          "skill": 1
+        },
+        {
+          "tick": 250,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1120,
+      "fingerprint": "38d2b1ad23bc0e37"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-6-placement",
+    "setup": {
+      "seed": 6,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 768,
+      "fingerprint": "ab6f92807a084b56"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-7",
+    "setup": {
+      "seed": 7,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1162,
+      "fingerprint": "de95872724ed7748"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-8-commandes",
+    "setup": {
+      "seed": 8,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 8
+        },
+        {
+          "unit": "m2",
+          "slot": 9
+        }
+      ],
+      "planet": "gemenon",
+      "commands": [
+        {
+          "tick": 170,
+          "skill": 0
+        },
+        {
+          "tick": 200,
+          "skill": 1
+        },
+        {
+          "tick": 310,
+          "skill": 2
+        }
+      ]
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 1147,
+      "fingerprint": "b73a2e26a325a1b3"
+    }
+  },
+  {
+    "name": "bravo-sol-ring-9-placement",
+    "setup": {
+      "seed": 9,
+      "squad": "bravo",
+      "theatre": "sol",
+      "formation": "ring",
+      "placement": [
+        {
+          "unit": "s3",
+          "slot": 14
+        }
+      ],
+      "planet": "gemenon",
+      "commands": []
+    },
+    "expected": {
+      "outcome": "defeat",
+      "ticks": 712,
+      "fingerprint": "6ea8267fddf6346a"
+    }
+  }
+]

@@ -1,13 +1,18 @@
 <script lang="ts">
   import { derivedValues } from '@nova/data';
+  import { type CombatResult, type CombatSetup, runCombat } from '@nova/sim';
+  import { combatChoices, seedForCombat } from '../../state/combat.svelte';
+  import { deployment } from '../../state/deployment.svelte';
   import { selection } from '../../state/selection.svelte';
   import Btn from '../../ui/Btn.svelte';
   import Panel from '../../ui/Panel.svelte';
+  import AutoResolveModal from './AutoResolveModal.svelte';
 
   /**
    * Simulation hors ligne (renderBrief, lignes 1892-1907) : chances de victoire de
    * `derivedValues.briefing`. Sans unite engagee, la maquette affiche "NaN%" : ici "—" (FR-011).
-   * La resolution automatique releve d'une phase ulterieure (FR-018).
+   * "Resoudre automatiquement" calcule le combat par les regles de la sim, sans affichage ni
+   * competence, avec le placement courant (automatique s'il n'y en a pas) (FR-030a).
    */
   const chances = $derived(derivedValues.briefing[selection.current.squad].winChance);
   const couleur = $derived(
@@ -17,6 +22,24 @@
         ? 'var(--gold)'
         : 'var(--warn)',
   );
+
+  /** Entrees du combat a resoudre : placement du joueur s'il en a un, sinon automatique. */
+  const choix = $derived.by(() => {
+    const { squad, theatre, formation } = selection.current;
+    const f = formation[squad];
+    const place = deployment.has(squad, theatre, f)
+      ? deployment.placementFor(squad, theatre, f)
+      : undefined;
+    return combatChoices(squad, theatre, f, place && place.length > 0 ? place : undefined);
+  });
+
+  let resolution = $state.raw<{ setup: CombatSetup; result: CombatResult } | null>(null);
+
+  function resoudre() {
+    if (!choix) return;
+    const setup: CombatSetup = { ...choix, seed: seedForCombat(), commands: [] };
+    resolution = { setup, result: runCombat(setup) };
+  }
 </script>
 
 <Panel title="Simulation" right="CALCUL HORS LIGNE">
@@ -30,9 +53,21 @@
       Le scénario peut se dérouler sans vous : le combat est résolu en arrière-plan à partir de la
       puissance des deux camps, sans rendu. Vous récupérez le résultat et le butin à la reconnexion.
     </div>
-    <Btn style="width:100%;margin-top:11px" laterPhase="auto-resolve">Résoudre automatiquement</Btn>
+    <Btn style="width:100%;margin-top:11px" disabled={!choix} onclick={resoudre}>
+      Résoudre automatiquement
+    </Btn>
   </div>
 </Panel>
+
+{#if resolution}
+  <AutoResolveModal
+    setup={resolution.setup}
+    result={resolution.result}
+    onclose={() => {
+      resolution = null;
+    }}
+  />
+{/if}
 
 <style>
   .gauge {

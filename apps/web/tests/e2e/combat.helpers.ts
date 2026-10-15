@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import type { Locator, Page } from '@playwright/test';
 import { expect } from './fixtures';
 import { expectScreen } from './helpers';
@@ -39,3 +40,17 @@ export async function jusquALaFin(page: Page, maximumMs = 200_000): Promise<Loca
 
 export const attribut = async (page: Page, selecteur: string, nom: string): Promise<string> =>
   (await page.locator(selecteur).first().getAttribute(nom)) ?? '';
+
+/** Combats de reference de la sim (packages/sim/tests/golden/combats.json), lus sans @nova/sim. */
+export function combatDeReference(nom: string): {
+  expected: { outcome: string; ticks: number; fingerprint: string };
+} {
+  const fichier = new URL('../../../../packages/sim/tests/golden/combats.json', import.meta.url);
+  const combats = JSON.parse(readFileSync(fichier, 'utf8')) as {
+    name: string;
+    expected: { outcome: string; ticks: number; fingerprint: string };
+  }[];
+  const combat = combats.find((c) => c.name === nom);
+  if (!combat) throw new Error(`combat de reference introuvable : ${nom}`);
+  return combat;
+}

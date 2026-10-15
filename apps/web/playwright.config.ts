@@ -36,7 +36,12 @@ export default defineConfig({
       // Combats dans la duree : sans rendu, bien plus rapides (projet sans-gpu ci-dessous). Sur la
       // CI, le rendu logiciel de la scene ferait depasser le delai des tests qui avancent l'horloge
       // de plusieurs secondes.
-      testIgnore: ['e2e/combat-clock.spec.ts', 'e2e/combat-end.spec.ts'],
+      testIgnore: [
+        'e2e/combat-clock.spec.ts',
+        'e2e/combat-end.spec.ts',
+        'e2e/replay.spec.ts',
+        'e2e/auto-resolve.spec.ts',
+      ],
       use: { launchOptions: lancement([]) },
     },
     {
@@ -47,7 +52,14 @@ export default defineConfig({
     {
       name: 'sans-gpu',
       // Le combat avance sans acceleration graphique (cas limite de la spec P1).
-      testMatch: ['e2e/scene-modes.spec.ts', 'e2e/combat-clock.spec.ts', 'e2e/combat-end.spec.ts'],
+      testMatch: [
+        'e2e/scene-modes.spec.ts',
+        'e2e/combat-clock.spec.ts',
+        'e2e/combat-end.spec.ts',
+        'e2e/replay.spec.ts',
+        'e2e/auto-resolve.spec.ts',
+        'e2e/determinism.spec.ts',
+      ],
       use: { launchOptions: lancement(['--disable-gpu', '--disable-software-rasterizer']) },
     },
   ],

@@ -41,6 +41,8 @@ export interface HudSnapshot {
   readonly nextWaveSeconds: number;
   readonly actionPoints: number;
   readonly spentSkills: number;
+  /** Empreinte de l'etat, seulement avec `?diag=1` (FR-022). */
+  readonly fingerprint: string | undefined;
 }
 
 export interface ForceRow {
@@ -80,6 +82,7 @@ function instantane(c: Combat): HudSnapshot {
     nextWaveSeconds: Math.ceil(s.nextWaveIn / PAS_PAR_SECONDE),
     actionPoints: s.actionPoints,
     spentSkills: s.spentSkills,
+    fingerprint: teamParams.diag ? c.fingerprint() : undefined,
   };
 }
 
@@ -193,6 +196,15 @@ export function launchCombat(choices: Omit<CombatSetup, 'commands' | 'seed'>): v
   combatRuntime.start(
     teamParams.seed === undefined ? choices : { ...choices, seed: teamParams.seed },
   );
+}
+
+/** Graine d'un combat : celle de l'adresse (`?graine=`), sinon tiree au hasard. */
+export const seedForCombat = (): number =>
+  teamParams.seed ?? crypto.getRandomValues(new Uint32Array(1))[0] ?? 1;
+
+/** Rejoue des entrees completes a l'ecran (Revoir le combat, resolution automatique, FR-021). */
+export function replayCombat(setup: CombatSetup): void {
+  combatRuntime.replay(setup);
 }
 
 /** Vaisseaux et mecas engageables, pour savoir si un combat peut etre lance. */

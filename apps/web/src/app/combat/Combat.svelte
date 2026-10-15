@@ -75,7 +75,7 @@
     </div>
   {/if}
   {#if combatHud.end && combatHud.combat}
-    <EndModal result={combatHud.end} planet={combatHud.combat.setup.planet} />
+    <EndModal result={combatHud.end} setup={combatHud.combat.setup} />
   {/if}
 </section>
 

@@ -18,7 +18,6 @@ const CODES = [
   'map-move',
   'map-zoom',
   'spy-planet',
-  'auto-resolve',
   'open-crate',
 ];
 

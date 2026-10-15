@@ -18,6 +18,7 @@ semantiques presents dans tous les builds, sans code reserve aux tests.
 | `data-combat-phase`, `data-combat-mode` | racine de l'ecran Combat | cycle de vie, replay |
 | `role="dialog"`, `data-modal="end" \| "auto-resolve"`, `data-outcome` | fenetres | FR-030, FR-030a |
 | `data-fingerprint` | releve de mesures (`?diag=1`) et fenetre de resolution automatique | FR-022, R10 |
+| `data-fingerprint-final` | fenetre de fin du combat | FR-021, SC-003 |
 | `data-entities`, `data-tick` | releve de mesures | FR-035, FR-036 |
 | `data-slot`, `data-slot-kind`, `data-slot-line`, `data-slot-unit` | boutons d'emplacements | FR-037 a FR-043 |
 | `data-placed="<n>/<total>"` | en-tete de la liste "Unités à placer" | FR-042 |
@@ -44,4 +45,13 @@ sans parametre d'acceleration dans l'application (`research.md` R14).
 Les tests qui avancent l'horloge de plus de quelques centaines de millisecondes
 (`combat-clock.spec.ts`, `combat-end.spec.ts`) tournent dans le projet `sans-gpu` : chaque image
 avancee y est sans rendu, alors que le rendu logiciel de la scene, sur les 2 coeurs de la CI, leur
-faisait depasser le delai de 30 s (premier passage de la CI sur la PR 7).
+faisait depasser le delai de 30 s (premier passage de la CI sur la PR 7). Il en va de meme des
+combats menes a leur terme de `replay.spec.ts`, `auto-resolve.spec.ts` et de la seconde partie de
+`determinism.spec.ts`.
+
+La premiere partie de `determinism.spec.ts` (SC-004) compare l'affichage : rendu accelere ou de
+repli et trois tailles de fenetre, dans le projet `repli`. Elle arrete l'horloge avant le chargement
+(`install` puis `pauseAt`) pour que seul `runFor` la fasse avancer, avance d'une seconde et compare
+le pas et l'empreinte du badge de diagnostic : sans cet arret, le temps qui s'ecoule entre deux
+lectures decale l'empreinte d'un pas. L'egalite avec Node sur un combat complet est verifiee dans le
+projet `sans-gpu`.

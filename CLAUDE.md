@@ -58,11 +58,15 @@ pnpm --filter @nova/web test:e2e        # Playwright : parcours, scenes, mise en
 pnpm --filter @nova/web perf            # Lighthouse sur Escouades, score > 90 exige
 pnpm --filter @nova/web captures        # application et maquette cote a cote
 pnpm --filter @nova/web mockup:extract  # regenere les valeurs derivees de la maquette
+pnpm --filter @nova/sim test:browsers   # combats de reference dans Chromium, Firefox et WebKit
+pnpm --filter @nova/sim golden:update   # regenere les combats de reference (regles modifiees)
 ```
 
 Dans le conteneur de Claude Code, Playwright doit utiliser le Chromium
-preinstalle : prefixer ces quatre commandes par
-`PW_CHROMIUM_EXECUTABLE=/opt/pw-browsers/chromium`. La CI installe le sien.
+preinstalle : prefixer les quatre commandes de `@nova/web` et `test:browsers`
+par `PW_CHROMIUM_EXECUTABLE=/opt/pw-browsers/chromium`. Firefox et WebKit
+viennent de `pnpm --filter @nova/web exec playwright install firefox webkit`.
+La CI installe les siens.
 
 **pnpm, jamais npm ni yarn** : le workspace en depend, et un `package-lock.json`
 qui apparait dans un diff casse l'install de l'autre.

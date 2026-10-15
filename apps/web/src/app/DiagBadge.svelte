@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { diagnostic } from '../scene/renderer';
+  import { combatHud } from '../state/combat.svelte';
   import { router } from '../state/router.svelte';
 
   /**
@@ -41,6 +42,12 @@
     <dd>
       {router.lastTransitionMs === undefined ? '—' : `${Math.round(router.lastTransitionMs)} ms`}
     </dd>
+    {#if router.route.screen === 'combat' && combatHud.hud}
+      <dt>Pas</dt>
+      <dd data-tick={combatHud.hud.tick}>{combatHud.hud.tick}</dd>
+      <dt>Empreinte</dt>
+      <dd data-fingerprint={combatHud.hud.fingerprint}>{combatHud.hud.fingerprint ?? '—'}</dd>
+    {/if}
   </dl>
 </aside>
 

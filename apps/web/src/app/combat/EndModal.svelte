@@ -1,6 +1,7 @@
 <script lang="ts">
   import { planetById } from '@nova/data';
-  import type { CombatResult } from '@nova/sim';
+  import type { CombatResult, CombatSetup } from '@nova/sim';
+  import { replayCombat } from '../../state/combat.svelte';
   import { navigate } from '../../state/router.svelte';
   import Btn from '../../ui/Btn.svelte';
   import { nombre } from '../../ui/format';
@@ -8,9 +9,11 @@
 
   /**
    * Fenetre de fin de combat (endCombat, lignes 2358-2375 ; FR-030). Le butin est estime, jamais
-   * credite (phase P5 de la feuille de route).
+   * credite (phase P5 de la feuille de route). "Revoir le combat" le rejoue a l'identique a partir
+   * de ses entrees et de son journal de commandes (FR-021).
    */
-  let { result, planet }: { result: CombatResult; planet: string } = $props();
+  let { result, setup }: { result: CombatResult; setup: CombatSetup } = $props();
+  const planet = $derived(setup.planet);
 
   const victoire = $derived(result.outcome === 'victory');
   const cible = $derived(planetById(planet)?.name.toUpperCase() ?? '');
@@ -46,6 +49,7 @@
     <div class="commandes">
       <Btn onclick={() => navigate({ screen: 'deploiement' })}>Redéployer</Btn>
       <Btn variant="ghost" onclick={() => navigate({ screen: 'carte' })}>Retour à la carte</Btn>
+      <Btn variant="ghost" onclick={() => replayCombat(setup)}>Revoir le combat</Btn>
     </div>
   </div>
 </Modal>
