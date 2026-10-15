@@ -23,8 +23,6 @@ const CODES = [
   'pick-unit',
   'auto-deploy',
   'clear-deploy',
-  'commander-action',
-  'ultimate',
   'open-crate',
 ];
 
@@ -55,7 +53,9 @@ test.describe('SC-012 : commandes d une phase ulterieure', () => {
   test.use({ reducedMotion: 'reduce' });
   test.describe.configure({ timeout: 60_000 });
 
-  for (const ecran of SCREENS) {
+  // L'ecran Combat n'a plus de commande d'une phase ulterieure en phase P1 de la feuille de route,
+  // et son contenu change a chaque pas : il est verifie par combat.spec.ts.
+  for (const ecran of SCREENS.filter((e) => e !== 'combat')) {
     test(`${ecran} : message bref, aucune valeur modifiee`, async ({ page }) => {
       await gotoScreen(page, ecran);
       const section = page.locator(`[data-screen="${ecran}"]`);

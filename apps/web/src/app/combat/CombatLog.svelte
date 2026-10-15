@@ -1,31 +1,21 @@
 <script lang="ts">
-  import { derivedValues } from '@nova/data';
-  import { selection } from '../../state/selection.svelte';
+  import { combatHud } from '../../state/combat.svelte';
   import Panel from '../../ui/Panel.svelte';
 
   /**
-   * Journal du combat a son etat initial (startCombat, lignes 2179-2180, puis spawnWave, ligne
-   * 2201 ; CSS 549-553) : deploiement, formation et annonce de la premiere vague, le plus recent en
-   * premier.
+   * Journal du combat (FR-029, CSS 549-553) : messages de la maquette construits a partir des
+   * evenements (state/combat-log.ts), le plus recent en premier, 11 lignes au plus.
    */
-  const premiere = derivedValues.mission.waves[0];
-  const unites = $derived(
-    derivedValues.combatStart[selection.current.squad][selection.current.theatre].units.length,
-  );
-  const formation = $derived(
-    selection.current.formation[selection.current.squad] === 'ring' ? '360°' : 'en arc',
-  );
 </script>
 
 <Panel title="Journal" class="clog">
-  <div class="lignes">
-    {#if premiere}
-      <div class="ll" class:gold={premiere.boss}>
-        Vague 01 — {premiere.composition}{premiere.boss ? ' · BOSS' : ''}
+  <div class="lignes" aria-live="off">
+    {#each combatHud.log as ligne (ligne.id)}
+      <div class="ll {ligne.tone}">
+        {#each ligne.parts as morceau, i (i)}{#if morceau.strong}<b>{morceau.text}</b
+            >{:else}{morceau.text}{/if}{/each}
       </div>
-    {/if}
-    <div class="ll">Formation {formation} · objectif au centre du dispositif</div>
-    <div class="ll ok">Escouade déployée — {unites} unités en position</div>
+    {/each}
   </div>
 </Panel>
 
@@ -41,6 +31,13 @@
   }
   .ll.ok {
     color: var(--ok);
+  }
+  .ll.crit {
+    color: var(--warn);
+  }
+  .ll b {
+    color: var(--paper);
+    font-weight: 400;
   }
   .ll.gold {
     color: var(--gold);

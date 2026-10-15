@@ -31,7 +31,12 @@ export default defineConfig({
     timeout: 180_000,
   },
   projects: [
-    { name: 'repli', use: { launchOptions: lancement([]) } },
+    {
+      name: 'repli',
+      // Combats complets : sans rendu, bien plus rapides (projet sans-gpu ci-dessous).
+      testIgnore: ['e2e/combat-end.spec.ts'],
+      use: { launchOptions: lancement([]) },
+    },
     {
       name: 'webgpu',
       testMatch: 'e2e/scene-modes.spec.ts',
@@ -39,7 +44,8 @@ export default defineConfig({
     },
     {
       name: 'sans-gpu',
-      testMatch: 'e2e/scene-modes.spec.ts',
+      // Le combat avance sans acceleration graphique (cas limite de la spec P1).
+      testMatch: ['e2e/scene-modes.spec.ts', 'e2e/combat-end.spec.ts'],
       use: { launchOptions: lancement(['--disable-gpu', '--disable-software-rasterizer']) },
     },
   ],

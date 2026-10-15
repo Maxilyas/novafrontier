@@ -29,13 +29,13 @@ Arene : 1 600 x 816 unites. Plateau de deploiement : 988 x 752 unites (maquette)
 | `relicPosition` | `ring: {x: 800, y: 408}`, `arc: {x: 1200, y: 408}` | maquette, `startCombat` |
 | `board` | `{ width: 988, height: 752 }` ; objectif `ring: {494, 376}`, `arc: {818, 376}` | maquette, `buildSlots` |
 | `boardToArena` | `{ x: 1.04, y: 0.98 }` | maquette, `startCombat` |
-| `slots.ring` | premiere ligne : 8, rayon 132, depart -90 degres ; seconde : 8, rayon 236, decalage d'un demi-pas | maquette, `buildSlots` |
-| `slots.arc` | premiere ligne : 7, rayon 340, de pi - 0,95 sur 1,9 rad ; seconde : 6, rayon 225, de pi - 0,8 sur 1,6 rad | maquette, `buildSlots` |
+| `slots.ring` | par ligne `{ count, radius, startRad, stepRad }` : premiere 8, rayon 132, depart -pi/2, pas pi/4 ; seconde 8, rayon 236, decalee d'un demi-pas | maquette, `buildSlots` |
+| `slots.arc` | premiere 7, rayon 340, depart pi - 0,95, pas 1,9/6 ; seconde 6, rayon 225, depart pi - 0,8, pas 1,6/5 | maquette, `buildSlots` |
 | `slotTypes` | alternance par ligne, `ship` en premier | Clarifications |
-| `spawn` | `ring` : tour complet ; `arc` : pi +/- 0,75 rad ; distance 520 + [0, 140), boss 620 ; aplatissement vertical 0,72 | maquette, `spawnWave` |
+| `spawn` | `sector` par formation `{ centerRad, halfWidthRad }` (`ring` : 0 +/- pi, tour complet ; `arc` : pi +/- 0,75) ; `distance` `{ min: 520, range: 140, boss: 620 }` ; `squash` 0,72 | maquette, `spawnWave` |
 | `cooldownMs` | unite 550 ; ennemi contre unite 700 ; ennemi contre relique 800 | R5 |
 | `waveIntervalMs` | 12 000 | Clarifications |
-| `relicStrikeRadius` | 70 ; part de l'attaque 0,5 | maquette, `combatLoop` |
+| `relicStrike` | `{ radius: 70, attackShare: 0.5 }` | maquette, `combatLoop` |
 | `defenseConstant` | 130 | maquette, `dmg` |
 | `minDamage` | 1 | maquette, `dmg` |
 | `maxDurationMs` | 600 000 | spec, Assumptions |
@@ -148,11 +148,11 @@ forme demandee par `target` de la competence. Une commande mal formee est une er
 |---|---|
 | general | `tick`, `rng` (4 mots), `outcome` (`'running' \| 'victory' \| 'defeat'`), `endReason` (`'relic' \| 'cleared' \| 'timeout'`) |
 | relique | `hp: Fixed`, `maxHp: Fixed`, `x`, `y` |
-| unites (`CombatUnit`) | `id`, `unitId`, `slot`, `line`, `kind`, `x`, `y`, `hp`, `maxHp` (`Fixed`), `attack`, `defense`, `range`, `weapon`, `cooldown` (pas restants), `attackBuffUntilWave` (rang de vague ou -1) |
+| unites (`CombatUnit`) | `id`, `unitId`, `slot`, `line`, `kind`, `x`, `y`, `hp`, `maxHp` (`Fixed`), `attack`, `defense`, `range`, `weapon`, `cooldown` (pas restants), `attackBuff` (`{ value, wave }` ou nul : valable tant que `spawned` vaut `wave`) |
 | ennemis (`CombatEnemy`) | `id`, `wave` (rang), `threat`, `weapon`, `x`, `y`, `hp`, `maxHp`, `attack`, `defense`, `range`, `speed` (`Fixed` par pas), `cooldown`, `frozen` (pas restants) |
 | vagues | `waves` (liste de `WaveSpec`), `spawned` (nombre), `nextWaveIn` (pas) |
-| effets | `defenseBuff` (`{ multiplier, ticks }` ou nul), `frontDamageCut` (idem), `enemyMiss` (`{ chance, ticks }` ou nul) |
-| commandant | `actionPoints`, `spentSkills` (masque de bits), `pillage` (`{ wave, status: 'pending' \| 'won' \| 'lost' }` ou nul) |
+| effets | `defenseBuff`, `frontDamageCut`, `enemyMiss` : `{ value, ticks }` (multiplicateur ou chance en 16.16, pas restants) ou nul |
+| commandant | `actionPoints`, `spentSkills` (masque de bits), `pillage` (`{ wave, share, skill, status: 'pending' \| 'won' \| 'lost' }` ou nul) |
 
 Les unites detruites restent dans `units` (PV a zero, n'agissent plus) ; les ennemis detruits sont
 retires a la fin du pas (R6). L'etat est en lecture seule pour l'application (principe III).
@@ -164,11 +164,11 @@ Types de `plan.md` §6, avec leurs donnees :
 | `type` | Donnees |
 |---|---|
 | `wave` | `index`, `boss`, `composition` |
-| `spawn` | `id`, `threat`, `x`, `y` |
+| `spawn` | `id`, `threat`, `weapon`, `x`, `y` |
 | `shot` | `from`, `to` (identifiants, 0 pour la relique), `weapon`, `missed` |
 | `hit` | `target`, `damage: Fixed`, `multiplier: Fixed` (matrice) |
 | `death` | `id`, `side` (`'unit' \| 'enemy'`), `boss` |
-| `skill` | `skill`, `applied`, `target?`, `bonus?` (`'loot'` quand Pillage est obtenu) |
+| `skill` | `skill`, `applied`, `failure?` (`'spent' \| 'no-points' \| 'no-target'`), `target?`, `at?` (point vise, pour la scene), `bonus?` (`'loot'` quand Pillage est obtenu) |
 | `objective` | `damage: Fixed`, `hp: Fixed` (relique touchee) |
 | `end` | `outcome`, `reason` |
 

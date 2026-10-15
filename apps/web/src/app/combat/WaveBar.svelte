@@ -1,18 +1,33 @@
 <script lang="ts">
   import { derivedValues } from '@nova/data';
+  import { combatHud } from '../../state/combat.svelte';
 
   /**
-   * Bandeau de vagues (lignes 818-822 ; CSS 535-541), a l'etat initial du combat : premiere vague
-   * annoncee, relique intacte (FR-022).
+   * Bandeau de vagues (lignes 818-822 ; CSS 535-541), a jour a chaque pas (FR-027, FR-028) :
+   * vague courante, integrite de la relique, temps avant la vague suivante. Sans combat, l'etat
+   * initial de la mission.
    */
   const deux = (n: number) => String(n).padStart(2, '0');
-  const { mission, combat } = derivedValues;
+  const minuteur = (s: number) => `${Math.floor(s / 60)}:${deux(s % 60)}`;
+
+  const hud = $derived(combatHud.hud);
+  const vague = $derived(hud?.wave ?? 1);
+  const total = $derived(hud?.waves ?? derivedValues.mission.waves.length);
+  const relique = $derived(Math.round((hud?.relic ?? 1) * 100));
+  const prochaine = $derived(hud?.nextWaveSeconds ?? 12);
 </script>
 
 <div class="ctop">
-  <div class="wavebox">VAGUE <b>{deux(1)}</b> / <b>{deux(mission.waves.length)}</b></div>
-  <div class="objbar"><i style="width:100%"></i><span>RELIQUE 100%</span></div>
-  <div class="wavebox">PROCHAINE <b>{combat.nextWaveIn}</b></div>
+  <div class="wavebox" data-wave-current={vague} data-wave-total={total}>
+    VAGUE <b>{deux(vague)}</b> / <b>{deux(total)}</b>
+  </div>
+  <div class="objbar" data-relic-percent={relique}>
+    <i style:width="{(hud?.relic ?? 1) * 100}%"></i><span>RELIQUE {relique}%</span>
+  </div>
+  <div class="wavebox" data-next-wave-seconds={prochaine}>
+    PROCHAINE <b>{minuteur(prochaine)}</b>
+  </div>
+  {#if combatHud.replay}<div class="wavebox replay" role="status">REPLAY</div>{/if}
 </div>
 
 <style>
@@ -25,6 +40,7 @@
     align-items: center;
     gap: 14px;
     z-index: 8;
+    pointer-events: none;
   }
   .wavebox {
     padding: 6px 15px;
@@ -39,6 +55,10 @@
   .wavebox b {
     color: var(--paper);
     font-weight: 400;
+  }
+  .wavebox.replay {
+    color: var(--gold);
+    border-color: var(--gold);
   }
   .objbar {
     width: 320px;

@@ -18,9 +18,16 @@ export interface SceneHandle {
   onModeChange(listener: (mode: RenderMode) => void): () => void;
 }
 
-/** Contenu d'une scene, que les scenes des phases P1 et P2 de la feuille de route reutiliseront. */
+/** Contenu d'une scene (contracts/scenes.md de la feature simulation-combat). */
 export interface SceneModule {
   create(app: Application): SceneInstance;
+  /**
+   * Reste animee quand le systeme demande de reduire les animations : la scene fige elle-meme ses
+   * decorations, mais continue de montrer ce qui porte l'information (deplacements du combat).
+   */
+  readonly animateWhenReducedMotion?: boolean;
+  /** Options d'initialisation propres a la scene ; par defaut, celles de la phase P0. */
+  readonly init?: { readonly antialias?: boolean };
 }
 
 export interface SceneInstance {

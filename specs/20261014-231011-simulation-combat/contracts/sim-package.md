@@ -33,7 +33,10 @@ export function validatePlacement(
 // Combat (data-model.md §3.3-3.7)
 export interface Combat {
   readonly state: Readonly<CombatState>;
-  readonly setup: Readonly<CombatSetup>;
+  readonly setup: Readonly<CombatSetup>;   // journal de commandes a jour compris
+  readonly initialEvents: readonly SimEvent[]; // pas 0 : apparition de la premiere vague
+  readonly slots: readonly Slot[];         // emplacements de la formation et du theatre
+  readonly bar: readonly Skill[];          // competences de la barre d'actions, par rang
   /** Avance d'un pas : applique les commandes datees de ce pas. Sans effet apres la fin. */
   step(): readonly SimEvent[];
   /** Ajoute une commande pour un pas futur (> state.tick) ; journal en direct. */

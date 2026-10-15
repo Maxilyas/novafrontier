@@ -4,7 +4,8 @@ import { describe, expect, it } from 'vitest';
 
 /**
  * Garde-fou du principe II de la constitution : la simulation est deterministe et ne depend ni
- * du DOM, ni d'une horloge, ni d'un tirage non seede (contracts/sim-package.md).
+ * du DOM, ni d'une horloge, ni d'un tirage non seede, ni d'une fonction dont la precision varie
+ * d'un moteur a l'autre (contracts/sim-package.md, research R2).
  */
 
 const racine = join(import.meta.dirname, '..');
@@ -20,12 +21,33 @@ const fichiers = (dossier: string): string[] =>
         : [];
   });
 
+/** Retire les commentaires : ils peuvent citer une fonction interdite sans l'appeler. */
+const sansCommentaires = (texte: string) =>
+  texte.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+
 const INTERDITS: readonly [string, RegExp][] = [
   ['Math.random', /\bMath\.random\b/],
   ['Math.sin', /\bMath\.sin\b/],
   ['Math.cos', /\bMath\.cos\b/],
   ['Math.atan2', /\bMath\.atan2\b/],
   ['Math.hypot', /\bMath\.hypot\b/],
+  // ECMAScript laisse leur precision au moteur ("implementation-approximated").
+  ['Math.pow', /\bMath\.pow\b/],
+  ['Math.exp', /\bMath\.exp\b/],
+  ['Math.expm1', /\bMath\.expm1\b/],
+  ['Math.log', /\bMath\.log\b/],
+  ['Math.log2', /\bMath\.log2\b/],
+  ['Math.log10', /\bMath\.log10\b/],
+  ['Math.log1p', /\bMath\.log1p\b/],
+  ['Math.tan', /\bMath\.tan\b/],
+  ['Math.asin', /\bMath\.asin\b/],
+  ['Math.acos', /\bMath\.acos\b/],
+  ['Math.atan', /\bMath\.atan\b/],
+  ['Math.sinh', /\bMath\.sinh\b/],
+  ['Math.cosh', /\bMath\.cosh\b/],
+  ['Math.tanh', /\bMath\.tanh\b/],
+  ['Math.cbrt', /\bMath\.cbrt\b/],
+  ['operateur **', /\*\*/],
   ['Date.now', /\bDate\.now\b/],
   ['new Date', /\bnew\s+Date\b/],
   ['performance.now', /\bperformance\.now\b/],
@@ -35,7 +57,10 @@ const INTERDITS: readonly [string, RegExp][] = [
 ];
 
 describe('purete de @nova/sim', () => {
-  const sources = fichiers(src).map((f) => ({ f, texte: readFileSync(f, 'utf8') }));
+  const sources = fichiers(src).map((f) => ({
+    f,
+    texte: sansCommentaires(readFileSync(f, 'utf8')),
+  }));
 
   it('trouve les sources', () => {
     expect(sources.length).toBeGreaterThan(0);

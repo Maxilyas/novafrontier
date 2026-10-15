@@ -12,7 +12,8 @@ semantiques presents dans tous les builds, sans code reserve aux tests.
 | `data-next-wave-seconds` | minuteur | FR-003, FR-027 |
 | `data-unit`, `data-hp`, `data-destroyed` | chaque ligne de la force engagee | FR-027, SC-011 |
 | `data-action-points` | pastilles de points d'action | FR-012 |
-| `data-skill="<rang>"`, `aria-disabled` | chaque competence de la barre d'actions | FR-013 |
+| `data-skill="<rang>"`, `aria-disabled`, `aria-pressed` | chaque competence de la barre d'actions | FR-013 |
+| `data-ultimate` | bouton de l'ultime de palier | FR-015 |
 | `data-designating="<rang>"` | ecran Combat pendant une designation | FR-013 |
 | `data-combat-phase`, `data-combat-mode` | racine de l'ecran Combat | cycle de vie, replay |
 | `role="dialog"`, `data-modal="end" \| "auto-resolve"`, `data-outcome` | fenetres | FR-030, FR-030a |
@@ -26,9 +27,13 @@ semantiques presents dans tous les builds, sans code reserve aux tests.
 Ces commandes deviennent actives en phase P1 de la feuille de route : `auto-resolve`,
 `auto-deploy-toggle`, `pick-unit`, `auto-deploy`, `clear-deploy`, `commander-action`.
 
-`ultimate` reste une commande sans effet, mais affiche le message de la maquette ("Capacité ultime —
-débloquée au niveau 50, réservée aux boss") au lieu de "Pas encore disponible" (FR-015) ; le test
-SC-012 de la phase P0 en tient compte.
+`ultimate` quitte aussi l'inventaire : le bouton porte `data-ultimate`, reste sans effet sur le
+combat et affiche le message de la maquette ("Capacité ultime — débloquée au niveau 50, réservée aux
+boss") au lieu de "Pas encore disponible" (FR-015). L'ecran Combat n'a donc plus de commande d'une
+phase ulterieure : le test SC-012 de la phase P0 ne le parcourt plus.
+
+"Lancer le combat" devient un bouton (il lance le moteur avant d'ouvrir l'ecran) : les tests de
+parcours de la phase P0 le cherchent comme lien ou comme bouton.
 
 ## Horloge des tests
 

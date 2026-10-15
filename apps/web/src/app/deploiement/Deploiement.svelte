@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { derivedValues } from '@nova/data';
   import SceneHost from '../../scene/SceneHost.svelte';
-  import { toHash } from '../../state/router.svelte';
+  import { combatChoices, launchCombat } from '../../state/combat.svelte';
+  import { navigate } from '../../state/router.svelte';
   import { selection } from '../../state/selection.svelte';
   import Btn from '../../ui/Btn.svelte';
   import Panel from '../../ui/Panel.svelte';
@@ -13,11 +13,22 @@
   /**
    * Ecran 07 · Deploiement (maquette, lignes 805-811 et 2072-2144, CSS 503-528). La scene occupe la
    * zone centrale, a la place du plateau (FR-020, FR-022). "Lancer le combat" est inactif quand
-   * l'escouade n'engage aucune unite (FR-019).
+   * l'escouade n'engage aucune unite (FR-019) ; sinon il lance un nouveau combat, qui remplace
+   * tout combat en cours, puis ouvre l'ecran Combat (FR-031).
    */
-  const engagees = $derived(
-    derivedValues.deployment[selection.current.squad][selection.current.theatre].units,
+  const choix = $derived(
+    combatChoices(
+      selection.current.squad,
+      selection.current.theatre,
+      selection.current.formation[selection.current.squad],
+    ),
   );
+
+  function lancer() {
+    if (!choix) return;
+    launchCombat(choix);
+    navigate({ screen: 'combat' });
+  }
   const spatial = $derived(selection.current.theatre === 'orbital');
 </script>
 
@@ -45,12 +56,7 @@
     <Disposition />
     <ObjectivePanel />
     <Assistance />
-    <Btn
-      variant="solid"
-      href={engagees.length > 0 ? toHash({ screen: 'combat' }) : undefined}
-      disabled={engagees.length === 0}
-      style="width:100%;padding:13px"
-    >
+    <Btn variant="solid" disabled={!choix} onclick={lancer} style="width:100%;padding:13px">
       Lancer le combat
     </Btn>
   </div>

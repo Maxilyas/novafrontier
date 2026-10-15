@@ -13,8 +13,8 @@ export interface CombatRuntime {
   readonly phase: RuntimePhase;
   readonly mode: RuntimeMode;
   readonly combat: Combat | undefined;              // @nova/sim
-  /** Lance un combat en direct (Lancer le combat, adresse directe). */
-  start(setup: Omit<CombatSetup, 'commands'>): void;
+  /** Lance un combat en direct (Lancer le combat, adresse directe) ; graine tiree si absente. */
+  start(setup: Omit<CombatSetup, 'commands' | 'seed'> & { seed?: number }): void;
   /** Rejoue des entrees completes (Revoir le combat, resolution automatique). */
   replay(setup: CombatSetup): void;
   pause(): void;                                    // ecran quitte
@@ -28,10 +28,13 @@ export interface CombatRuntime {
   /** Interpolation : 0 a 1, temps accumule depuis le dernier pas sur 50 ms. */
   alpha(now: number): number;
   previousPosition(id: number): { x: number; y: number } | undefined;
-  /** Abonnements : appeles apres chaque pas (evenements du pas) et a chaque changement de phase. */
-  onStep(listener: (events: readonly SimEvent[]) => void): () => void;
-  onPhase(listener: (phase: RuntimePhase) => void): () => void;
+  /** Abonnements : apres chaque pas (et au lancement, avec les evenements du pas 0), puis a chaque
+   *  changement de phase, de mode ou de designation. */
+  onStep(listener: (events: readonly SimEvent[], combat: Combat) => void): () => void;
+  onChange(listener: () => void): () => void;
 }
+/** Environnement injecte (images, visibilite de l'onglet, graine) : une fausse horloge en test. */
+export function createRuntime(env: RuntimeEnv): CombatRuntime;
 export const combatRuntime: CombatRuntime;          // instance unique de la page
 ```
 

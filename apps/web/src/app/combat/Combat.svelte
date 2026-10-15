@@ -1,24 +1,57 @@
 <script lang="ts">
   import { demoState, planetById } from '@nova/data';
+  import { onMount } from 'svelte';
   import SceneHost from '../../scene/SceneHost.svelte';
+  import { combatChoices, combatHud, launchCombat } from '../../state/combat.svelte';
+  import { combatRuntime } from '../../state/combat-runtime';
   import { selection } from '../../state/selection.svelte';
   import ActionBar from './ActionBar.svelte';
   import CombatLog from './CombatLog.svelte';
+  import EndModal from './EndModal.svelte';
   import Forces from './Forces.svelte';
   import Trinity from './Trinity.svelte';
   import WaveBar from './WaveBar.svelte';
 
   /**
-   * Ecran 08 · Combat (maquette, lignes 813-828 et 2161-2335, CSS 529-573), a son etat initial
-   * (FR-022). L'intitule suit le theatre choisi au Briefing et la planete visee (FR-017), comme
-   * #combatname (ligne 2178). La scene occupe tout l'ecran, sous le HUD, a la place de l'arene
-   * (FR-020, FR-022).
+   * Ecran 08 · Combat (maquette, lignes 813-828 et 2161-2375, CSS 529-573). Le combat se deroule
+   * dans la scene, sous le HUD (FR-024 a FR-030). A l'ouverture : reprise du combat en pause, ou
+   * nouveau combat avec les choix courants (FR-031) ; en quittant l'ecran, pause (FR-032).
    */
   const cible = planetById(demoState.mission.target);
   const theatre = $derived(selection.current.theatre === 'orbital' ? 'ORBITAL' : 'TERRESTRE');
+  let sansUnite = $state(false);
+
+  onMount(() => {
+    if (combatRuntime.phase === 'paused') {
+      combatRuntime.resume();
+    } else if (combatRuntime.phase !== 'running') {
+      const { squad, theatre: t, formation } = selection.current;
+      const choix = combatChoices(squad, t, formation[squad]);
+      if (choix) launchCombat(choix);
+      else sansUnite = true;
+    }
+    return () => combatRuntime.pause();
+  });
+
+  function clavier(e: KeyboardEvent) {
+    if (e.key === 'Escape' && combatHud.designation) {
+      e.preventDefault();
+      combatRuntime.cancelDesignation();
+    }
+  }
 </script>
 
-<section class="screen combat" data-screen="combat" aria-label="Combat" tabindex="-1">
+<svelte:window onkeydown={clavier} />
+
+<section
+  class="screen combat"
+  data-screen="combat"
+  aria-label="Combat"
+  tabindex="-1"
+  data-combat-phase={combatHud.phase}
+  data-combat-mode={combatHud.mode}
+  data-designating={combatHud.designation?.skill}
+>
   <SceneHost scene="combat" />
   <h1 class="tag">
     // 08 · <b>COMBAT</b> — {theatre} · DÉFENSE DE LA RELIQUE · {cible?.name.toUpperCase()}
@@ -28,6 +61,14 @@
   <Trinity />
   <CombatLog />
   <ActionBar />
+  {#if sansUnite}
+    <div class="vide panel notched" role="status">
+      Aucune unité engagée : l'escouade n'a ni vaisseau ni méca pour ce théâtre.
+    </div>
+  {/if}
+  {#if combatHud.end && combatHud.combat}
+    <EndModal result={combatHud.end} planet={combatHud.combat.setup.planet} />
+  {/if}
 </section>
 
 <style>
@@ -63,5 +104,15 @@
   }
   .combat :global(.panel .hd) {
     font-size: 10px;
+  }
+  .vide {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+    padding: 14px 18px;
+    font-size: 10.5px;
+    color: var(--muted);
   }
 </style>

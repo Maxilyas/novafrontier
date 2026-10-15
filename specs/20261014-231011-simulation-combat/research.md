@@ -75,7 +75,8 @@ vecteur vers la cible est normalise par `isqrt` (R2), ce qui supprime tout `atan
 
 Usages : direction d'apparition des ennemis (R4), emplacements des formations (data-model.md
 §2.3). Les angles de la formation en arc de la maquette, exprimes en radians, sont arrondis au
-1/1024 de tour le plus proche (ecart de position inferieur a 1 unite d'arene).
+1/1024 de tour le plus proche (ecart de position inferieur a 1,5 unite d'arene, verifie par
+`tests/formation.test.ts`).
 
 **Rationale** : aucune fonction trigonometrique a l'execution ; une table d'un quart de tour
 suffit et se verifie en une ligne.
@@ -376,7 +377,9 @@ parametre `?vitesse=` (code de test dans l'application, que l'horloge de Playwri
   "Deploiement automatique", interrupteur du Briefing, memorisation, SC-011) ; combat complet avec
   l'horloge de la page,
   competences et designation, fenetre de fin, "Revoir le combat", resolution automatique, pause hors
-  ecran, combat sans acceleration graphique (projet `sans-gpu`), tailles de fenetre, empreinte avec
+  ecran, combats complets jusqu'a la fenetre de fin dans le projet `sans-gpu` (sans rendu, l'horloge
+  de page avance un combat de deux minutes en quelques secondes ; c'est aussi la preuve que le
+  combat avance sans acceleration graphique), tailles de fenetre, empreinte avec
   `?graine=` (R10), scenario de charge (au moins 60 entites atteintes ; la cadence se mesure a la
   main, la CI rendant en logiciel).
 - **CI** (`tests.yml`) : installation de Chromium, Firefox et WebKit, puis `test:browsers` de la

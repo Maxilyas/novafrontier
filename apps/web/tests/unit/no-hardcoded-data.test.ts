@@ -15,6 +15,7 @@ const VOCABULAIRE_D_INTERFACE = new Set([
   'Déploiement automatique', // interrupteur du Briefing et bouton du Deploiement
   'Slot légendaire', // rubrique du plateau d'Escouades et des caracteristiques de l'Atlas
   'Porte-nefs', // titre de la note du porte-nefs dans l'Atlas
+  'Capacité ultime', // message bref de l'ultime verrouille en Combat (maquette, ligne 2334)
 ]);
 
 const SRC = new URL('../../src/', import.meta.url);

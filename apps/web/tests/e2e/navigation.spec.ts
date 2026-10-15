@@ -15,10 +15,14 @@ const nav =
   (page) =>
     mainNav(page).getByRole('link', { name: libelle, exact: true }).click();
 
+/** Commande de parcours : un lien, ou un bouton comme "Lancer le combat" (phase P1). */
 const lien =
   (libelle: string): Action =>
   (page) =>
-    page.getByRole('link', { name: libelle, exact: true }).click();
+    page
+      .getByRole('link', { name: libelle, exact: true })
+      .or(page.getByRole('button', { name: libelle, exact: true }))
+      .click();
 
 /**
  * Bouton "Fiche" d'une carte des effectifs d'Escouades (FR-004). Il apparait au survol de la
