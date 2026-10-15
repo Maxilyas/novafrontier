@@ -216,16 +216,16 @@ Arborescence de `plan.md` (section Project Structure) : `packages/data/`, `packa
 
 ### Tests for User Story 4 ⚠️
 
-- [ ] T078 [P] [US4] Ecrire `packages/sim/tests/briefing.test.ts` (R9, SC-008) : pour Alpha, Bravo et Charlie, `squadSummary` = `derivedValues.squads`, `briefing` = `derivedValues.briefing`, `route(gemenon)` = `derivedValues.route`, `wavesFor` = `derivedValues.mission.waves`, `ultimateStatus(47)` = `derivedValues.combat.ultimate`, aux seuls ecarts admis listes dans le test (compositions de vagues, delai "0:12" au lieu de "0:03")
-- [ ] T079 [P] [US4] Ecrire `apps/web/tests/unit/no-derived-values.test.ts` : aucun import de `derivedValues` dans `apps/web/src` (les valeurs viennent de la sim)
+- [X] T078 [P] [US4] Ecrire `packages/sim/tests/briefing.test.ts` (R9, SC-008) : pour Alpha, Bravo et Charlie, `squadSummary` = `derivedValues.squads`, `briefing` = `derivedValues.briefing`, `route(gemenon)` = `derivedValues.route`, `wavesFor` = `derivedValues.mission.waves`, `ultimateStatus(47)` = `derivedValues.combat.ultimate`, aux seuls ecarts admis listes dans le test (compositions de vagues, delai "0:12" au lieu de "0:03")
+- [X] T079 [P] [US4] Ecrire `apps/web/tests/unit/no-derived-values.test.ts` : aucun import de `derivedValues` dans `apps/web/src` (les valeurs viennent de la sim)
 
 ### Implementation for User Story 4
 
-- [ ] T080 [US4] Creer `packages/sim/src/briefing.ts` en arithmetique entiere exacte : `squadSummary` (lignes 1079-1085 et 1180-1235 : emplacements remplis, unites, `power`, armement dominant, repartition avec pourcentage arrondi, PV et attaque totaux, defense moyenne), `route(planet)` (planet.ts), `briefing(squad, planet)` (`winChance`, lignes 1815-1820 ; `null` sans unite ; contrainte "au moins 2 unités de blindage moyen ou lourd", lignes 1849-1851), `ultimateStatus(level)` (lignes 2163-2164 et 2331-2332) ; exporter depuis `src/index.ts` (depend de T024, T026)
-- [ ] T081 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/escouades/Board.svelte`, `SquadTabs.svelte` et `Summary.svelte` (depend de T080)
-- [ ] T082 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/carte/Holo.svelte` (depend de T080)
-- [ ] T083 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/briefing/Composition.svelte`, `Simulation.svelte` et `Objectives.svelte` (depend de T080)
-- [ ] T084 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/deploiement/ObjectivePanel.svelte`, `apps/web/src/app/combat/Trinity.svelte`, `WaveBar.svelte` et `ActionBar.svelte` (ultime) (depend de T080)
+- [X] T080 [US4] Creer `packages/sim/src/briefing.ts` en arithmetique entiere exacte : `squadSummary` (lignes 1079-1085 et 1180-1235 : emplacements remplis, unites, `power`, armement dominant, repartition avec pourcentage arrondi, PV et attaque totaux, defense moyenne), `route(planet)` (planet.ts), `briefing(squad, planet)` (`winChance`, lignes 1815-1820 ; `null` sans unite ; contrainte "au moins 2 unités de blindage moyen ou lourd", lignes 1849-1851), `ultimateStatus(level)` (lignes 2163-2164 et 2331-2332) ; exporter depuis `src/index.ts` (depend de T024, T026)
+- [X] T081 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/escouades/Board.svelte`, `SquadTabs.svelte` et `Summary.svelte` (depend de T080)
+- [X] T082 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/carte/Holo.svelte` (depend de T080)
+- [X] T083 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/briefing/Composition.svelte`, `Simulation.svelte` et `Objectives.svelte` (depend de T080)
+- [X] T084 [P] [US4] Lire les valeurs dans `@nova/sim` dans `apps/web/src/app/deploiement/ObjectivePanel.svelte`, `apps/web/src/app/combat/Trinity.svelte`, `WaveBar.svelte` et `ActionBar.svelte` (ultime) (depend de T080)
 
 **Checkpoint**: plus aucun ecran ne lit `derivedValues` ; oracle de la maquette et T078 verts
 

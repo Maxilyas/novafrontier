@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { basePlanet, demoState, derivedValues, planetById } from '@nova/data';
+  import { basePlanet, demoState, planetById } from '@nova/data';
+  import { mission } from '../../state/briefing';
   import { toHash } from '../../state/router.svelte';
   import Btn from '../../ui/Btn.svelte';
   import { nombre } from '../../ui/format';
@@ -9,11 +10,11 @@
   /**
    * Hologramme de la planete visee (renderHolo, lignes 1736-1788 ; CSS 452-466). La planete visee
    * est celle de la demonstration tant que la carte n'existe pas (FR-022) ; trajet, difficulte et
-   * butin viennent de `derivedValues.route`. Les trois commandes menent au Briefing (FR-005).
+   * butin sont calcules par la sim (`route`). Les trois commandes menent au Briefing (FR-005).
    */
   const planete = planetById(demoState.mission.target);
   const depart = basePlanet();
-  const { route, mission } = derivedValues;
+  const { route } = mission;
   const briefing = toHash({ screen: 'briefing' });
   const operations = (planete?.operations ?? 0) > 0;
   const assautPossible = route.inRange && operations;

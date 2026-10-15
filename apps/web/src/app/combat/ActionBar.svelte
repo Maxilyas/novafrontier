@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { demoState, derivedValues, rarityById, unitById } from '@nova/data';
+  import { demoState, rarityById, unitById } from '@nova/data';
+  import { ultimate } from '../../state/briefing';
   import { combatHud } from '../../state/combat.svelte';
   import { combatRuntime } from '../../state/combat-runtime';
   import { selection } from '../../state/selection.svelte';
@@ -12,7 +13,6 @@
    * competence ciblee ouvre la designation dans la scene. L'ultime reste verrouille (FR-015).
    */
   const ULTIME_VERROUILLE = 'Capacité ultime — débloquée au niveau 50, réservée aux boss';
-  const { ultimate } = derivedValues.combat;
 
   const commandant = $derived.by(() => {
     const escouade = demoState.squads.find((s) => s.id === selection.current.squad);

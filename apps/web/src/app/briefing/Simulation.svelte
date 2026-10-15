@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { derivedValues } from '@nova/data';
   import { type CombatResult, type CombatSetup, runCombat } from '@nova/sim';
+  import { briefingOf } from '../../state/briefing';
   import { combatChoices, seedForCombat } from '../../state/combat.svelte';
   import { deployment } from '../../state/deployment.svelte';
   import { selection } from '../../state/selection.svelte';
@@ -9,12 +9,12 @@
   import AutoResolveModal from './AutoResolveModal.svelte';
 
   /**
-   * Simulation hors ligne (renderBrief, lignes 1892-1907) : chances de victoire de
-   * `derivedValues.briefing`. Sans unite engagee, la maquette affiche "NaN%" : ici "—" (FR-011).
+   * Simulation hors ligne (renderBrief, lignes 1892-1907) : chances de victoire calculees par la sim
+   * (`briefing`). Sans unite engagee, la maquette affiche "NaN%" : ici "—" (FR-011).
    * "Resoudre automatiquement" calcule le combat par les regles de la sim, sans affichage ni
    * competence, avec le placement courant (automatique s'il n'y en a pas) (FR-030a).
    */
-  const chances = $derived(derivedValues.briefing[selection.current.squad].winChance);
+  const chances = $derived(briefingOf(selection.current.squad).winChance);
   const couleur = $derived(
     chances !== null && chances > 60
       ? 'var(--ok)'

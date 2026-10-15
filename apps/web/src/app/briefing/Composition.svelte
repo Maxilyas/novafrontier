@@ -2,10 +2,10 @@
   import {
     type Combatant,
     demoState,
-    derivedValues,
     unitById,
     weaponById,
   } from '@nova/data';
+  import { briefingOf, summaryOf } from '../../state/briefing';
   import { selection } from '../../state/selection.svelte';
   import { nombre } from '../../ui/format';
   import Icon from '../../ui/Icon.svelte';
@@ -15,13 +15,13 @@
 
   /**
    * Composition envoyee (renderBrief, lignes 1847-1878) : unites de l'escouade choisie, contrainte
-   * de mission et rapport de forces de `derivedValues.briefing` (FR-013, FR-017).
+   * de mission et rapport de forces calcules par la sim (`briefing`) (FR-013, FR-017, FR-033).
    */
   const adverse = weaponById(demoState.mission.enemy.weapon);
 
   const escouade = $derived(demoState.squads.find((s) => s.id === selection.current.squad));
-  const valeurs = $derived(derivedValues.briefing[selection.current.squad]);
-  const dominante = $derived(weaponById(derivedValues.squads[selection.current.squad].dominantWeapon));
+  const valeurs = $derived(briefingOf(selection.current.squad));
+  const dominante = $derived(weaponById(summaryOf(selection.current.squad).dominantWeapon));
   const unites = $derived(
     [...(escouade?.ships ?? []), ...(escouade?.mechs ?? [])]
       .map((id) => (id ? unitById(id) : undefined))

@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { derivedValues } from '@nova/data';
+  import { mission } from '../../state/briefing';
   import { nombre } from '../../ui/format';
   import KeyValue from '../../ui/KeyValue.svelte';
   import Panel from '../../ui/Panel.svelte';
 
-  /** Objectifs de la mission (renderBrief, lignes 1879-1888). */
-  const { mission } = derivedValues;
+  /** Objectifs de la mission (renderBrief, lignes 1879-1888) : vagues et revenu calcules par la sim. */
 </script>
 
 <Panel title="Objectifs">

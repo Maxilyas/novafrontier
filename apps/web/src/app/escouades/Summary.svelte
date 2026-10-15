@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { derivedValues, rarities, weaponById } from '@nova/data';
+  import { rarities, weaponById } from '@nova/data';
+  import { summaryOf } from '../../state/briefing';
   import { selection } from '../../state/selection.svelte';
   import { nombre } from '../../ui/format';
   import OpenBadge from '../../ui/OpenBadge.svelte';
@@ -9,8 +10,8 @@
   import MiniFormation from './MiniFormation.svelte';
 
   /**
-   * Synthese d'escouade (renderSummary, lignes 1180-1235). Les valeurs viennent de
-   * `derivedValues.squads` ; les barres gardent les echelles de la maquette. Points d'action et
+   * Synthese d'escouade (renderSummary, lignes 1180-1235). Les valeurs sont calculees par la sim
+   * (`squadSummary`) ; les barres gardent les echelles de la maquette. Points d'action et
    * formation sont des decisions ouvertes ("a trancher") qui basculent l'affichage (FR-016).
    */
   const MODES = [
@@ -27,7 +28,7 @@
     .map((r) => `${r.label} ${r.actionPoints}`)
     .join(' · ');
 
-  const valeurs = $derived(derivedValues.squads[selection.current.squad]);
+  const valeurs = $derived(summaryOf(selection.current.squad));
   const dominante = $derived(weaponById(valeurs.dominantWeapon));
   const formation = $derived(selection.current.formation[selection.current.squad]);
   const fixes = $derived(selection.current.actionPointsMode === 'fixe');

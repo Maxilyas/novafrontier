@@ -85,7 +85,7 @@ enregistre (FR-044).
 
 | Ecran | Changement |
 |---|---|
-| Escouades, Carte, Briefing | valeurs lues dans `@nova/sim` (R9) au lieu de `derivedValues` |
+| Escouades, Carte, Briefing, Deploiement, Combat | valeurs lues dans `@nova/sim` (R9) au lieu de `derivedValues`, par `apps/web/src/state/briefing.ts` (planete visee, trajet, vagues, revenu du territoire, ultime ; synthese et simulation par escouade) |
 | Briefing | interrupteur "Deploiement automatique" et "Resoudre automatiquement" actifs (fenetre `AutoResolveModal`, FR-030a) |
 | Deploiement | plateau (scene `deploiement`), boutons d'emplacements en DOM, liste "Unites a placer" active, "Deploiement automatique", "Tout retirer", legende des types ; "Lancer le combat" demarre le moteur puis navigue |
 | Combat | HUD branche sur `combatHud`, barre d'actions active, fenetre de fin (`EndModal`), mention "REPLAY", releve de mesures dans le badge de diagnostic |

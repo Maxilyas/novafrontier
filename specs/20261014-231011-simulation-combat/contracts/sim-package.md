@@ -53,6 +53,7 @@ export function squadSummary(squad: Squad): SquadDerived;
 export function route(target: Planet): RouteDerived;
 export function briefing(squad: Squad, target: Planet): BriefingDerived;
 export function wavesFor(target: Planet): readonly WaveSpec[];   // avec `composition` corrigee
+export function territoryGain(target: Planet): number;           // revenu quotidien, round(butin / 12)
 export function ultimateStatus(level: number): { ready: boolean; level: number; progress: number };
 ```
 

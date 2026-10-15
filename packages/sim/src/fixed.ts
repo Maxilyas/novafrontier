@@ -25,6 +25,13 @@ export const fdiv = (a: Fixed, b: Fixed): Fixed => Math.trunc((a * FIXED_ONE) / 
 export const mulDiv = (a: number, b: number, c: number): number => Math.trunc((a * b) / c);
 
 /**
+ * `Math.round(num / den)` de la maquette, calcule sur le rationnel exact num / den (entiers positifs,
+ * num bien en deca de 2^53) : au plus proche, a l'unite superieure en cas d'egalite.
+ */
+export const roundDiv = (num: number, den: number): number =>
+  Math.floor((2 * num + den) / (2 * den));
+
+/**
  * Racine carree entiere, floor(sqrt(n)), exacte pour 0 <= n <= 2^53. Math.sqrt ne sert que de point
  * de depart : la correction qui suit rend le resultat exact quel que soit son arrondi.
  */

@@ -1,5 +1,5 @@
 import { basePlanet, type Planet, planets } from '@nova/data';
-import { isqrt } from './fixed';
+import { roundDiv as arrondi, isqrt } from './fixed';
 
 /**
  * Trajet vers une planete (maquette, lignes 1641 et 1676-1679, 1737-1741), en arithmetique entiere
@@ -11,9 +11,6 @@ const TAUX_CARBURANT = 1;
 
 /** Vitesses d'escouade de la maquette, choisies par le rang de la planete (particularite conservee). */
 const VITESSES = [96, 60, 88] as const;
-
-/** Arrondi au plus proche, a l'unite superieure en cas d'egalite (`Math.round` sur un positif). */
-const arrondi = (num: number, den: number) => Math.floor((2 * num + den) / (2 * den));
 
 /** `Math.hypot(dx, dy) * 1.1 | 0` : floor(sqrt(1,21 x S)) = isqrt(floor(121 x S / 100)). */
 export function planetDistance(planet: Planet): number {
@@ -32,6 +29,9 @@ export function difficulty(planet: Planet): number {
 
 /** Butin estime, `round(dist x 3,1 + 400)`, ligne 1678. */
 export const lootOf = (planet: Planet): number => arrondi(31 * planetDistance(planet) + 4000, 10);
+
+/** Revenu quotidien du territoire gagne, `round(lootOf / 12)` (renderBrief, ligne 1886). */
+export const territoryGain = (planet: Planet): number => arrondi(lootOf(planet), 12);
 
 /** Carburant requis, ligne 1679. */
 export const fuelOf = (planet: Planet): number => planetDistance(planet) * TAUX_CARBURANT;

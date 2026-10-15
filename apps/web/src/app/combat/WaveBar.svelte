@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { derivedValues } from '@nova/data';
+  import { mission } from '../../state/briefing';
   import { combatHud } from '../../state/combat.svelte';
 
   /**
@@ -12,7 +12,7 @@
 
   const hud = $derived(combatHud.hud);
   const vague = $derived(hud?.wave ?? 1);
-  const total = $derived(hud?.waves ?? derivedValues.mission.waves.length);
+  const total = $derived(hud?.waves ?? mission.waves.length);
   const relique = $derived(Math.round((hud?.relic ?? 1) * 100));
   const prochaine = $derived(hud?.nextWaveSeconds ?? 12);
 </script>
