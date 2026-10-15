@@ -40,7 +40,7 @@ const scenes = new Map<SceneId, Scene>();
  */
 const MODULES: Readonly<Record<SceneId, () => Promise<SceneModule>>> = {
   carte: () => import('./scenes/placeholder').then((m) => m.placeholder),
-  deploiement: () => import('./scenes/placeholder').then((m) => m.placeholder),
+  deploiement: () => import('./scenes/deploy').then((m) => m.deployScene),
   combat: () => import('./scenes/combat').then((m) => m.combatScene),
 };
 

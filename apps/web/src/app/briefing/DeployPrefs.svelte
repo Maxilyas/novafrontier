@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { deployment } from '../../state/deployment.svelte';
   import { selection } from '../../state/selection.svelte';
   import OpenBadge from '../../ui/OpenBadge.svelte';
   import Panel from '../../ui/Panel.svelte';
@@ -6,8 +7,9 @@
   import Switch from '../../ui/Switch.svelte';
 
   /**
-   * Preferences de deploiement (renderBrief, lignes 1908-1926). L'interrupteur releve d'une phase
-   * ulterieure (FR-018) ; la formation est partagee avec Escouades et Deploiement (FR-016).
+   * Preferences de deploiement (renderBrief, lignes 1908-1926). L'interrupteur decide si le plateau
+   * arrive pre-rempli par le placement automatique (FR-041) ; la formation est partagee avec
+   * Escouades et Deploiement (FR-016).
    */
   const FORMATIONS = [
     { value: 'ring', label: '360°' },
@@ -23,7 +25,11 @@
       <div class="tt">Déploiement automatique</div>
       <div class="td">Blindés devant, unités à portée derrière, selon la formation par défaut.</div>
     </div>
-    <Switch checked={true} label="Déploiement automatique" laterPhase="auto-deploy-toggle" />
+    <Switch
+      checked={deployment.autoDeploy}
+      label="Déploiement automatique"
+      onchange={(valeur) => deployment.setAutoDeploy(valeur)}
+    />
   </div>
   <div class="toggle">
     <div>

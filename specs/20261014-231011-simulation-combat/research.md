@@ -445,14 +445,16 @@ mal sur `::backdrop` dans Safari) ; fenetre dans la scene (principe III).
 - **Validation** : `validatePlacement` refuse une unite hors escouade ou hors theatre, un
   emplacement d'un autre type, un emplacement occupe deux fois (FR-044). `createCombat` l'appelle :
   un placement invalide leve une erreur, que le serveur traduira en refus (principe IV).
-- **Scene** (`src/scene/scenes/deploy/`) : fond du theatre, relique, lignes en pointilles, fleches
-  d'arrivee ennemie et hexagones des emplacements, en `Graphics` comme le combat (R13). Les textes de
+- **Scene** (`src/scene/scenes/deploy/`) : fond du theatre, relique, lignes en pointilles et
+  fleches d'arrivee ennemie, en `Graphics` comme le combat (R13). Les emplacements et les textes de
   la maquette dessines dans le canvas ("ARRIVEES ENNEMIES", "RELIQUE — OBJECTIF", nom et PV des
-  unites) passent dans le DOM (principe III).
+  unites) passent dans le DOM (principe III) : voir le point suivant.
 - **Commandes en DOM** : chaque emplacement propose est un `<button>` positionne au-dessus du canvas,
   a la position de l'emplacement convertie dans la zone (meme mise a l'echelle que la scene). Il
-  porte le texte de l'unite placee, le type et la ligne en `aria-label`, et recoit le focus : le
-  placement au clavier (FR-043) et les tests s'appuient dessus. La scene ne gere aucun clic.
+  dessine lui-meme son hexagone (SVG), porte le texte de l'unite placee, le type et la ligne en
+  `aria-label`, et recoit le focus : le placement au clavier (FR-043) et les tests s'appuient dessus.
+  La scene ne gere aucun clic et ne dessine aucun emplacement, ce qui garde le plateau utilisable
+  sans acceleration graphique.
 - **Glisser-deposer** : Pointer Events sur les boutons des emplacements et les lignes de la liste
   (capture du pointeur, seuil de 4 px avant de commencer un glissement) ; un depot sur un emplacement
   occupe de meme type echange les deux unites ; ailleurs, l'unite revient d'ou elle venait.

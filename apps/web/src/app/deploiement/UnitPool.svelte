@@ -1,44 +1,64 @@
 <script lang="ts">
-  import { derivedValues, rarityById, unitById } from '@nova/data';
+  import { demoState, rarityById } from '@nova/data';
+  import { engagedUnits, formationSlots } from '@nova/sim';
+  import { deployment } from '../../state/deployment.svelte';
+  import { slotOf } from '../../state/deployment-rules';
   import { selection } from '../../state/selection.svelte';
-  import { LATER_PHASE_MESSAGE, showToast } from '../../state/toast.svelte';
   import UnitArt from '../../ui/art/UnitArt.svelte';
   import Panel from '../../ui/Panel.svelte';
+  import { glissable } from './glisser';
 
   /**
-   * Unites a placer (renderDeployPanels, lignes 2075-2102 ; CSS 509-525). Tant que le plateau
-   * n'existe pas, elles sont placees automatiquement selon la formation (FR-017) ; en choisir une
-   * releve d'une phase ulterieure (FR-018).
+   * Unites a placer (renderDeployPanels, lignes 2075-2104 ; CSS 509-525 ; FR-039, FR-042). Choisir
+   * une unite libre la designe pour le plateau ; choisir une unite placee la retire. Chaque ligne se
+   * fait aussi glisser vers un emplacement.
    */
-  const engagees = $derived(
-    derivedValues.deployment[selection.current.squad][selection.current.theatre].units,
+  const escouade = $derived(demoState.squads.find((s) => s.id === selection.current.squad));
+  const unites = $derived(escouade ? engagedUnits(escouade, selection.current.theatre) : []);
+  const placement = $derived(deployment.current);
+  const placees = $derived(unites.filter((u) => slotOf(placement, u.id) !== undefined).length);
+  const spatial = $derived(selection.current.theatre === 'orbital');
+  const slots = $derived(
+    formationSlots(selection.current.formation[selection.current.squad], selection.current.theatre),
   );
+
+  /** Ligne de l'emplacement occupe : la place de l'unite sur le plateau. */
+  function ligneDe(unite: string): 'front' | 'back' | undefined {
+    const rang = slotOf(placement, unite);
+    return rang === undefined ? undefined : slots.find((s) => s.index === rang)?.line;
+  }
 </script>
 
-<Panel title="Unités à placer" right="{engagees.length}/{engagees.length}" class="pool">
-  <div class="upool">
-    {#each engagees as engagee (engagee.unit)}
-      {@const unite = unitById(engagee.unit)}
-      {#if unite && unite.family !== 'cmd'}
-        <button
-          type="button"
-          class="urow placed"
-          data-unit={unite.id}
-          data-later-phase="pick-unit"
-          onclick={() => showToast(LATER_PHASE_MESSAGE)}
-        >
-          <span class="uav" style="--rc:{rarityById(unite.rarity)?.color}"><UnitArt unit={unite} /></span>
-          <span>
-            <span class="un">{unite.name}</span>
-            <span class="ust">
-              <span class="hp">{unite.stats.hp} PV</span><span class="at"
-                >{unite.stats.attack} ATQ</span
-              ><span class="df">{unite.stats.defense} DÉF</span>
-            </span>
+<Panel title="Unités à placer" right="{placees}/{unites.length}" class="pool">
+  <div class="upool" data-placed="{placees}/{unites.length}">
+    {#each unites as unite (unite.id)}
+      {@const ligne = ligneDe(unite.id)}
+      <button
+        type="button"
+        class="urow"
+        class:placed={ligne !== undefined}
+        class:picked={deployment.picked === unite.id}
+        data-unit={unite.id}
+        aria-pressed={deployment.picked === unite.id}
+        onclick={() => {
+          if (ligne !== undefined) deployment.removeUnit(unite.id);
+          else deployment.pick(unite.id);
+        }}
+        use:glissable={{ unit: unite.id, from: 'list' }}
+      >
+        <span class="uav" style="--rc:{rarityById(unite.rarity)?.color}"><UnitArt unit={unite} /></span>
+        <span>
+          <span class="un">{unite.name}</span>
+          <span class="ust">
+            <span class="hp">{unite.stats.hp} PV</span><span class="at"
+              >{unite.stats.attack} ATQ</span
+            ><span class="df">{unite.stats.defense} DÉF</span>
           </span>
-          <span class="utag {engagee.line}">{engagee.line === 'back' ? '2ᵉ L.' : '1ʳᵉ L.'}</span>
-        </button>
-      {/if}
+        </span>
+        <span class="utag {ligne ?? ''}">
+          {ligne === 'back' ? '2ᵉ L.' : ligne === 'front' ? '1ʳᵉ L.' : 'À placer'}
+        </span>
+      </button>
     {/each}
   </div>
   <div class="bd" style="border-top:1px solid var(--line)">
@@ -48,6 +68,14 @@
     <div class="legendrow">
       <span class="sq" style="background:#63d6bc"></span>Seconde ligne — unités à portée
     </div>
+    <div class="legendrow">
+      <span class="sq hex" style="background:var(--slot-ship)"></span>Emplacement libre — vaisseau
+    </div>
+    {#if !spatial}
+      <div class="legendrow">
+        <span class="sq hex" style="background:var(--slot-mech)"></span>Emplacement libre — méca
+      </div>
+    {/if}
     <div class="legendrow">
       <span class="sq" style="background:#f5a623"></span>Objectif à défendre
     </div>
@@ -88,7 +116,13 @@
   }
   .urow.placed {
     opacity: 0.34;
-    cursor: default;
+  }
+  .urow.picked {
+    border-color: var(--sig);
+    box-shadow: 0 0 14px var(--sig-glow);
+  }
+  .urow {
+    touch-action: none;
   }
   .uav {
     width: 30px;
@@ -157,5 +191,8 @@
     width: 10px;
     height: 10px;
     flex: 0 0 auto;
+  }
+  .sq.hex {
+    clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
   }
 </style>

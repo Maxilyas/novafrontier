@@ -6,7 +6,8 @@
 
   /**
    * Disposition (renderDeployPanels, lignes 2106-2117) : la formation de l'escouade, partagee avec
-   * Escouades et le Briefing (FR-016). En changer ne retire aucune unite (FR-017).
+   * Escouades et le Briefing (FR-016). En changer presente le placement de l'autre formation, ou
+   * celui de la premiere arrivee (FR-041).
    */
   const FORMATIONS = [
     { value: 'ring', label: '360°' },

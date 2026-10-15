@@ -14,6 +14,7 @@ import {
   type CombatResult,
   type CombatSetup,
   engagedUnits,
+  type Placement,
   type SimEvent,
 } from '@nova/sim';
 import { appendEvents, emptyLog, type LogContext, type LogState, openingLines } from './combat-log';
@@ -170,21 +171,21 @@ export const combatHud = {
   },
 };
 
-/** Entrees d'un combat pour les choix courants, sans graine ni commande. */
+/**
+ * Entrees d'un combat pour les choix courants, sans graine ni commande. Sans placement donne, le
+ * placement automatique (adresse directe du Combat, FR-031). Aucun combat sans unite placee.
+ */
 export function combatChoices(
   squadId: SquadId,
   theatre: Theatre,
   formation: Formation,
+  placement?: Placement,
 ): Omit<CombatSetup, 'commands' | 'seed'> | undefined {
   const squad = demoState.squads.find((s) => s.id === squadId);
   if (!squad || engagedUnits(squad, theatre).length === 0) return undefined;
-  return {
-    squad,
-    theatre,
-    formation,
-    placement: autoPlacement(squad, theatre, formation),
-    planet: demoState.mission.target,
-  };
+  const p = placement ?? autoPlacement(squad, theatre, formation);
+  if (p.length === 0) return undefined;
+  return { squad, theatre, formation, placement: p, planet: demoState.mission.target };
 }
 
 /** Lance un combat en direct avec les choix courants ; graine de l'adresse s'il y en a une. */

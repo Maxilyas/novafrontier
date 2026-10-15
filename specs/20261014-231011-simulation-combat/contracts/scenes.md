@@ -65,13 +65,20 @@ Lit `combatRuntime` (contrat `combat-runtime.md`) a chaque image ; ne modifie ja
 | Lignes | pointilles 5/7 : premiere ligne `rgba(232,84,63,.28)`, seconde `rgba(99,214,188,.24)` ; cercles en 360 degres, polyligne en arc | FR-037 |
 | Arrivees ennemies | 8 fleches (360 degres) ou 3 (arc, bord ouest), `rgba(232,84,63,.5)` | FR-037 |
 | Relique | comme en combat, rayon 28, noyau plein de rayon 11 ; anneau pulse (fige si animations reduites) | FR-037 |
-| Emplacement libre | hexagone 27 x 24, contour et remplissage leger de son type : bleu (vaisseau), vert (meca), valeurs provisoires en jetons CSS `--slot-ship` et `--slot-mech` | FR-038 |
-| Emplacement occupe | hexagone `rgba(10,16,15,.92)`, contour de la couleur de ligne | FR-038 |
-| Emplacement valide pendant un choix | contour epaissi et lueur du type | FR-039 |
+La scene ne dessine pas les emplacements : ce sont les boutons DOM ci-dessous, qui portent leur
+hexagone (SVG). Le plateau reste ainsi utilisable et lisible sans acceleration graphique, et l'etat
+d'un emplacement (libre, occupe, valide pendant un choix) n'a pas a etre synchronise avec la scene.
 
-Textes en DOM, par-dessus le canvas, dans `app/deploiement/` : "ARRIVÉES ENNEMIES — 360°" ou
-"— BORD OUEST", "RELIQUE — OBJECTIF", et, dans chaque bouton d'emplacement occupe, nom court
-(couleur de rarete), trait d'armement, effectif et PV, pastille de ligne, comme la maquette.
+| Element (DOM) | Rendu provisoire | Exigence |
+|---|---|---|
+| Emplacement libre | hexagone 27 x 24, contour et remplissage leger de son type : bleu (vaisseau), vert (meca), valeurs provisoires en jetons CSS `--slot-ship` et `--slot-mech` ; signe "+" | FR-038 |
+| Emplacement occupe | hexagone `rgba(10,16,15,.92)`, contour de la couleur de ligne ; nom court (couleur de rarete), trait d'armement, effectif et PV, pastille "1L" ou "2L" | FR-038 |
+| Emplacement valide pendant un choix | contour epaissi et lueur du type ; les emplacements libres de l'autre type sont estompes et sortis de la tabulation | FR-039, FR-043 |
+| Textes du plateau | "ARRIVÉES ENNEMIES — 360°" ou "— BORD OUEST", "RELIQUE — OBJECTIF", aide "▸ CLIQUEZ UN EMPLACEMENT POUR PLACER ..." | FR-037 |
+
+La formation et le theatre parviennent a la scene par `scenes/deploy/board.ts`, que l'ecran
+Deploiement met a jour ; un changement redessine la scene aussitot, meme quand elle ne s'anime pas
+(animations reduites).
 
 ### Boutons d'emplacements (`app/deploiement/SlotButtons.svelte`)
 

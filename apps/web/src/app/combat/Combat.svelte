@@ -4,6 +4,7 @@
   import SceneHost from '../../scene/SceneHost.svelte';
   import { combatChoices, combatHud, launchCombat } from '../../state/combat.svelte';
   import { combatRuntime } from '../../state/combat-runtime';
+  import { deployment } from '../../state/deployment.svelte';
   import { selection } from '../../state/selection.svelte';
   import ActionBar from './ActionBar.svelte';
   import CombatLog from './CombatLog.svelte';
@@ -26,7 +27,14 @@
       combatRuntime.resume();
     } else if (combatRuntime.phase !== 'running') {
       const { squad, theatre: t, formation } = selection.current;
-      const choix = combatChoices(squad, t, formation[squad]);
+      // Le placement du joueur s'il en a un, sinon le placement automatique (FR-031).
+      const place = deployment.placementFor(squad, t, formation[squad]);
+      const choix = combatChoices(
+        squad,
+        t,
+        formation[squad],
+        deployment.has(squad, t, formation[squad]) && place.length > 0 ? place : undefined,
+      );
       if (choix) launchCombat(choix);
       else sansUnite = true;
     }
