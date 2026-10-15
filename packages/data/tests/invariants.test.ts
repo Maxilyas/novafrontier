@@ -165,10 +165,13 @@ describe('7. combat (data-model.md §6)', () => {
     }
   });
 
-  it('Bouclier de flotte decrit l effet retenu (FR-014a)', () => {
-    expect(competences.find((c) => c.name === 'Bouclier de flotte')?.description).toBe(
-      '+70% DÉF pendant 7 s',
+  it('les descriptions decrivent l effet retenu (FR-014a)', () => {
+    const description = (nom: string) => competences.find((c) => c.name === nom)?.description;
+    expect(description('Bouclier de flotte')).toBe('+70% DÉF pendant 7 s');
+    expect(description('Abordage éclair')).toBe(
+      "Dégâts directs sur l'ennemi le plus proche de la relique",
     );
+    expect(description('Charge lourde')).toBe('Une unité frappe en zone, sans se déplacer');
   });
 
   it('un archetype par menace, cle et menace concordent, valeurs strictement positives', () => {

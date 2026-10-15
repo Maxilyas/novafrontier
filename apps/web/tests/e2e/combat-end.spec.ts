@@ -1,4 +1,4 @@
-import { ecranCombat, jusquALaFin, lancerCombat } from './combat.helpers';
+import { combatDeReference, ecranCombat, jusquALaFin, lancerCombat } from './combat.helpers';
 import { expect, test } from './fixtures';
 import { expectScreen } from './helpers';
 
@@ -11,8 +11,11 @@ import { expectScreen } from './helpers';
 test.describe.configure({ timeout: 180_000 });
 
 test('un combat va jusqu a la fenetre de fin, qui reprend l etat final', async ({ page }) => {
-  await lancerCombat(page);
+  // Graine 1, Alpha, spatial, 360 degres, placement automatique : le combat de reference.
+  const reference = combatDeReference('alpha-orbital-ring-1');
+  await lancerCombat(page, '?diag=1&graine=1');
   const fenetre = await jusquALaFin(page);
+  await expect(fenetre).toHaveAttribute('data-fingerprint-final', reference.expected.fingerprint);
   const issue = await fenetre.getAttribute('data-outcome');
   expect(['victory', 'defeat']).toContain(issue);
   await expect(fenetre).toContainText(issue === 'victory' ? 'Relique sécurisée' : 'Relique perdue');
@@ -23,10 +26,25 @@ test('un combat va jusqu a la fenetre de fin, qui reprend l etat final', async (
   await expect(fenetre.locator('[data-units-left]')).toHaveText(`${vivantes}/${engagees}`);
   const vague = await page.locator('[data-wave-current]').getAttribute('data-wave-current');
   await expect(fenetre.locator('[data-waves]')).toHaveText(`${vague}/6`);
+  // Integrite de la relique : celle de l'etat final, en victoire comme en defaite.
+  const relique = await fenetre.getAttribute('data-relic-final');
+  await expect(ecranCombat(page).locator('[data-relic-percent]')).toHaveAttribute(
+    'data-relic-percent',
+    relique ?? '',
+  );
   if (issue === 'defeat') {
-    await expect(page.locator('[data-relic-percent]')).toHaveAttribute('data-relic-percent', '0');
+    expect(relique).toBe('0');
     await expect(fenetre.locator('[data-loot]')).toHaveText('0');
   }
+  // Releve de mesures : dernier pas et empreinte finale du combat.
+  await expect(page.locator('dd[data-tick]')).toHaveAttribute(
+    'data-tick',
+    String(reference.expected.ticks),
+  );
+  await expect(page.locator('dd[data-fingerprint]')).toHaveAttribute(
+    'data-fingerprint',
+    reference.expected.fingerprint,
+  );
 });
 
 test('Redéployer et Retour a la carte quittent la fenetre de fin', async ({ page }) => {

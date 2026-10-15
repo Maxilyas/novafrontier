@@ -142,7 +142,7 @@ specs/20261014-231011-simulation-combat/
 ├── quickstart.md        # phase 1
 ├── contracts/           # sim-package, combat-runtime, scenes, data-package, ui-testing
 ├── checklists/          # requirements.md (/speckit-specify)
-└── tasks.md             # /speckit-tasks (pas encore cree)
+└── tasks.md             # /speckit-tasks, puis /speckit-implement et /speckit-converge
 ```
 
 ### Source Code (repository root)
@@ -194,7 +194,7 @@ apps/web/src/
 │   └── scenes/
 │       ├── fit.ts                     # mise a l'echelle commune
 │       ├── combat/                    # index.ts, draw.ts, effects.ts, designation.ts
-│       └── deploy/                    # index.ts, draw.ts
+│       └── deploy/                    # index.ts, board.ts (plateau dessine)
 ├── state/
 │   ├── combat-runtime.ts              # horloge, session, commandes, replay, designation
 │   ├── combat.svelte.ts               # projection pour le HUD
@@ -204,7 +204,7 @@ apps/web/src/
 ├── ui/Modal.svelte
 ├── app/
 │   ├── combat/                        # WaveBar, Forces, CombatLog, ActionBar branches ; EndModal ; Combat.svelte
-│   ├── deploiement/                   # SlotButtons, UnitPool, Assistance, Disposition, ObjectivePanel, Legend
+│   ├── deploiement/                   # SlotButtons, UnitPool (liste et legende), Assistance, Disposition, ObjectivePanel, glisser.ts
 │   ├── briefing/                      # Simulation (resolution), DeployPrefs (interrupteur), AutoResolveModal
 │   ├── escouades/  carte/             # valeurs lues dans @nova/sim
 │   └── DiagBadge.svelte               # releve de mesures du combat

@@ -22,7 +22,11 @@
 <Modal
   label="Fin d'engagement"
   modal="end"
-  attributes={{ 'data-outcome': result.outcome, 'data-fingerprint-final': result.fingerprint }}
+  attributes={{
+    'data-outcome': result.outcome,
+    'data-fingerprint-final': result.fingerprint,
+    'data-relic-final': String(Math.round((result.relicHp / result.relicMaxHp) * 100)),
+  }}
 >
   <div class="hd"><span class="dot"></span><span>Fin d'engagement</span><span class="rt">{cible}</span></div>
   <div class="bd corps">

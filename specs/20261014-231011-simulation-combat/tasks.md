@@ -377,3 +377,12 @@ route (oracle, scenes, mise en page, Lighthouse).
 - Apres `/speckit-implement`, lancer `/speckit-converge` jusqu'a ce qu'il ne signale plus d'ecart (`WORKFLOW.md` §3).
 - A eviter : taches vagues, conflits dans un meme fichier, dependances entre stories qui en casseraient l'independance.
 - `.specify/feature.json` est local et ignore par git : dans une nouvelle session, le faire pointer vers `specs/20261014-231011-simulation-combat` avant `/speckit-implement` (piege 8 de `WORKFLOW.md`).
+
+---
+
+## Phase 9: Convergence
+
+- [X] T095 Aligner sur l'effet de FR-014 les descriptions de deux competences dans `packages/data/src/game/units.ts` : Charge lourde frappe en zone sans deplacement (et non "Une unite avance et frappe en zone"), Abordage eclair vise l'ennemi le plus proche de la relique (et non "l'unite la plus proche") ; verrouiller ces descriptions dans `packages/data/tests/invariants.test.ts`, comme celle de Bouclier de flotte per FR-014a (contradicts)
+- [X] T096 Comparer, dans `apps/web/tests/e2e/combat-end.spec.ts`, le HUD, la fenetre de fin et le releve de mesures a l'etat final du combat (`?diag=1&graine=1`) : integrite de la relique du HUD egale a celle du resultat, en victoire comme en defaite, pas et empreinte du releve egaux au dernier pas et a l'empreinte finale per SC-009 (partial)
+- [X] T097 Mettre l'arborescence de `specs/20261014-231011-simulation-combat/plan.md` en accord avec le code : `scenes/deploy/board.ts` (et non `draw.ts`), legende du plateau dans `UnitPool.svelte` (pas de composant `Legend`), `tasks.md` cree per plan: Project Structure (partial)
+- [ ] T098 Verifier sur Safari 26 reel (Mac ou service de test en ligne) les empreintes des quatre combats Alpha de graine 1 par "Resoudre automatiquement" (`quickstart.md`) et reporter le resultat dans la description de la PR per SC-002 (partial)

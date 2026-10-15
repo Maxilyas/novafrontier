@@ -72,7 +72,7 @@ export const units: readonly Unit[] = [
       {
         name: 'Abordage éclair',
         icon: 'ic-atk',
-        description: "Dégâts directs sur l'unité la plus proche",
+        description: "Dégâts directs sur l'ennemi le plus proche de la relique",
         target: 'none',
         effect: { kind: 'strike-nearest-relic', damage: 420 },
       },
@@ -114,7 +114,7 @@ export const units: readonly Unit[] = [
       {
         name: 'Charge lourde',
         icon: 'ic-atk',
-        description: 'Une unité avance et frappe en zone',
+        description: 'Une unité frappe en zone, sans se déplacer',
         target: 'none',
         effect: { kind: 'charge', damage: 420, radius: 150 },
       },

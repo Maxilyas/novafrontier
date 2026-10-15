@@ -18,7 +18,7 @@ semantiques presents dans tous les builds, sans code reserve aux tests.
 | `data-combat-phase`, `data-combat-mode` | racine de l'ecran Combat | cycle de vie, replay |
 | `role="dialog"`, `data-modal="end" \| "auto-resolve"`, `data-outcome` | fenetres | FR-030, FR-030a |
 | `data-fingerprint` | releve de mesures (`?diag=1`) et fenetre de resolution automatique | FR-022, R10 |
-| `data-fingerprint-final` | fenetre de fin du combat | FR-021, SC-003 |
+| `data-fingerprint-final`, `data-relic-final` | fenetre de fin du combat : empreinte et integrite de la relique (%) de l'etat final | FR-021, SC-003, SC-009 |
 | `data-entities`, `data-tick` | releve de mesures | FR-035, FR-036 |
 | `data-slot`, `data-slot-kind`, `data-slot-line`, `data-slot-unit` | boutons d'emplacements | FR-037 a FR-043 |
 | `data-placed="<n>/<total>"` | en-tete de la liste "Unités à placer" | FR-042 |
