@@ -257,10 +257,10 @@ Arborescence de `plan.md` (section Project Structure) : `packages/data/`, `packa
 
 **Purpose**: documents, captures, validation complete
 
-- [ ] T091 [P] Mettre a jour `plan.md` §10 (versions de `@vitest/browser-playwright` et `playwright` dans la sim) et `WORKFLOW.md` §1 (la sim contient les regles ; plateau et combat jouables) et §5 (prochaine etape : phase P2 de la feuille de route, sans le plateau) (R16)
-- [ ] T092 [P] Etendre `apps/web/scripts/captures.mjs` : Deploiement avec placement automatique (360 degres et arc, spatial et terrestre) et Combat en cours a un pas fixe (`?graine=1`, horloge avancee), a cote des captures de la maquette (SC-010)
-- [ ] T093 Lancer `pnpm -r lint`, `pnpm -r typecheck`, `pnpm -r test`, `pnpm --filter @nova/sim test:browsers`, `pnpm -r build`, `pnpm --filter @nova/web test:e2e`, `pnpm --filter @nova/web perf` (score > 90 maintenu) et corriger jusqu'au vert
-- [ ] T094 Derouler `quickstart.md` a la main : empreintes sur Edge et Safari, matrice des modes de rendu pour Deploiement et Combat, cadence du scenario de charge, essai des 15 competences ; reporter les resultats dans la description de la PR
+- [X] T091 [P] Mettre a jour `plan.md` §10 (versions de `@vitest/browser-playwright` et `playwright` dans la sim) et `WORKFLOW.md` §1 (la sim contient les regles ; plateau et combat jouables) et §5 (prochaine etape : phase P2 de la feuille de route, sans le plateau) (R16)
+- [X] T092 [P] Etendre `apps/web/scripts/captures.mjs` : Deploiement avec placement automatique (360 degres et arc, spatial et terrestre) et Combat en cours a un pas fixe (`?graine=1`, horloge avancee), a cote des captures de la maquette (SC-010) ; realise : 13 planches, dont 3 variantes du Deploiement et le combat a 5 s
+- [X] T093 Lancer `pnpm -r lint`, `pnpm -r typecheck`, `pnpm -r test`, `pnpm --filter @nova/sim test:browsers`, `pnpm -r build`, `pnpm --filter @nova/web test:e2e`, `pnpm --filter @nova/web perf` (score > 90 maintenu) et corriger jusqu'au vert
+- [X] T094 Derouler `quickstart.md` a la main : empreintes sur Edge et Safari, matrice des modes de rendu pour Deploiement et Combat, cadence du scenario de charge, essai des 15 competences ; reporter les resultats dans la description de la PR ; realise : Edge 155 et Chrome 154 egaux a la reference sur 4 combats ; Safari indisponible sous Windows (WebKit 26.6 verifie par `test:browsers`) ; competences essayees a l'ecran pour Vell et Tallow (8 sur 15) ; les 7 de Braak, Halven et Andar, sans escouade engageable dans l'etat de demonstration, sont verifiees par les tests de la sim
 
 ---
 

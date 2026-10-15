@@ -6,6 +6,9 @@ import { build, preview } from 'vite';
 /**
  * Captures cote a cote de l'application et de la maquette, a 1600x900, pour la validation de
  * SC-002 par l'equipe (`pnpm --filter @nova/web captures`). Resultat : apps/web/captures/NN-ecran.png.
+ * Phase P1 (SC-010) : en plus, le Deploiement avec le placement automatique dans les quatre
+ * combinaisons de theatre et de formation, et un combat en cours apres 5 s (graine 1, horloge de la
+ * page avancee ; la maquette, elle, tire au hasard et tourne en temps reel).
  *
  * La maquette demande ses polices a Google Fonts : ces requetes sont servies ici avec les fichiers
  * @fontsource de l'application, pour comparer a polices egales sans contacter de service tiers.
@@ -30,6 +33,23 @@ const ECRANS = [
   ['combat', 'combat'],
   ['butin', 'butin'],
 ];
+
+/** Deploiement : theatre et formation, en plus de la capture par defaut (spatial, 360 degres). */
+const VARIANTES = [
+  ['sol', 'ring'],
+  ['orbital', 'arc'],
+  ['sol', 'arc'],
+];
+
+const LIBELLES = {
+  orbital: 'Combat spatial',
+  sol: 'Combat terrestre',
+  ring: '360°',
+  arc: 'Arc',
+};
+
+/** Duree du combat en cours capture. */
+const COMBAT_MS = 5000;
 
 const FICHIERS_POLICES = {
   'oswald-300.woff2': 'oswald/files/oswald-latin-300-normal.woff2',
@@ -105,6 +125,76 @@ async function capturerApplication(page, base, ecran) {
   return page.screenshot();
 }
 
+/**
+ * Deploiement de la maquette pour un theatre et une formation (globales `theatre` et `SQUADS`).
+ * @param {import('@playwright/test').Page} page @param {string} theatre @param {string} formation
+ */
+async function capturerDeploiementMaquette(page, theatre, formation) {
+  await page.evaluate(
+    ([t, f]) => {
+      const w = /** @type {any} */ (window);
+      w.eval(`theatre = '${t}'; SQUADS[curSquad].form = '${f}'`);
+      w.startDeploy();
+    },
+    [theatre, formation],
+  );
+  await page.waitForTimeout(400);
+  return page.locator('#stage').screenshot();
+}
+
+/**
+ * Deploiement de l'application : theatre et formation choisis au Briefing, placement automatique.
+ * @param {import('@playwright/test').Page} page @param {string} base
+ * @param {'orbital' | 'sol'} theatre @param {'ring' | 'arc'} formation
+ */
+async function capturerDeploiementApplication(page, base, theatre, formation) {
+  await page.goto(`${base}#/briefing`);
+  await page.locator('[data-screen="briefing"]').waitFor();
+  await page.getByRole('button', { name: LIBELLES[theatre], exact: true }).click();
+  await page.getByRole('button', { name: LIBELLES[formation], exact: true }).click();
+  return capturerApplication(page, base, 'deploiement');
+}
+
+/**
+ * Combat en cours dans la maquette : lance, puis arrete apres COMBAT_MS en temps reel.
+ * @param {import('@playwright/test').Page} page
+ */
+async function capturerCombatMaquette(page) {
+  await page.evaluate(() => {
+    const w = /** @type {any} */ (window);
+    w.eval(`theatre = 'orbital'; SQUADS[curSquad].form = 'ring'`);
+    w.startDeploy();
+    w.startCombat();
+  });
+  await page.waitForTimeout(COMBAT_MS);
+  await page.evaluate(() => {
+    const w = /** @type {any} */ (window);
+    w.eval('CB.run = false');
+  });
+  await page.waitForTimeout(100);
+  return page.locator('#stage').screenshot();
+}
+
+/**
+ * Combat en cours dans l'application : graine 1, horloge de la page avancee de COMBAT_MS, donc le
+ * meme etat a chaque capture.
+ * @param {import('@playwright/test').Browser} navigateur @param {string} base
+ */
+async function capturerCombatApplication(navigateur, base) {
+  const page = await navigateur.newPage({ viewport: { width: 1600, height: 900 } });
+  try {
+    await page.clock.install();
+    await page.goto(`${base}?graine=1#/combat`);
+    await page.locator('[data-screen="combat"][data-combat-phase="running"]').waitFor();
+    await page.evaluate(() => document.fonts.ready);
+    for (let ecoule = 0; ecoule < COMBAT_MS; ecoule += 500) await page.clock.runFor(500);
+    await page.waitForTimeout(300);
+    return await page.screenshot();
+  } finally {
+    await page.close();
+  }
+}
+
 /** @param {Buffer} image */
 const enLigne = (image) => `data:image/png;base64,${image.toString('base64')}`;
 
@@ -136,17 +226,38 @@ try {
   const application = await navigateur.newPage({ viewport: { width: 1600, height: 900 } });
   const maquette = await ouvrirMaquette(navigateur);
   const planche = await navigateur.newPage({ viewport: { width: 3248, height: 960 } });
-  for (const [index, [ecran, code]] of ECRANS.entries()) {
-    const image = await assembler(
-      planche,
+  let rang = 0;
+  /** @param {string} nom @param {Buffer} app @param {Buffer} maq */
+  const ecrire = async (nom, app, maq) => {
+    rang += 1;
+    const fichier = `${SORTIE}${String(rang).padStart(2, '0')}-${nom}.png`;
+    writeFileSync(fichier, await assembler(planche, app, maq, nom));
+    console.log(`Capture ecrite : ${fichier}`);
+  };
+  for (const [ecran, code] of ECRANS) {
+    await ecrire(
+      ecran,
       await capturerApplication(application, base, ecran),
       await capturerMaquette(maquette, code),
-      ecran,
     );
-    const fichier = `${SORTIE}${String(index + 1).padStart(2, '0')}-${ecran}.png`;
-    writeFileSync(fichier, image);
-    console.log(`Capture ecrite : ${fichier}`);
   }
+  for (const [theatre, formation] of VARIANTES) {
+    await ecrire(
+      `deploiement-${theatre}-${formation}`,
+      await capturerDeploiementApplication(
+        application,
+        base,
+        /** @type {'orbital' | 'sol'} */ (theatre),
+        /** @type {'ring' | 'arc'} */ (formation),
+      ),
+      await capturerDeploiementMaquette(maquette, theatre, formation),
+    );
+  }
+  await ecrire(
+    'combat-en-cours',
+    await capturerCombatApplication(navigateur, base),
+    await capturerCombatMaquette(maquette),
+  );
 } finally {
   await navigateur.close();
   await serveur.close();

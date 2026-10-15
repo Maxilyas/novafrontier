@@ -187,7 +187,8 @@ Non vérifié aujourd'hui : version exacte de Biome et des runtimes Spine pour P
 | PixiJS | 8.21.0 | chargé à la première scène, en morceau séparé |
 | Biome | 2.5.14 | lint et format |
 | Vitest | 5.0.2 | |
-| Playwright | 1.63.0 | Chromium 153 en CI |
+| Playwright | 1.63.0 | Chromium 153 en CI ; Firefox et WebKit en plus depuis la phase P1 |
+| `@vitest/browser-playwright` | 5.0.2 | phase P1 : mode navigateur de Vitest, combats de référence de `@nova/sim` dans Chromium, Firefox et WebKit, avec `playwright` 1.63.0 en dépendance de la sim |
 | zod | 4.6.5 | schémas de `@nova/data`, en tests seulement |
 | Lighthouse | 13.5.0 | avec `chrome-launcher` 1.2.1 |
 | Polices | `@fontsource/oswald` et `@fontsource/share-tech-mono` 5.3.0 | servies par l'application |
