@@ -1,8 +1,10 @@
 import {
   type ActiveWeaponId,
   type Combatant,
+  demoState,
   type Planet,
   planetById,
+  planets,
   rarityById,
   type Skill,
   unitById,
@@ -10,8 +12,8 @@ import {
 import type { SimEvent } from './events';
 import { fingerprint as empreinte } from './fingerprint';
 import { distSq256, type Fixed, fmul, isqrt, mulDiv, rangeSq256, toFixed } from './fixed';
-import { formationSlots, validatePlacement } from './formation';
-import { lootOf } from './planet';
+import { autoPlacement, formationSlots, validatePlacement } from './formation';
+import { difficulty, lootOf } from './planet';
 import { createRng, nextInt } from './rng';
 import { applySkill, type SkillContext } from './skills';
 import { cos, sin } from './trig';
@@ -545,4 +547,32 @@ export function runCombat(setup: CombatSetup): CombatResult {
     resultat = combat.result();
   }
   return resultat;
+}
+
+/**
+ * Scenario de charge (FR-036, research R14) : escouade Alpha en combat terrestre (5 unites), 360
+ * degres, placement automatique, graine 1, contre la planete hostile la plus difficile (10 vagues,
+ * 79 ennemis) dont les vagues arrivent a un pas d'intervalle. Memes regles qu'un combat joue ; seul
+ * le delai entre vagues est une entree du scenario. Pic de 84 entites, au moins 60 pendant 12 s.
+ */
+export function loadScenario(): CombatSetup {
+  const squad = demoState.squads.find((s) => s.id === 'alpha');
+  if (!squad) throw new Error('Escouade Alpha introuvable');
+  const planete = planets
+    .filter((p) => p.status === 'HOSTILE')
+    .reduce<Planet | undefined>(
+      (max, p) => (max === undefined || difficulty(p) > difficulty(max) ? p : max),
+      undefined,
+    );
+  if (!planete) throw new Error('Aucune planete hostile');
+  return {
+    seed: 1,
+    squad,
+    theatre: 'sol',
+    formation: 'ring',
+    placement: autoPlacement(squad, 'sol', 'ring'),
+    planet: planete.id,
+    commands: [],
+    waveIntervalTicks: 1,
+  };
 }

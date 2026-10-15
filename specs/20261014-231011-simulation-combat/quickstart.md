@@ -47,7 +47,7 @@ Resultat attendu : toutes passent, sauf `golden:update` qui n'est pas une verifi
 | 4 | SC-002 | `pnpm -r test` puis `test:browsers` ; a la main, Edge et Safari : voir ci-dessous | 0 divergence d'empreinte sur les combats de reference |
 | 5 | SC-003, story 3 | `pnpm -r test` (replay) ; `test:e2e` ; a la main : finir un combat avec des competences, "Revoir le combat" | meme deroulement, meme issue, meme empreinte (`?diag=1`) |
 | 6 | SC-004 | `pnpm -r test` (horloge a 60, 120 et 144 Hz simulees) ; `test:e2e` (rendu de repli, 1280x720 et 2560x1440, onglet masque) | meme empreinte finale |
-| 7 | SC-005 | a la main, sur le poste de reference : `/?diag=1&charge=1#/combat`, une minute | au moins 60 entites au releve, au moins 60 images/s en moyenne |
+| 7 | SC-005 | a la main, sur le poste de reference, avec le build (`pnpm build && pnpm preview`) : `/?diag=1&charge=1#/combat`, une minute (le scenario se relance toutes les 21 s environ) | au moins 60 images/s en moyenne a la ligne "Cadence" ; au moins 60 a la ligne "Entités" pendant les 12 premieres secondes de chaque scenario |
 | 8 | SC-006 | `pnpm -r test` (performance de la sim) | mediane sous 50 ms pour 1 200 pas a 60 entites |
 | 9 | SC-007 | `pnpm -r test` (proprietes) | 10 000 combats sans valeur invalide, tous finis avant 12 000 pas |
 | 10 | SC-008 | `pnpm -r test` (briefing contre `derived.generated.json`) puis `test:e2e` (oracle de la maquette) | valeurs egales, aux ecarts admis pres (R9) |

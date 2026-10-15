@@ -346,9 +346,13 @@ route :
 - `?diag=1` : le badge de diagnostic gagne, sur l'ecran Combat, les images par seconde, le nombre
   d'entites, le pas courant, l'empreinte et le mode de rendu ; un clic sur le badge le replie ou le
   deplie (FR-035) ;
-- `?charge=1` : scenario de charge (FR-036) : escouade Alpha en combat terrestre et cinq vagues
-  legeres a un pas d'intervalle, soit 60 ennemis, 5 unites et la relique ; meme regles, seul le
-  delai entre vagues est une entree du scenario.
+- `?charge=1` : scenario de charge (FR-036) : escouade Alpha en combat terrestre (5 unites), contre
+  la planete hostile la plus difficile (10 vagues, 79 ennemis) dont les vagues arrivent a un pas
+  d'intervalle ; memes regles, seul le delai entre vagues est une entree du scenario. Pic de 84
+  entites, au moins 60 pendant 12 s ; le combat finit vers 21 s (relique perdue) et l'ecran Combat
+  le relance aussitot, sans fenetre de fin, pour qu'une mesure dure une minute. Les "cinq vagues
+  legeres" d'abord prevues (60 ennemis) supposaient une entree de plus (la liste des vagues) ; et
+  Gemenon a un pas d'intervalle ne depasse pas 53 entites.
 
 Les tests de bout en bout avancent l'horloge de la page par l'API `clock` de Playwright plutot
 que par un parametre d'acceleration.

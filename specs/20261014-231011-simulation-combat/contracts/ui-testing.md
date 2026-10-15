@@ -47,7 +47,7 @@ Les tests qui avancent l'horloge de plus de quelques centaines de millisecondes
 avancee y est sans rendu, alors que le rendu logiciel de la scene, sur les 2 coeurs de la CI, leur
 faisait depasser le delai de 30 s (premier passage de la CI sur la PR 7). Il en va de meme des
 combats menes a leur terme de `replay.spec.ts`, `auto-resolve.spec.ts` et de la seconde partie de
-`determinism.spec.ts`.
+`determinism.spec.ts`, et `load.spec.ts` (scenario de charge, plus de 80 entites).
 
 La premiere partie de `determinism.spec.ts` (SC-004) compare l'affichage : rendu accelere ou de
 repli et trois tailles de fenetre, dans le projet `repli`. Elle arrete l'horloge avant le chargement

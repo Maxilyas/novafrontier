@@ -239,15 +239,15 @@ Arborescence de `plan.md` (section Project Structure) : `packages/data/`, `packa
 
 ### Tests for User Story 5 ⚠️
 
-- [ ] T085 [P] [US5] Ecrire `packages/sim/tests/performance.test.ts` (SC-006) : `loadScenario()` pousse a 1 200 pas avec au moins 60 entites vivantes au pic ; mediane de 5 executions apres 2 d'echauffement sous 50 ms (`performance.now` permis dans les tests)
-- [ ] T086 [P] [US5] Ecrire `apps/web/tests/e2e/load.spec.ts` : `?diag=1&charge=1#/combat`, horloge avancee, `data-entities` atteint au moins 60 ; releve replie puis deplie par un clic ; sans `?diag=1`, aucun releve
+- [X] T085 [P] [US5] Ecrire `packages/sim/tests/performance.test.ts` (SC-006) : `loadScenario()` pousse a 1 200 pas avec au moins 60 entites vivantes au pic ; mediane de 5 executions apres 2 d'echauffement sous 50 ms (`performance.now` permis dans les tests)
+- [X] T086 [P] [US5] Ecrire `apps/web/tests/e2e/load.spec.ts` : `?diag=1&charge=1#/combat`, horloge avancee, `data-entities` atteint au moins 60 ; releve replie puis deplie par un clic ; sans `?diag=1`, aucun releve
 
 ### Implementation for User Story 5
 
-- [ ] T087 [US5] Ajouter `loadScenario()` a `packages/sim/src/combat.ts` (R14) : Alpha en `sol`, formation `ring`, placement automatique, graine 1, cinq vagues legeres a `waveIntervalTicks: 1` (60 ennemis, 5 unites, la relique) (depend de T041)
-- [ ] T088 [US5] Lancer le scenario de charge depuis `apps/web/src/app/combat/Combat.svelte` avec `?charge=1` (depend de T053, T087)
-- [ ] T089 [US5] Completer `apps/web/src/app/DiagBadge.svelte` sur l'ecran Combat : images par seconde, `data-entities`, pas, empreinte, mode de rendu ; repli et depli par un clic (FR-035) (depend de T075)
-- [ ] T090 [US5] Mesurer `?charge=1` avec le releve dans Chromium sans ecran et sur le poste de reference ; si la scene descend sous 60 images/s, reduire les redessins (barres de PV seulement quand les PV changent, aucun `Graphics` cree par image) dans `apps/web/src/scene/scenes/combat/*` (depend de T089)
+- [X] T087 [US5] Ajouter `loadScenario()` a `packages/sim/src/combat.ts` (R14) : Alpha en `sol`, formation `ring`, placement automatique, graine 1, cinq vagues legeres a `waveIntervalTicks: 1` (60 ennemis, 5 unites, la relique) (depend de T041) ; realise : contre la planete hostile la plus difficile (10 vagues, 79 ennemis, pic de 84 entites), seul le delai entre vagues restant une entree du scenario (R14)
+- [X] T088 [US5] Lancer le scenario de charge depuis `apps/web/src/app/combat/Combat.svelte` avec `?charge=1` (depend de T053, T087) ; relance a chaque fin, sans fenetre de fin
+- [X] T089 [US5] Completer `apps/web/src/app/DiagBadge.svelte` sur l'ecran Combat : images par seconde, `data-entities`, pas, empreinte, mode de rendu ; repli et depli par un clic (FR-035) (depend de T075)
+- [X] T090 [US5] Mesurer `?charge=1` avec le releve dans Chromium sans ecran et sur le poste de reference ; si la scene descend sous 60 images/s, reduire les redessins (barres de PV seulement quand les PV changent, aucun `Graphics` cree par image) dans `apps/web/src/scene/scenes/combat/*` (depend de T089) ; mesure : 144 images/s (frequence de l'ecran) en WebGPU et en WebGL2 materiels a 1920x1080 sur une minute, 27 a 32 images/s en Chromium sans ecran (rendu logiciel, 33 pour un combat ordinaire) ; la scene suivait deja ces regles, rien a reduire
 
 **Checkpoint**: toutes les stories fonctionnent ; SC-005 se mesure, SC-006 est teste
 

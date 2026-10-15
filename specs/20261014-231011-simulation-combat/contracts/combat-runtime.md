@@ -96,7 +96,7 @@ enregistre (FR-044).
 |---|---|---|
 | `graine=<entier>` | graine des combats lances et des resolutions automatiques ; sans lui, graine tiree par `crypto.getRandomValues` | FR-022 |
 | `diag=1` | badge de diagnostic de la phase P0 ; sur l'ecran Combat : images par seconde, entites, pas, empreinte, mode de rendu ; un clic le replie ou le deplie ; l'empreinte s'affiche aussi dans la fenetre de resolution automatique | FR-035, R10 |
-| `charge=1` | l'ecran Combat lance le scenario de charge (`loadScenario`) | FR-036 |
+| `charge=1` | l'ecran Combat lance le scenario de charge (`loadScenario`) et le relance a chaque fin, sans fenetre de fin (R14) | FR-036 |
 | `rendu=webgl` | inchange (phase P0 de la feuille de route) | - |
 
 Toute autre valeur est ignoree ; sans parametre, aucun de ces outils n'est visible.

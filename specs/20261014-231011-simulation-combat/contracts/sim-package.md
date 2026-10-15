@@ -46,7 +46,7 @@ export interface Combat {
 }
 export function createCombat(setup: CombatSetup): Combat;   // leve une erreur si entree invalide
 export function runCombat(setup: CombatSetup): CombatResult; // sans affichage, jusqu'a la fin
-export function loadScenario(): CombatSetup;                 // scenario de charge (R14), graine 1
+export function loadScenario(): CombatSetup;                 // scenario de charge (R14), graine 1, planete hostile la plus difficile
 
 // Valeurs de briefing (R9) : memes formes que les types de @nova/data
 export function squadSummary(squad: Squad): SquadDerived;

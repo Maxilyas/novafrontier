@@ -2,10 +2,16 @@
   import { demoState, planetById } from '@nova/data';
   import { onMount } from 'svelte';
   import SceneHost from '../../scene/SceneHost.svelte';
-  import { combatChoices, combatHud, launchCombat } from '../../state/combat.svelte';
+  import {
+    combatChoices,
+    combatHud,
+    launchCombat,
+    launchLoadScenario,
+  } from '../../state/combat.svelte';
   import { combatRuntime } from '../../state/combat-runtime';
   import { deployment } from '../../state/deployment.svelte';
   import { selection } from '../../state/selection.svelte';
+  import { teamParams } from '../../state/team-params';
   import ActionBar from './ActionBar.svelte';
   import CombatLog from './CombatLog.svelte';
   import EndModal from './EndModal.svelte';
@@ -16,15 +22,21 @@
   /**
    * Ecran 08 · Combat (maquette, lignes 813-828 et 2161-2375, CSS 529-573). Le combat se deroule
    * dans la scene, sous le HUD (FR-024 a FR-030). A l'ouverture : reprise du combat en pause, ou
-   * nouveau combat avec les choix courants (FR-031) ; en quittant l'ecran, pause (FR-032).
+   * nouveau combat avec les choix courants (FR-031) ; en quittant l'ecran, pause (FR-032). Avec
+   * `?charge=1`, le scenario de charge, relance a chaque fin sans fenetre de fin (FR-036).
    */
-  const cible = planetById(demoState.mission.target);
-  const theatre = $derived(selection.current.theatre === 'orbital' ? 'ORBITAL' : 'TERRESTRE');
+  const setup = $derived(combatHud.combat?.setup);
+  const cible = $derived(planetById(setup?.planet ?? demoState.mission.target));
+  const theatre = $derived(
+    (setup?.theatre ?? selection.current.theatre) === 'orbital' ? 'ORBITAL' : 'TERRESTRE',
+  );
   let sansUnite = $state(false);
 
   onMount(() => {
     if (combatRuntime.phase === 'paused') {
       combatRuntime.resume();
+    } else if (teamParams.charge) {
+      launchLoadScenario();
     } else if (combatRuntime.phase !== 'running') {
       const { squad, theatre: t, formation } = selection.current;
       // Le placement du joueur s'il en a un, sinon le placement automatique (FR-031).
@@ -39,6 +51,10 @@
       else sansUnite = true;
     }
     return () => combatRuntime.pause();
+  });
+
+  $effect(() => {
+    if (teamParams.charge && combatHud.end) launchLoadScenario();
   });
 
   function clavier(e: KeyboardEvent) {
@@ -74,7 +90,7 @@
       Aucune unité engagée : l'escouade n'a ni vaisseau ni méca pour ce théâtre.
     </div>
   {/if}
-  {#if combatHud.end && combatHud.combat}
+  {#if combatHud.end && combatHud.combat && !teamParams.charge}
     <EndModal result={combatHud.end} setup={combatHud.combat.setup} />
   {/if}
 </section>

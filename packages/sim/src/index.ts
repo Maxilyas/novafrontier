@@ -4,7 +4,7 @@
  */
 
 export { briefing, route, squadSummary, ultimateStatus } from './briefing';
-export { type Combat, createCombat, runCombat } from './combat';
+export { type Combat, createCombat, loadScenario, runCombat } from './combat';
 export * from './events';
 export { FIXED_ONE, type Fixed, fromFixed, toFixed } from './fixed';
 export { autoPlacement, engagedUnits, formationSlots, validatePlacement } from './formation';

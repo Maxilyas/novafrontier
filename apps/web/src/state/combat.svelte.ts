@@ -14,6 +14,7 @@ import {
   type CombatResult,
   type CombatSetup,
   engagedUnits,
+  loadScenario,
   type Placement,
   type SimEvent,
 } from '@nova/sim';
@@ -43,6 +44,8 @@ export interface HudSnapshot {
   readonly spentSkills: number;
   /** Empreinte de l'etat, seulement avec `?diag=1` (FR-022). */
   readonly fingerprint: string | undefined;
+  /** Ennemis et unites en vie, seulement avec `?diag=1` (FR-035, FR-036). */
+  readonly entities: number | undefined;
 }
 
 export interface ForceRow {
@@ -72,6 +75,9 @@ const PAS_PAR_SECONDE = 20;
 /** Armement des ennemis apparus : un ennemi detruit a disparu de l'etat quand le journal le cite. */
 const armesEnnemies = new Map<number, ActiveWeaponId>();
 
+const vivants = (c: Combat): number =>
+  c.state.enemies.filter((e) => e.hp > 0).length + c.state.units.filter((u) => u.hp > 0).length;
+
 function instantane(c: Combat): HudSnapshot {
   const s = c.state;
   return {
@@ -83,6 +89,7 @@ function instantane(c: Combat): HudSnapshot {
     actionPoints: s.actionPoints,
     spentSkills: s.spentSkills,
     fingerprint: teamParams.diag ? c.fingerprint() : undefined,
+    entities: teamParams.diag ? vivants(c) : undefined,
   };
 }
 
@@ -196,6 +203,11 @@ export function launchCombat(choices: Omit<CombatSetup, 'commands' | 'seed'>): v
   combatRuntime.start(
     teamParams.seed === undefined ? choices : { ...choices, seed: teamParams.seed },
   );
+}
+
+/** Scenario de charge (`?charge=1`, FR-036) : relance a chaque fin, pour une mesure d'une minute. */
+export function launchLoadScenario(): void {
+  combatRuntime.start(loadScenario());
 }
 
 /** Graine d'un combat : celle de l'adresse (`?graine=`), sinon tiree au hasard. */
