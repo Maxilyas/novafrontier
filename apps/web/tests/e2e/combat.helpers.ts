@@ -10,9 +10,24 @@ import { expectScreen } from './helpers';
 
 export const ecranCombat = (page: Page): Locator => page.locator('[data-screen="combat"]');
 
+const DEBUT = new Date('2026-10-01T08:00:00Z');
+
+/**
+ * Installe l'horloge de la page avant le chargement. Arretee, seul `runFor` la fait avancer : aucun
+ * temps ne s'ecoule entre deux lectures, quelle que soit la lenteur de la machine (CI comprise).
+ */
+export async function installerHorloge(page: Page, arretee = false): Promise<void> {
+  await page.clock.install({ time: DEBUT });
+  if (arretee) await page.clock.pauseAt(new Date(DEBUT.getTime() + 1000));
+}
+
 /** Ouvre le Deploiement avec l'horloge de la page, puis lance le combat. */
-export async function lancerCombat(page: Page, recherche = '?graine=1'): Promise<void> {
-  await page.clock.install();
+export async function lancerCombat(
+  page: Page,
+  recherche = '?graine=1',
+  { horlogeArretee = false } = {},
+): Promise<void> {
+  await installerHorloge(page, horlogeArretee);
   await page.goto(`/${recherche}#/deploiement`);
   await expectScreen(page, 'deploiement');
   await page.getByRole('button', { name: 'Lancer le combat', exact: true }).click();

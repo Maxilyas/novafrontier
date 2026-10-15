@@ -1,4 +1,11 @@
-import { attribut, avancer, combatDeReference, ecranCombat, jusquALaFin } from './combat.helpers';
+import {
+  attribut,
+  avancer,
+  combatDeReference,
+  ecranCombat,
+  installerHorloge,
+  jusquALaFin,
+} from './combat.helpers';
 import { expect, test } from './fixtures';
 import { zoneDeScene } from './scene.helpers';
 
@@ -11,12 +18,9 @@ import { zoneDeScene } from './scene.helpers';
  *   reference calcule sous Node.
  */
 
-/** Horloge arretee avant le chargement : seul `runFor` la fait avancer, donc le meme nombre de pas. */
-const DEBUT = new Date('2026-10-01T08:00:00Z');
-
 async function apresUneSeconde(page: import('@playwright/test').Page, recherche: string) {
-  await page.clock.install({ time: DEBUT });
-  await page.clock.pauseAt(new Date(DEBUT.getTime() + 1000));
+  // Horloge arretee avant le chargement : seul `runFor` la fait avancer, donc le meme nombre de pas.
+  await installerHorloge(page, true);
   await page.goto(`/${recherche}#/combat`);
   await expect(ecranCombat(page)).toHaveAttribute('data-combat-phase', 'running');
   await avancer(page, 1000, 1000);

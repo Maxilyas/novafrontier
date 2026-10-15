@@ -11,7 +11,9 @@ test.describe('combat a l ecran', () => {
   test('le lancement annonce la vague 1, la relique intacte et le minuteur a 12 s', async ({
     page,
   }) => {
-    await lancerCombat(page);
+    // Horloge arretee : sur une machine lente, le minuteur passerait a 0:11 avant d'etre lu.
+    await lancerCombat(page, '?graine=1', { horlogeArretee: true });
+    await avancer(page, 100, 100);
     await expect(page.locator('[data-wave-current]')).toHaveAttribute('data-wave-current', '1');
     await expect(page.locator('[data-wave-total]')).toHaveAttribute('data-wave-total', '6');
     await expect(page.locator('[data-relic-percent]')).toHaveAttribute('data-relic-percent', '100');
